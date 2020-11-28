@@ -1,23 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Button, Drawer, AppBar, Toolbar, Typography, createStyles, makeStyles, Theme, Divider, List, ListItem, ListItemIcon, ListItemText, Badge, IconButton, CssBaseline, Container, Grid, Paper } from '@material-ui/core';
+import {
+  AppBar,
+  Badge,
+  Box,
+  createStyles,
+  CssBaseline,
+  Divider,
+  Drawer,
+  IconButton,
+
+  List,
+  ListItem,
+  ListItemText,
+  makeStyles,
+  Theme,
+  Toolbar,
+  Typography
+} from '@material-ui/core';
+import AppleIcon from '@material-ui/icons/Apple';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import SettingsIcon from '@material-ui/icons/Settings';
-import MenuIcon from '@material-ui/icons/Menu';
-import './App.css';
-import classes from '*.module.css';
-import { FullscreenExit, Home as HomeIcon, Settings } from '@material-ui/icons';
-import Home from './pages/home/home';
+import React from 'react';
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
+  Route, Switch
 } from "react-router-dom";
+import './App.css';
+import SearchInput from './components/search-input/search-input';
+import SidebarWatchlist from './components/sidebar-watchlist/sidebar-watchlist';
 import Discover from './pages/discover/discover';
+import Home from './pages/home/home';
+import StockDetail from './pages/stock-detail/stock-detail';
 import Strategies from './pages/strategies/strategies';
 import Watchlist from './pages/watchlist/watchlist';
-import StockDetail from './pages/stock-detail/stock-detail';
 
 const drawerWidth = 240;
 
@@ -38,14 +52,13 @@ const useStyles = makeStyles((theme: Theme) =>
       width: drawerWidth,
     },
     drawerPaper: {
-      //position: 'relative',
       whiteSpace: 'nowrap',
       width: drawerWidth,
     },
     drawerContainer: {
-      //overflow: 'auto',
     },
     content: {
+      width: '100%',
       paddingTop: theme.spacing(4),
       paddingBottom: theme.spacing(4),
     },
@@ -58,6 +71,13 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       overflow: 'auto',
       flexDirection: 'column',
+    },
+    link: {
+      textDecoration: 'none',
+      color: 'white',
+      "&:visited": {
+        color: 'white'
+      }
     },
   }),
 );
@@ -77,11 +97,13 @@ function App() {
             color="inherit"
             aria-label="open drawer"
           >
-            <MenuIcon />
+            <AppleIcon />
           </IconButton>
           <Typography variant="h6" noWrap className={classes.title}>
-            Clipped drawer
+            <a href="/" className={classes.link}>StockBook</a>
           </Typography>
+          <SearchInput />
+          <Box flexGrow={1}></Box>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
@@ -127,13 +149,7 @@ function App() {
               ))}
           </List>
           <Divider />
-          <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
+          <SidebarWatchlist />
         </div>
       </Drawer>
       <main className={classes.content}>
