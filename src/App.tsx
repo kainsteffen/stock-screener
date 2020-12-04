@@ -22,13 +22,13 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import SearchInput from "./components/search-input/search-input";
-import SidebarWatchlist from "./components/sidebar-watchlist/sidebar-watchlist";
+import SidebarFavorites from "./components/sidebar-watchlist/sidebar-favorites";
 import CreateStrategy from "./pages/create-strategy/create-strategy";
 import Discover from "./pages/discover/discover";
+import Favorites from "./pages/favorites/favorites";
 import Home from "./pages/home/home";
 import StockDetail from "./pages/stock-detail/stock-detail";
 import Strategies from "./pages/strategies/strategies";
-import Watchlist from "./pages/watchlist/watchlist";
 
 const drawerWidth = 240;
 
@@ -136,8 +136,8 @@ function App() {
                 name: "Discover",
               },
               {
-                route: "watchlist",
-                name: "Watchlist",
+                route: "favorites",
+                name: "Favorites",
               },
             ].map((item) => (
               <ListItem button component="a" href={item.route} key={item.route}>
@@ -147,7 +147,7 @@ function App() {
             ))}
           </List>
           <Divider />
-          <SidebarWatchlist />
+          <SidebarFavorites />
         </div>
       </Drawer>
       <main className={classes.content}>
@@ -158,7 +158,7 @@ function App() {
             <Route exact path="/strategies" component={Strategies} />
             <Route exact path="/strategies/create" component={CreateStrategy} />
             <Route exact path="/discover" component={Discover} />
-            <Route exact path="/watchlist" component={Watchlist} />
+            <Route exact path="/favorites" component={Favorites} />
             <Route exact path="/stock" component={StockDetail} />
           </Switch>
         </Router>

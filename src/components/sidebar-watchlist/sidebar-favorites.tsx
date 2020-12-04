@@ -23,14 +23,14 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SidebarWatchlist() {
+export default function SidebarFavorites() {
   const classes = useStyles();
 
   return (
     <List
       subheader={
         <ListSubheader component="div" id="nested-list-subheader">
-          My Watchlist
+          My Favorites
         </ListSubheader>
       }
     >
