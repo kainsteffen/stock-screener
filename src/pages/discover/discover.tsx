@@ -1,15 +1,16 @@
 import {
-  makeStyles,
-  TableBody,
-  TableRow,
-  TableHead,
-  Table,
-  TableContainer,
   Container,
+  makeStyles,
   Paper,
+  Table,
+  TableBody,
   TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from "@material-ui/core";
 import React from "react";
+import TabButtonBar from "../../components/tab-button-bar/tab-button-bar";
 
 const useStyles = makeStyles({
   table: {
@@ -40,6 +41,22 @@ export default function Discover() {
 
   return (
     <Container>
+      <TabButtonBar
+        options={[
+          "Dividend Growth",
+          "Growth",
+          "Value",
+          "Quality",
+          "Momentum",
+          "Low Volatility",
+          "Dividend Growth",
+          "Growth",
+          "Value",
+          "Quality",
+          "Momentum",
+          "Low Volatility",
+        ]}
+      />
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
