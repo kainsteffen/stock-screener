@@ -17,7 +17,7 @@ export function TimeSeriesPreviewChart(props: TimeSeriesPreviewChartProps) {
 
     const ctx = canvas?.getContext("2d");
     if (ctx) {
-      var myChart = new Chart(ctx, {
+      new Chart(ctx, {
         type: "line",
         data: {
           labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],

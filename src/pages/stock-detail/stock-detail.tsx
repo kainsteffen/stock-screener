@@ -38,6 +38,7 @@ export default function StockDetail() {
               <img
                 src="//logo.clearbit.com/microsoft.com?size=100"
                 className={classes.logo}
+                alt="logo"
               />
               <Box display="flex" flexDirection="column">
                 <Typography>MSFT</Typography>

@@ -38,6 +38,7 @@ export default function SidebarFavorites() {
         <img
           src="//logo.clearbit.com/apple.com?size=100"
           className={classes.logo}
+          alt="logo"
         />
         <ListItemText primary="AAPL" />
         <Typography className={classes.green}>2.43%</Typography>
@@ -46,6 +47,7 @@ export default function SidebarFavorites() {
         <img
           src="//logo.clearbit.com/microsoft.com?size=100"
           className={classes.logo}
+          alt="logo"
         />
         <ListItemText primary="MSFT" />
         <Typography className={classes.red}>2.43%</Typography>
@@ -54,6 +56,7 @@ export default function SidebarFavorites() {
         <img
           src="//logo.clearbit.com/amazon.com?size=100"
           className={classes.logo}
+          alt="logo"
         />
         <ListItemText primary="AMZN" />
         <Typography className={classes.green}>2.43%</Typography>
