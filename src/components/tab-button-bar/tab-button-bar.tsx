@@ -24,21 +24,27 @@ const useStyles = makeStyles({
 
 export default function TabButtonBar(props: TabButtonBarProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  let scrollPos = 0;
-  const classes = useStyles();
-  const leftScrollButtonRef = useRef(null);
-  const rightScrollButtonRef = useRef(null);
-  const scrollWrapperRef = useRef(null);
-  let scrollWrapper;
+  const [scrollPos, setScrollPos] = useState(0);
 
+  const classes = useStyles();
+  const scrollWrapperRef = useRef<HTMLDivElement>(null);
+  let maxScrollPos = 0;
+  if (scrollWrapperRef.current) {
+    maxScrollPos =
+      scrollWrapperRef.current.scrollWidth -
+      scrollWrapperRef.current.clientWidth;
+  }
   useEffect(() => {
-    const leftScrollButton = (leftScrollButtonRef.current as unknown) as HTMLDivElement;
-    const rightScrollButton = (rightScrollButtonRef.current as unknown) as HTMLDivElement;
-    scrollWrapper = (scrollWrapperRef.current as unknown) as HTMLDivElement;
-    scrollWrapper.addEventListener("onscroll", (scroll) => {
-      console.log(scroll);
+    scrollWrapperRef.current?.addEventListener("scroll", (e) => {
+      if (e && e.target) {
+        setScrollPos((e.target as HTMLDivElement).scrollLeft);
+      }
     });
   });
+
+  const scrollTo = (x: number, y: number) => {
+    scrollWrapperRef.current?.scrollTo(x, y);
+  };
 
   return (
     <Box position="relative" marginBottom={2}>
@@ -59,35 +65,46 @@ export default function TabButtonBar(props: TabButtonBarProps) {
         })}
       </div>
 
-      <Box
-        display="flex"
-        alignItems="center"
-        height="100%"
-        position="absolute"
-        top="0"
-        left="0"
-      >
-        <Box boxShadow={3} borderRadius="50%">
-          <IconButton className={classes.scrollButton} size="small">
-            <ChevronLeftIcon />
-          </IconButton>
+      {scrollPos > 0 && (
+        <Box
+          display="flex"
+          alignItems="center"
+          height="100%"
+          position="absolute"
+          top="0"
+          left="0"
+        >
+          <Box boxShadow={3} borderRadius="50%">
+            <IconButton
+              className={classes.scrollButton}
+              size="small"
+              onClick={() => scrollTo(0, 0)}
+            >
+              <ChevronLeftIcon />
+            </IconButton>
+          </Box>
         </Box>
-      </Box>
-
-      <Box
-        display="flex"
-        alignItems="center"
-        height="100%"
-        position="absolute"
-        top="0"
-        right="0"
-      >
-        <Box boxShadow={3} borderRadius="50%">
-          <IconButton className={classes.scrollButton} size="small">
-            <ChevronRightIcon />
-          </IconButton>
+      )}
+      {scrollPos < maxScrollPos && (
+        <Box
+          display="flex"
+          alignItems="center"
+          height="100%"
+          position="absolute"
+          top="0"
+          right="0"
+        >
+          <Box boxShadow={3} borderRadius="50%">
+            <IconButton
+              className={classes.scrollButton}
+              size="small"
+              onClick={() => scrollTo(maxScrollPos, 0)}
+            >
+              <ChevronRightIcon />
+            </IconButton>
+          </Box>
         </Box>
-      </Box>
+      )}
     </Box>
   );
 }
