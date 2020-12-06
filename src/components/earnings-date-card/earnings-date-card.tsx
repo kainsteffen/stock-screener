@@ -32,7 +32,7 @@ export default function EarningsDateCard(props: EarningsDateCardProps) {
       <CardContent>
         <Box display="flex" alignItems="center">
           <Box marginRight="10px">
-            <img src={props.imgSrc} className={classes.logoImg} />
+            <img src={props.imgSrc} className={classes.logoImg} alt="logo" />
           </Box>
           <Box display="flex" flexDirection="column">
             <Typography variant="caption" color="textSecondary">
