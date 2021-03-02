@@ -1,3 +1,4 @@
+import { gql, useQuery, useReactiveVar } from "@apollo/client";
 import {
   List,
   ListItem,
@@ -7,6 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
+import { favoritesVar } from "../../gql/cache";
 
 const useStyles = makeStyles({
   logo: {
@@ -14,6 +16,9 @@ const useStyles = makeStyles({
     height: 25,
     borderRadius: 100,
     marginRight: 10,
+  },
+  placeHolder: {
+    backgroundColor: "grey",
   },
   green: {
     color: "#41CE3E",
@@ -23,8 +28,58 @@ const useStyles = makeStyles({
   },
 });
 
+const QUOTE = gql`
+  query getQuote($symbol: String!) {
+    symbol(symbol: $symbol) {
+      quote {
+        symbol
+        companyName
+        latestPrice
+        changePercent
+      }
+    }
+  }
+`;
+
+export interface SidebarFavoriteEntryProps {
+  symbol: string;
+}
+
+function SidebarFavoriteEntry(props: SidebarFavoriteEntryProps) {
+  const classes = useStyles();
+  const { data, loading, error } = useQuery(QUOTE, {
+    variables: { symbol: props.symbol },
+  });
+
+  const toPercentage = (number: number) => {
+    return (number * 100).toFixed(2);
+  };
+
+  if (loading) return <React.Fragment />;
+  if (error) return <p>Error</p>;
+
+  return (
+    <ListItem button key={props.symbol}>
+      <img
+        src="//logo.clearbit.com/apple.com?size=100"
+        className={classes.logo}
+        alt="logo"
+      />
+      <ListItemText primary={props.symbol} />
+      <Typography
+        className={
+          data.symbol.quote.changePercent >= 0 ? classes.green : classes.red
+        }
+      >
+        {toPercentage(data.symbol.quote.changePercent)}%
+      </Typography>
+    </ListItem>
+  );
+}
+
 export default function SidebarFavorites() {
   const classes = useStyles();
+  const favorites = useReactiveVar(favoritesVar);
 
   return (
     <List
@@ -34,6 +89,14 @@ export default function SidebarFavorites() {
         </ListSubheader>
       }
     >
+      {favorites &&
+        favorites.map((favorite: any) => {
+          return (
+            <React.Fragment key={favorite}>
+              {<SidebarFavoriteEntry symbol={favorite} />}
+            </React.Fragment>
+          );
+        })}
       <ListItem button key="apple">
         <img
           src="//logo.clearbit.com/apple.com?size=100"

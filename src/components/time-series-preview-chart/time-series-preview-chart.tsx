@@ -3,24 +3,29 @@ import React, { useEffect, useRef } from "react";
 import "./time-series-preview-chart.css";
 
 export interface TimeSeriesPreviewChartProps {
-  data: number[];
+  data: any[];
+  labels: any[];
 }
 
 export function TimeSeriesPreviewChart(props: TimeSeriesPreviewChartProps) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    // const ctx = (document.getElementById(
-    //   "chart"
-    // ) as HTMLCanvasElement)?.getContext("2d");
     const canvas = (canvasRef.current as unknown) as HTMLCanvasElement;
-
     const ctx = canvas?.getContext("2d");
+
+    // Destroy chart instance before redraw
+    Chart.helpers.each(Chart.instances, (instance: any) => {
+      if (instance.chart.canvas.id === canvas.id) {
+        instance.chart.destroy();
+      }
+    });
+
     if (ctx) {
       new Chart(ctx, {
         type: "line",
         data: {
-          labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+          labels: props.labels,
           datasets: [
             {
               data: props.data,
@@ -49,24 +54,38 @@ export function TimeSeriesPreviewChart(props: TimeSeriesPreviewChartProps) {
             display: false,
           },
           tooltips: {
-            enabled: false,
+            mode: "index",
+            intersect: false,
+          },
+          hover: {
+            mode: "index",
+            intersect: false,
           },
           elements: {
             point: {
               radius: 0,
+            },
+            line: {
+              tension: 0,
             },
           },
           scales: {
             xAxes: [
               {
                 display: false,
+                gridLines: {
+                  color: "rgba(0, 0, 0, 0)",
+                },
               },
             ],
             yAxes: [
               {
-                display: false,
+                display: true,
+                gridLines: {
+                  color: "rgba(0, 0, 0, 0)",
+                },
                 ticks: {
-                  beginAtZero: true,
+                  // beginAtZero: true,
                 },
               },
             ],

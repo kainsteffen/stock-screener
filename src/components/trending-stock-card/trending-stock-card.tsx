@@ -1,3 +1,4 @@
+import { gql, useQuery } from "@apollo/client";
 import {
   Box,
   Card,
@@ -9,13 +10,48 @@ import {
 import React from "react";
 
 const useStyles = makeStyles({
-  dailyChange: {
+  title: {
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+  },
+  dailyChangePos: {
     color: "#41CE3E",
+  },
+  dailyChangeNeg: {
+    color: "red",
   },
 });
 
-export default function TrendingStockCard() {
+const QUOTE = gql`
+  query getQuote($symbol: String!) {
+    symbol(symbol: $symbol) {
+      quote {
+        symbol
+        companyName
+        latestPrice
+        week52High
+        week52Low
+        changePercent
+      }
+    }
+  }
+`;
+export interface TrendingStockCardProps {
+  symbol: string;
+}
+
+export default function TrendingStockCard(props: TrendingStockCardProps) {
   const classes = useStyles();
+  const { data, loading, error } = useQuery(QUOTE, {
+    variables: { symbol: props.symbol },
+  });
+
+  const toPercentage = (number: number) => {
+    return (number * 100).toFixed(2);
+  };
+
+  if (loading) return <p>Loading</p>;
+  if (error) return <p>Error</p>;
 
   return (
     <Card>
@@ -26,22 +62,30 @@ export default function TrendingStockCard() {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Typography variant="h6" display="inline">
-              MSFT
+            <Typography variant="h6" display="inline" className={classes.title}>
+              {data.symbol.quote.symbol}
             </Typography>
             <Typography
               variant="body1"
               display="inline"
-              className={classes.dailyChange}
+              className={
+                data.symbol.quote.changePercent >= 0
+                  ? classes.dailyChangePos
+                  : classes.dailyChangeNeg
+              }
             >
-              10.32 %
+              {toPercentage(data.symbol.quote.changePercent)}%
             </Typography>
           </Box>
-          <Typography variant="h5">$ 117.80</Typography>
+          <Box marginY={1.5}>
+            <Typography variant="h5">
+              ${data.symbol.quote.latestPrice.toFixed(2)}
+            </Typography>
+          </Box>
           <Typography variant="subtitle1" color="textSecondary">
-            52w range
+            52 week range
           </Typography>
-          <Typography variant="subtitle1">90.90 - 169.30</Typography>
+          <Typography variant="subtitle1">{`$${data.symbol.quote.week52Low} - $${data.symbol.quote.week52High}`}</Typography>
         </CardContent>
       </CardActionArea>
     </Card>

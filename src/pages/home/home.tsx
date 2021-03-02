@@ -25,6 +25,8 @@ export default function Home() {
     }
   );
 
+  const symbols = ["AAPL", "MSFT", "AMZN", "FB", "GOOG", "TSLA"];
+
   return (
     <Container>
       <Box marginBottom={3}>
@@ -70,24 +72,12 @@ export default function Home() {
           Trending
         </Typography>
         <Grid container spacing={3} direction="row">
-          <Grid item xs={6} md={8} lg={2}>
-            <TrendingStockCard />
-          </Grid>
-          <Grid item xs={6} md={8} lg={2}>
-            <TrendingStockCard />
-          </Grid>
-          <Grid item xs={6} md={8} lg={2}>
-            <TrendingStockCard />
-          </Grid>
-          <Grid item xs={6} md={8} lg={2}>
-            <TrendingStockCard />
-          </Grid>
-          <Grid item xs={6} md={8} lg={2}>
-            <TrendingStockCard />
-          </Grid>
-          <Grid item xs={6} md={8} lg={2}>
-            <TrendingStockCard />
-          </Grid>
+          {symbols &&
+            symbols.map((symbol) => (
+              <Grid key={symbol} item xs={6} md={8} lg={2}>
+                <TrendingStockCard symbol={symbol} />
+              </Grid>
+            ))}
         </Grid>
       </Box>
 
@@ -96,18 +86,12 @@ export default function Home() {
           Market News
         </Typography>
         <Grid container spacing={3} direction="row">
-          <Grid item xs={6} md={8} lg={3}>
-            <MarketNewsCard />
-          </Grid>
-          <Grid item xs={6} md={8} lg={3}>
-            <MarketNewsCard />
-          </Grid>
-          <Grid item xs={6} md={8} lg={3}>
-            <MarketNewsCard />
-          </Grid>
-          <Grid item xs={6} md={8} lg={3}>
-            <MarketNewsCard />
-          </Grid>
+          {symbols &&
+            symbols.map((symbol) => (
+              <Grid key={symbol} item xs={6} md={8} lg={3}>
+                <MarketNewsCard symbol={symbol} />
+              </Grid>
+            ))}
         </Grid>
       </Box>
     </Container>

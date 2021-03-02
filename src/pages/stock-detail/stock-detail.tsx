@@ -1,16 +1,17 @@
+import { gql, useQuery } from "@apollo/client";
 import {
   Box,
+  Button,
   Card,
   CardContent,
   Container,
   Grid,
   IconButton,
-  Typography,
+  Typography
 } from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import React from "react";
-import TabButtonBar from "../../components/tab-button-bar/tab-button-bar";
+import React, { useState } from "react";
 import { TimeSeriesPreviewChart } from "../../components/time-series-preview-chart/time-series-preview-chart";
 
 const useStyles = makeStyles({
@@ -22,8 +23,36 @@ const useStyles = makeStyles({
   },
 });
 
+const HISTORICAL_PRICES = gql`
+  query getHistoricalPrices($symbol: String!, $range: String!) {
+    historicalPrices(symbol: $symbol, range: $range) {
+      close
+      date
+    }
+  }
+`;
+
+enum TimeRange {
+  Day = "1d",
+  Week = "5d",
+  Month = "1m",
+  Year = "1y",
+}
+
 export default function StockDetail() {
   const classes = useStyles();
+  const [selectedRange, setSelectedRange] = useState("1d");
+  const { data, loading, error } = useQuery(HISTORICAL_PRICES, {
+    variables: {
+      symbol: "AAPL",
+      range: selectedRange,
+    },
+  });
+
+  if (loading) return <p>Loading</p>;
+  if (error) return <p>Error</p>;
+
+  const prices = data.historicalPrices;
 
   return (
     <Container>
@@ -33,6 +62,7 @@ export default function StockDetail() {
             display="flex"
             justifyContent="space-between"
             alignItems="center"
+            paddingBottom={4}
           >
             <Box display="flex" alignItems="center">
               <img
@@ -53,32 +83,19 @@ export default function StockDetail() {
               </IconButton>
             </Box>
           </Box>
-          <Box width="75%">
+          <Box paddingBottom={4}>
             <TimeSeriesPreviewChart
-              data={[
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-                Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10,
-              ]}
+              data={prices.map((item: any) => item.close)}
+              labels={prices.map((item: any) => item.date)}
             />
           </Box>
-
+          {Object.entries(TimeRange).map((entry) => {
+            return (
+              <Button key={entry[0]} onClick={() => setSelectedRange(entry[1])}>
+                {entry[0]}
+              </Button>
+            );
+          })}
           <Box display="flex">
             <Typography variant="h6">Valuation |</Typography>
             <Box width="10px"></Box>
@@ -96,7 +113,7 @@ export default function StockDetail() {
             </Box>
           </Box>
           <Box height="30px" />
-          <TabButtonBar
+          {/* <TabButtonBar
             options={[
               "Dividend Growth",
               "Growth",
@@ -111,7 +128,7 @@ export default function StockDetail() {
               "Momentum",
               "Low Volatility",
             ]}
-          />
+          /> */}
           <Box height="20px" />
           <Grid container spacing={3}>
             {[
@@ -144,7 +161,15 @@ export default function StockDetail() {
                 valuation: "sell",
               },
             ].map((item) => (
-              <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
+              <Grid
+                key={item.parameter}
+                item
+                xs={3}
+                sm={3}
+                md={3}
+                lg={3}
+                xl={3}
+              >
                 <Box display="flex" alignItems="center">
                   <Box
                     width="5px"

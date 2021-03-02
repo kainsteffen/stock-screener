@@ -1,3 +1,4 @@
+import { useReactiveVar } from "@apollo/client";
 import {
   Box,
   Container,
@@ -14,7 +15,7 @@ import {
 } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import React from "react";
-import { TimeSeriesPreviewChart } from "../../components/time-series-preview-chart/time-series-preview-chart";
+import { favoritesVar, toggleFavoritedSymbol } from "../../gql/cache";
 
 const useStyles = makeStyles({
   table: {
@@ -45,6 +46,7 @@ const rows = [
 
 export default function Favorites() {
   const classes = useStyles();
+  const favorites = useReactiveVar(favoritesVar);
 
   return (
     <Container>
@@ -74,8 +76,16 @@ export default function Favorites() {
             {rows.map((row) => (
               <TableRow key={row.name}>
                 <TableCell>
-                  <IconButton>
-                    <FavoriteIcon className={classes.likeButton} />
+                  <IconButton
+                    onClick={() => {
+                      toggleFavoritedSymbol(row.ticker);
+                    }}
+                  >
+                    <FavoriteIcon
+                      className={
+                        favorites.includes(row.ticker) ? classes.likeButton : ""
+                      }
+                    />
                   </IconButton>
                 </TableCell>
                 <TableCell component="th" scope="row">
@@ -89,7 +99,7 @@ export default function Favorites() {
                 <TableCell align="left">$ {row.price}</TableCell>
                 <TableCell align="left">{row.today}%</TableCell>
                 <TableCell align="left">
-                  <TimeSeriesPreviewChart
+                  {/* <TimeSeriesPreviewChart
                     data={[
                       Math.random() > 0.5
                         ? Math.random() * 10
@@ -113,7 +123,7 @@ export default function Favorites() {
                         ? Math.random() * 10
                         : Math.random() * -10,
                     ]}
-                  />
+                  /> */}
                 </TableCell>
                 <TableCell align="left">{row.exDividend}</TableCell>
                 <TableCell align="left">{row.fairValue}</TableCell>

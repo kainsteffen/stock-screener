@@ -1,3 +1,4 @@
+import { useReactiveVar } from "@apollo/client";
 import {
   Box,
   Card,
@@ -7,6 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
+import { strategiesVar } from "../../gql/cache";
 
 const useStyles = makeStyles({
   dailyChange: {
@@ -18,22 +20,25 @@ const useStyles = makeStyles({
   },
 });
 
-export default function StrategyCard() {
-  const classes = useStyles();
+export interface StrategyCardProps {
+  strategyId: number;
+}
 
+export default function StrategyCard(props: StrategyCardProps) {
+  const classes = useStyles();
+  const strategy = useReactiveVar(strategiesVar).entities[props.strategyId];
   return (
     <Card>
-      <CardActionArea href="/strategies/create">
+      <CardActionArea href={`/strategies/${props.strategyId}`}>
         <CardContent className={classes.fillParent}>
-          <Typography variant="h6">Dividend Growth Investing</Typography>
+          <Typography variant="h6">{strategy.name}</Typography>
           <Box paddingY={1}>
             <Typography color="textSecondary">
-              Lizards are a widespread group of squamate reptiles, with over
-              6,000 species, ranging across all continents except Antarctica
+              {strategy.description || "No description"}
             </Typography>
           </Box>
           <Typography>1101 Stocks found</Typography>
-          <Typography>21 Indicators</Typography>
+          <Typography>{`${strategy.indicators.length} Indicators`}</Typography>
         </CardContent>
       </CardActionArea>
     </Card>

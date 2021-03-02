@@ -9,7 +9,10 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import React, { useEffect, useRef, useState } from "react";
 import "./tab-button-bar.css";
+
 export interface TabButtonBarProps {
+  selected: number;
+  onSelect: (index: number) => void;
   options: string[];
 }
 
@@ -23,7 +26,6 @@ const useStyles = makeStyles({
 });
 
 export default function TabButtonBar(props: TabButtonBarProps) {
-  const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollPos, setScrollPos] = useState(0);
 
   const classes = useStyles();
@@ -54,9 +56,9 @@ export default function TabButtonBar(props: TabButtonBarProps) {
             <Box key={index} display="flex" flex="0 0 auto" marginRight={1}>
               <Button
                 color="primary"
-                variant={selectedIndex === index ? "contained" : "outlined"}
+                variant={props.selected === index ? "contained" : "outlined"}
                 size="small"
-                onClick={() => setSelectedIndex(index)}
+                onClick={() => props.onSelect(index)}
               >
                 <Typography noWrap>{option}</Typography>
               </Button>

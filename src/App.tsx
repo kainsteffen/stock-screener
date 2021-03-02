@@ -1,18 +1,16 @@
+import { ApolloClient, ApolloProvider } from "@apollo/client";
 import {
-  AppBar,
   Badge,
   Box,
+  createMuiTheme,
   createStyles,
   CssBaseline,
   Divider,
   Drawer,
   IconButton,
-  List,
-  ListItem,
-  ListItemText,
   makeStyles,
   Theme,
-  Toolbar,
+  ThemeProvider,
   Typography,
 } from "@material-ui/core";
 import AppleIcon from "@material-ui/icons/Apple";
@@ -22,8 +20,10 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import SearchInput from "./components/search-input/search-input";
+import SidebarNav from "./components/sidebar-nav/sidebar-nav";
 import SidebarFavorites from "./components/sidebar-watchlist/sidebar-favorites";
-import CreateStrategy from "./pages/create-strategy/create-strategy";
+import { cache, localTypeDefs } from "./gql/cache";
+import StrategyDetail from "./pages/create-strategy/strategy-detail";
 import Discover from "./pages/discover/discover";
 import Favorites from "./pages/favorites/favorites";
 import Home from "./pages/home/home";
@@ -31,6 +31,30 @@ import StockDetail from "./pages/stock-detail/stock-detail";
 import Strategies from "./pages/strategies/strategies";
 
 const drawerWidth = 240;
+
+const theme = createMuiTheme({
+  overrides: {
+    MuiCssBaseline: {
+      "@global": {
+        ".MuiCard-root": {
+          borderRadius: "8px",
+        },
+        ".MuiButton-root": {
+          borderRadius: "500px",
+        },
+      },
+    },
+  },
+  palette: {
+    type: "dark",
+    primary: {
+      light: "#757ce8",
+      main: "#1EB980",
+      dark: "#045D56",
+      contrastText: "#fff",
+    },
+  },
+});
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -83,87 +107,96 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function App() {
   const classes = useStyles();
+  let client = new ApolloClient({
+    uri: "http://localhost:8080/graphql",
+    cache: cache,
+    typeDefs: localTypeDefs,
+  });
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="open drawer">
-            <AppleIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap className={classes.title}>
-            <a href="/" className={classes.link}>
-              StockBook
-            </a>
-          </Typography>
-          <div className={classes.searchInputContainer}>
-            <SearchInput />
-          </div>
-          <Box flexGrow={1}></Box>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <IconButton color="inherit">
-            <SettingsIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        open={true}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <Toolbar />
-        <div className={classes.drawerContainer}>
-          <List>
-            {[
-              {
-                route: "/",
-                name: "Home",
-              },
-              {
-                route: "strategies",
-                name: "Strategies",
-              },
-              {
-                route: "discover",
-                name: "Discover",
-              },
-              {
-                route: "favorites",
-                name: "Favorites",
-              },
-            ].map((item) => (
-              <ListItem button component="a" href={item.route} key={item.route}>
-                {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-                <ListItemText primary={item.name} />
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <SidebarFavorites />
-        </div>
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
+    <ApolloProvider client={client}>
+      <ThemeProvider theme={theme}>
         <Router>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/strategies" component={Strategies} />
-            <Route exact path="/strategies/create" component={CreateStrategy} />
-            <Route exact path="/discover" component={Discover} />
-            <Route exact path="/favorites" component={Favorites} />
-            <Route exact path="/stock" component={StockDetail} />
-          </Switch>
+          <div className={classes.root}>
+            <CssBaseline />
+            <Drawer
+              className={classes.drawer}
+              variant="permanent"
+              open={true}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+            >
+              {/* <Toolbar /> */}
+              <div className={classes.drawerContainer}>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  marginLeft={2}
+                  paddingY={1}
+                >
+                  <IconButton
+                    edge="start"
+                    color="inherit"
+                    aria-label="open drawer"
+                  >
+                    <AppleIcon />
+                  </IconButton>
+                  <Typography variant="h6" noWrap className={classes.title}>
+                    <a href="/" className={classes.link}>
+                      StockBook
+                    </a>
+                  </Typography>
+                </Box>
+                <SidebarNav />
+                <Divider />
+                <SidebarFavorites />
+              </div>
+            </Drawer>
+            <Box display="flex" flexDirection="column" width="100%">
+              <Box
+                display="flex"
+                alignItems="center"
+                paddingX="20px"
+                paddingY="10px"
+              >
+                <div className={classes.searchInputContainer}>
+                  <SearchInput />
+                </div>
+                <Box flexGrow={1}></Box>
+                <IconButton color="inherit">
+                  <Badge badgeContent={4} color="secondary">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton color="inherit">
+                  <SettingsIcon />
+                </IconButton>
+              </Box>
+              <main className={classes.content}>
+                <Switch>
+                  <Route exact path="/" component={Home} />
+                  <Route exact path="/strategies" component={Strategies} />
+                  <Route
+                    exact
+                    path="/strategies/:id"
+                    component={StrategyDetail}
+                  />
+                  <Route
+                    exact
+                    path="/strategies/create"
+                    component={StrategyDetail}
+                  />
+                  <Route exact path="/discover" component={Discover} />
+                  <Route exact path="/favorites" component={Favorites} />
+                  <Route exact path="/stock" component={StockDetail} />
+                </Switch>
+              </main>
+            </Box>
+          </div>
         </Router>
-      </main>
-    </div>
+      </ThemeProvider>
+    </ApolloProvider>
   );
 }
 

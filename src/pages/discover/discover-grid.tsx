@@ -1,4 +1,3 @@
-import { gql, useQuery, useReactiveVar } from "@apollo/client";
 import {
   Box,
   Container,
@@ -14,10 +13,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import React, { useState } from "react";
-import TabButtonBar from "../../components/tab-button-bar/tab-button-bar";
-import { strategiesVar } from "../../gql/cache";
-import { strategyToMdbQuery } from "../../services/mongodb-parser";
+import React from "react";
 
 const useStyles = makeStyles({
   table: {
@@ -129,45 +125,28 @@ const rows = [
   ),
 ];
 
-const STRATEGY_RESULTS = gql`
-  query getStrategyResults($filter: String!) {
-    find(filter: $filter) {
-      symbol
-      marketCap
-      trailingPE
-    }
-  }
-`;
-
 export default function Discover() {
   const classes = useStyles();
-  const [selectedStrategy, setSelectedStrategy] = useState(0);
-  const strategies = useReactiveVar(strategiesVar);
-  const strategy = strategies.entities[strategies.ids[selectedStrategy]];
-  strategy.indicators.map((indicator) => indicator.key);
-
-  const { data, loading, error } = useQuery(STRATEGY_RESULTS, {
-    variables: {
-      filter: strategyToMdbQuery(strategy),
-    },
-  });
-
-  if (loading) return <p>Loading</p>;
-  if (error) return <p>Error</p>;
 
   return (
     <Container>
-      <TabButtonBar
-        selected={selectedStrategy}
-        onSelect={(index: number) => setSelectedStrategy(index)}
-        options={strategies.ids.map(
-          (id: number) => strategies.entities[id].name
-        )}
-      />
+      {/* <TabButtonBar
+        options={[
+          "Dividend Growth",
+          "Growth",
+          "Value",
+          "Quality",
+          "Momentum",
+          "Low Volatility",
+          "Dividend Growth",
+          "Growth",
+          "Value",
+          "Quality",
+          "Momentum",
+          "Low Volatility",
+        ]}
+      /> */}
       <TableContainer component={Paper}>
-        {data.find.map((symbol: any) => (
-          <div>{symbol.symbol}</div>
-        ))}
         <Table className={classes.table} aria-label="simple table">
           <colgroup>
             <col width="1%" />
