@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { favoritesVar } from "../../gql/cache";
+import { fractionToPercentage } from "../../helpers/numbers";
 
 const useStyles = makeStyles({
   logo: {
@@ -51,10 +52,6 @@ function SidebarFavoriteEntry(props: SidebarFavoriteEntryProps) {
     variables: { symbol: props.symbol },
   });
 
-  const toPercentage = (number: number) => {
-    return (number * 100).toFixed(2);
-  };
-
   if (loading) return <React.Fragment />;
   if (error) return <p>Error</p>;
 
@@ -71,7 +68,7 @@ function SidebarFavoriteEntry(props: SidebarFavoriteEntryProps) {
           data.symbol.quote.changePercent >= 0 ? classes.green : classes.red
         }
       >
-        {toPercentage(data.symbol.quote.changePercent)}%
+        {fractionToPercentage(data.symbol.quote.changePercent)}%
       </Typography>
     </ListItem>
   );

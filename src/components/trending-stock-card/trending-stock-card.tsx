@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
+import { fractionToPercentage } from "../../helpers/numbers";
 
 const useStyles = makeStyles({
   title: {
@@ -46,10 +47,6 @@ export default function TrendingStockCard(props: TrendingStockCardProps) {
     variables: { symbol: props.symbol },
   });
 
-  const toPercentage = (number: number) => {
-    return (number * 100).toFixed(2);
-  };
-
   if (loading) return <p>Loading</p>;
   if (error) return <p>Error</p>;
 
@@ -74,7 +71,7 @@ export default function TrendingStockCard(props: TrendingStockCardProps) {
                   : classes.dailyChangeNeg
               }
             >
-              {toPercentage(data.symbol.quote.changePercent)}%
+              {fractionToPercentage(data.symbol.quote.changePercent)}%
             </Typography>
           </Box>
           <Box marginY={1.5}>
