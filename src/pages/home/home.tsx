@@ -1,29 +1,28 @@
 import { Box, Container, Grid, Typography } from "@material-ui/core";
-import Axios from "axios";
-import React, { useEffect } from "react";
+import React from "react";
 import EarningsDateCard from "../../components/earnings-date-card/earnings-date-card";
 import MarketNewsCard from "../../components/market-news-card/market-news-card";
 import TrendingStockCard from "../../components/trending-stock-card/trending-stock-card";
 
 export default function Home() {
-  useEffect(
-    //NGGEXSKHJXYR1H3R
-    () => {
-      Axios.get("https://www.alphavantage.co/query", {
-        params: {
-          function: "OVERVIEW",
-          symbol: "IBM",
-          apikey: "demo",
-        },
-      })
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  );
+  // useEffect(
+  //   //NGGEXSKHJXYR1H3R
+  //   () => {
+  //     Axios.get("https://www.alphavantage.co/query", {
+  //       params: {
+  //         function: "OVERVIEW",
+  //         symbol: "IBM",
+  //         apikey: "demo",
+  //       },
+  //     })
+  //       .then((response) => {
+  //         console.log(response);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   }
+  // );
 
   const symbols = ["AAPL", "MSFT", "AMZN", "FB", "GOOG", "TSLA"];
 

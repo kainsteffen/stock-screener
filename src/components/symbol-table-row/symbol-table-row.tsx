@@ -55,8 +55,6 @@ export default function SymbolTableRow(props: SymbolTableRow) {
       </TableRow>
     );
 
-  console.log(props.symbol);
-
   return (
     <TableRow key={props.symbol.name}>
       <TableCell component="th" scope="row">

@@ -48,7 +48,7 @@ export default function Discover() {
       filter: strategyToMdbQuery(strategy),
     },
   });
-  console.log("data", data);
+
   if (!strategy) return <p>Empty</p>;
   if (loading) return <p>Loading</p>;
   if (error) return <p>Error</p>;
