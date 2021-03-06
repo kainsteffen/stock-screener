@@ -19,7 +19,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import DeleteDialog from "../../components/dialogs/indicator-dialog/delete-dialog";
+import DeleteDialog from "../../components/dialogs/delete-dialog.tsx/delete-dialog";
 import IndicatorDialog from "../../components/dialogs/indicator-dialog/indicator-dialog";
 import { RangeController } from "../../components/indicator-controllers/range-controller/range-controller";
 import ThresholdController from "../../components/indicator-controllers/threshold-controller/threshold-controller";
