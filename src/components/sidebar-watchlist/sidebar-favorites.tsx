@@ -7,9 +7,9 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
+import numeral from "numeral";
 import React from "react";
 import { favoritesVar } from "../../gql/cache";
-import { fractionToPercentage } from "../../helpers/numbers";
 
 const useStyles = makeStyles({
   logo: {
@@ -68,7 +68,7 @@ function SidebarFavoriteEntry(props: SidebarFavoriteEntryProps) {
           data.symbol.quote.changePercent >= 0 ? classes.green : classes.red
         }
       >
-        {fractionToPercentage(data.symbol.quote.changePercent)}%
+        {numeral(data.symbol.quote.changePercent).format("0.00%")}
       </Typography>
     </ListItem>
   );
