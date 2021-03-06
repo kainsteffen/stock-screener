@@ -1,4 +1,4 @@
-import { gql, useQuery, useReactiveVar } from "@apollo/client";
+import { useQuery, useReactiveVar } from "@apollo/client";
 import {
   List,
   ListItem,
@@ -10,6 +10,7 @@ import {
 import numeral from "numeral";
 import React from "react";
 import { favoritesVar } from "../../gql/cache";
+import { QUOTE } from "../../gql/queries/client";
 
 const useStyles = makeStyles({
   logo: {
@@ -28,19 +29,6 @@ const useStyles = makeStyles({
     color: "#FF6262",
   },
 });
-
-const QUOTE = gql`
-  query getQuote($symbol: String!) {
-    symbol(symbol: $symbol) {
-      quote {
-        symbol
-        companyName
-        latestPrice
-        changePercent
-      }
-    }
-  }
-`;
 
 export interface SidebarFavoriteEntryProps {
   symbol: string;

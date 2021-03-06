@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import {
   Box,
   Card,
@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import numeral from "numeral";
 import React from "react";
+import { QUOTE } from "../../gql/queries/client";
 
 const useStyles = makeStyles({
   title: {
@@ -23,20 +24,6 @@ const useStyles = makeStyles({
   },
 });
 
-const QUOTE = gql`
-  query getQuote($symbol: String!) {
-    symbol(symbol: $symbol) {
-      quote {
-        symbol
-        companyName
-        latestPrice
-        week52High
-        week52Low
-        changePercent
-      }
-    }
-  }
-`;
 export interface TrendingStockCardProps {
   symbol: string;
 }
