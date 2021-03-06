@@ -45,6 +45,7 @@ export interface IndicatorValue {
   name: string;
   description: string;
   investopediaUrl: string;
+  valueType: string;
   values: Values;
 }
 

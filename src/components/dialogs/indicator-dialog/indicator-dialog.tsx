@@ -13,7 +13,7 @@ import {
   ListItemIcon,
   ListItemText,
   makeStyles,
-  Typography,
+  Typography
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
@@ -37,6 +37,7 @@ const INDICATORS = gql`
       type
       description
       investopediaUrl
+      valueType
     }
   }
 `;
@@ -82,6 +83,7 @@ export default function IndicatorDialog(props: IndicatorDialogProps) {
           name: indicator.name,
           description: indicator.description,
           investopediaUrl: indicator.investopediaUrl,
+          valueType: indicator.valueType,
           values: { min: 0, max: 1, thresholdType: "above" },
         },
       ]);
