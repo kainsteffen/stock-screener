@@ -1,15 +1,19 @@
 import { IndicatorValue, Strategy, thresholdTypes } from "../gql/cache";
 
 export const strategyToMdbQuery = (strategy: Strategy): string => {
-  const parsedInds = strategy.indicators.map((indicator) =>
-    indicatorToMdbOperator(indicator)
-  );
-  const query = parsedInds.reduce(
-    (final, indicator) =>
-      Object.assign(final, { [indicator.key]: indicator.value }),
-    {}
-  );
-  return JSON.stringify(query);
+  if (strategy) {
+    const parsedInds = strategy.indicators.map((indicator) =>
+      indicatorToMdbOperator(indicator)
+    );
+    const query = parsedInds.reduce(
+      (final, indicator) =>
+        Object.assign(final, { [indicator.key]: indicator.value }),
+      {}
+    );
+    return JSON.stringify(query);
+  } else {
+    return "";
+  }
 };
 
 const indicatorToMdbOperator = (indicator: IndicatorValue) => {
@@ -22,7 +26,7 @@ const indicatorToMdbOperator = (indicator: IndicatorValue) => {
         key: "quote_table.marketCap",
         value: value,
       };
-    case "trailingPeRatio":
+    case "trailingPe":
       return {
         key: "stats.trailingPE",
         value: value,
