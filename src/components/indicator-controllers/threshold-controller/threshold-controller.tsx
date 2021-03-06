@@ -27,6 +27,9 @@ export default function ThresholdController(props: ThresholdControllerProps) {
     <Box display="flex" alignItems="center">
       <Box width={150}>
         <DropdownMenu
+          initSelect={thresholdTypes.findIndex(
+            (type) => type.key == props.thresholdTypeId
+          )}
           options={thresholdTypes.map((type) => type.name)}
           onSelect={onSetType}
         />

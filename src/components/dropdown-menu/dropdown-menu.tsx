@@ -3,13 +3,14 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import React, { useState } from "react";
 
 export interface DropdownMenuProps {
+  initSelect: number;
   options: string[];
   onSelect: Function;
 }
 
 export function DropdownMenu(props: DropdownMenuProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selectedIndex, setSelectedIndex] = useState(1);
+  const [selectedIndex, setSelectedIndex] = useState(props.initSelect);
 
   const handleClickListItem = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
