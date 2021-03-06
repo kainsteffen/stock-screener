@@ -15,7 +15,7 @@ import {
   IndicatorValue,
   toggleFavoritedSymbol,
 } from "../../gql/cache";
-import { QUOTE } from "../../gql/queries/client";
+import { QUOTE } from "../../gql/queries/shared";
 import { parseIndicatorValue } from "../../helpers/numbers";
 
 const useStyles = makeStyles({

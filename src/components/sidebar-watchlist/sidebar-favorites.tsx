@@ -10,7 +10,7 @@ import {
 import numeral from "numeral";
 import React from "react";
 import { favoritesVar } from "../../gql/cache";
-import { QUOTE } from "../../gql/queries/client";
+import { QUOTE } from "../../gql/queries/shared";
 
 const useStyles = makeStyles({
   logo: {

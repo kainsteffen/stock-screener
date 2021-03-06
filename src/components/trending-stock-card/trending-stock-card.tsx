@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import numeral from "numeral";
 import React from "react";
-import { QUOTE } from "../../gql/queries/client";
+import { QUOTE } from "../../gql/queries/shared";
 
 const useStyles = makeStyles({
   title: {
