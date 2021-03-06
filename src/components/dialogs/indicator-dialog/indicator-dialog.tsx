@@ -13,12 +13,12 @@ import {
   ListItemIcon,
   ListItemText,
   makeStyles,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import React, { useState } from "react";
-import { IndicatorValue } from "../../../gql/cache";
+import { IndicatorValue } from "../../../gql/local-state";
 import { InfoButton } from "../../info-button/info-button";
 import SearchInput from "../../search-input/search-input";
 

@@ -1,6 +1,6 @@
 import { Box, TextField, Typography } from "@material-ui/core";
 import React from "react";
-import { thresholdTypes } from "../../../gql/cache";
+import { thresholdTypes } from "../../../gql/local-state";
 import { DropdownMenu } from "../../dropdown-menu/dropdown-menu";
 
 export interface ThresholdControllerProps {

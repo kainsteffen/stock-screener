@@ -13,7 +13,7 @@ import {
 import React, { useState } from "react";
 import SymbolTableRow from "../../components/symbol-table-row/symbol-table-row";
 import TabButtonBar from "../../components/tab-button-bar/tab-button-bar";
-import { favoritesVar, strategiesVar } from "../../gql/cache";
+import { favoritesVar, strategiesVar } from "../../gql/local-state";
 import { strategyToMdbQuery } from "../../services/mongodb-parser";
 
 const useStyles = makeStyles({

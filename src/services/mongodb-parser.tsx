@@ -1,4 +1,4 @@
-import { IndicatorValue, Strategy, thresholdTypes } from "../gql/cache";
+import { IndicatorValue, Strategy, thresholdTypes } from "../gql/local-state";
 
 export const strategyToMdbQuery = (strategy: Strategy): string => {
   if (strategy) {

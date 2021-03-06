@@ -31,7 +31,7 @@ import {
   saveStrategy,
   strategiesVar,
   Strategy,
-} from "../../gql/cache";
+} from "../../gql/local-state";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

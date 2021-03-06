@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import React from "react";
-import { favoritesVar, toggleFavoritedSymbol } from "../../gql/cache";
+import { favoritesVar, toggleFavoritedSymbol } from "../../gql/local-state";
 
 const useStyles = makeStyles({
   table: {

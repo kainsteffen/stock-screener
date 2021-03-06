@@ -14,7 +14,7 @@ import {
   favoritesVar,
   IndicatorValue,
   toggleFavoritedSymbol,
-} from "../../gql/cache";
+} from "../../gql/local-state";
 import { QUOTE } from "../../gql/queries/shared";
 import { parseIndicatorValue } from "../../helpers/numbers";
 

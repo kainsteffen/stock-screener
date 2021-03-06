@@ -12,7 +12,7 @@ import AddIcon from "@material-ui/icons/Add";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import StrategyCard from "../../components/strategy-card/strategy-card";
-import { strategiesVar } from "../../gql/cache";
+import { strategiesVar } from "../../gql/local-state";
 
 const useStyles = makeStyles((theme) =>
   createStyles({

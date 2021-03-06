@@ -1,5 +1,5 @@
 import numeral from "numeral";
-import { IndicatorValue } from "../gql/cache";
+import { IndicatorValue } from "../gql/local-state";
 
 export const parseIndicatorValue = (indicator: IndicatorValue, value: any) => {
   switch (indicator.valueType) {

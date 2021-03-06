@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
-import { strategiesVar } from "../../gql/cache";
+import { strategiesVar } from "../../gql/local-state";
 
 const useStyles = makeStyles({
   dailyChange: {
