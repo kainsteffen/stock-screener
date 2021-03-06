@@ -20,15 +20,15 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import SearchInput from "./components/search-input/search-input";
+import SidebarFavorites from "./components/sidebar-favorites.tsx/sidebar-favorites";
 import SidebarNav from "./components/sidebar-nav/sidebar-nav";
-import SidebarFavorites from "./components/sidebar-watchlist/sidebar-favorites";
 import { cache, localTypeDefs } from "./gql/cache";
-import StrategyDetail from "./pages/create-strategy/strategy-detail";
 import Discover from "./pages/discover/discover";
 import Favorites from "./pages/favorites/favorites";
 import Home from "./pages/home/home";
 import StockDetail from "./pages/stock-detail/stock-detail";
 import Strategies from "./pages/strategies/strategies";
+import StrategyDetail from "./pages/strategy-detail/strategy-detail";
 
 const drawerWidth = 240;
 
