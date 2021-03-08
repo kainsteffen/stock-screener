@@ -5,7 +5,6 @@ import {
   ListItemText,
   ListSubheader,
   makeStyles,
-  Typography,
 } from "@material-ui/core";
 import React from "react";
 import { favoritesVar } from "../../gql/local-state";
@@ -76,33 +75,6 @@ export default function SidebarFavorites() {
             </React.Fragment>
           );
         })}
-      <ListItem button key="apple">
-        <img
-          src="//logo.clearbit.com/apple.com?size=100"
-          className={classes.logo}
-          alt="logo"
-        />
-        <ListItemText primary="AAPL" />
-        <Typography className={classes.green}>2.43%</Typography>
-      </ListItem>
-      <ListItem button key="MSFT">
-        <img
-          src="//logo.clearbit.com/microsoft.com?size=100"
-          className={classes.logo}
-          alt="logo"
-        />
-        <ListItemText primary="MSFT" />
-        <Typography className={classes.red}>2.43%</Typography>
-      </ListItem>
-      <ListItem button key="AMZN">
-        <img
-          src="//logo.clearbit.com/amazon.com?size=100"
-          className={classes.logo}
-          alt="logo"
-        />
-        <ListItemText primary="AMZN" />
-        <Typography className={classes.green}>2.43%</Typography>
-      </ListItem>
     </List>
   );
 }
