@@ -7,6 +7,7 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { favoritesVar } from "../../gql/local-state";
 import { QUOTE } from "../../gql/queries/shared";
 import PercentageChangeLabel from "../percentage-change-label/percentage-change-label";
@@ -35,15 +36,24 @@ export interface SidebarFavoriteEntryProps {
 
 function SidebarFavoriteEntry(props: SidebarFavoriteEntryProps) {
   const classes = useStyles();
+  const history = useHistory();
   const { data, loading, error } = useQuery(QUOTE, {
     variables: { symbol: props.symbol },
   });
+
+  const navigateTo = (path: string) => {
+    history.replace(`/stocks/${path}`);
+  };
 
   if (loading) return <React.Fragment />;
   if (error) return <p>Error</p>;
 
   return (
-    <ListItem button key={props.symbol}>
+    <ListItem
+      button
+      key={props.symbol}
+      onClick={() => navigateTo(props.symbol)}
+    >
       <img
         src="//logo.clearbit.com/apple.com?size=100"
         className={classes.logo}
@@ -63,7 +73,7 @@ export default function SidebarFavorites() {
     <List
       subheader={
         <ListSubheader component="div" id="nested-list-subheader">
-          My Favorites
+          Followed
         </ListSubheader>
       }
     >
