@@ -28,17 +28,19 @@ export default function PercentageChangeLabel(
   const isPositive = props.percentChange >= 0;
 
   return (
-    <Box
-      display="flex"
-      className={isPositive ? classes.positive : classes.negative}
-      borderRadius={100}
-      paddingRight={0.7}
-      paddingY={0.5}
-    >
-      {isPositive ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-      <Typography>
-        {numeral(Math.abs(props.percentChange)).format("0.00%")}
-      </Typography>
+    <Box display="inline-block">
+      <Box
+        display="flex"
+        className={isPositive ? classes.positive : classes.negative}
+        borderRadius={100}
+        paddingRight={0.7}
+        paddingY={0.5}
+      >
+        {isPositive ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+        <Typography>
+          {numeral(Math.abs(props.percentChange)).format("0.00%")}
+        </Typography>
+      </Box>
     </Box>
   );
 }
