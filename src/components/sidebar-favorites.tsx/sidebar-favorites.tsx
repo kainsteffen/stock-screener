@@ -1,11 +1,14 @@
 import { useQuery, useReactiveVar } from "@apollo/client";
 import {
+  Box,
+  ButtonBase,
   List,
   ListItem,
   ListItemText,
-  ListSubheader,
   makeStyles,
+  Typography,
 } from "@material-ui/core";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { favoritesVar } from "../../gql/local-state";
@@ -22,11 +25,8 @@ const useStyles = makeStyles({
   placeHolder: {
     backgroundColor: "grey",
   },
-  green: {
-    color: "#41CE3E",
-  },
-  red: {
-    color: "#FF6262",
+  fullWidth: {
+    width: "100%",
   },
 });
 
@@ -67,24 +67,40 @@ function SidebarFavoriteEntry(props: SidebarFavoriteEntryProps) {
 
 export default function SidebarFavorites() {
   const classes = useStyles();
+  const history = useHistory();
   const favorites = useReactiveVar(favoritesVar);
 
   return (
-    <List
-      subheader={
-        <ListSubheader component="div" id="nested-list-subheader">
-          Followed
-        </ListSubheader>
-      }
-    >
-      {favorites &&
-        favorites.map((favorite: any) => {
-          return (
-            <React.Fragment key={favorite}>
-              {<SidebarFavoriteEntry symbol={favorite} />}
-            </React.Fragment>
-          );
-        })}
-    </List>
+    <React.Fragment>
+      <Box width="100%">
+        <ButtonBase
+          className={classes.fullWidth}
+          onClick={() => history.replace("favorites")}
+        >
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            paddingX={2}
+            paddingY={2}
+            width="100%"
+          >
+            <Box marginRight={1}>
+              <Typography color="textSecondary">Followed</Typography>
+            </Box>
+            <ArrowForwardIcon color="disabled" />
+          </Box>
+        </ButtonBase>
+      </Box>
+      <List disablePadding>
+        {favorites &&
+          favorites.map((favorite: any) => {
+            return (
+              <React.Fragment key={favorite}>
+                {<SidebarFavoriteEntry symbol={favorite} />}
+              </React.Fragment>
+            );
+          })}
+      </List>
+    </React.Fragment>
   );
 }

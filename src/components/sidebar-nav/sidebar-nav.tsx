@@ -1,4 +1,7 @@
-import { List, ListItem, ListItemText } from "@material-ui/core";
+import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import DescriptionIcon from "@material-ui/icons/Description";
+import HomeIcon from "@material-ui/icons/Home";
+import SearchIcon from "@material-ui/icons/Search";
 import React from "react";
 import { useHistory } from "react-router-dom";
 
@@ -12,30 +15,28 @@ export default function SidebarNav() {
     <List>
       {[
         {
+          icon: <HomeIcon />,
           route: "/",
           name: "Home",
         },
         {
+          icon: <DescriptionIcon />,
           route: "/strategies",
           name: "Strategies",
         },
         {
+          icon: <SearchIcon />,
           route: "/discover",
           name: "Discover",
-        },
-        {
-          route: "/favorites",
-          name: "Favorites",
         },
       ].map((item) => (
         <ListItem
           button
           component="a"
           onClick={() => onRedirect(item.route)}
-          // href={`//${window.location.hostname}/${item.route}`}
           key={item.route}
         >
-          {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
+          <ListItemIcon>{item.icon}</ListItemIcon>
           <ListItemText primary={item.name} />
         </ListItem>
       ))}
