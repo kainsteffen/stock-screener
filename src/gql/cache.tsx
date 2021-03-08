@@ -12,6 +12,20 @@ export const cache: InMemoryCache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
+        strategyResults: {
+          keyArgs: ["filter"],
+          merge(existing = [], incoming: any[], { args }) {
+            // Deduplicate by symbol
+            return [...existing, ...incoming].filter(
+              (i, index, arr) =>
+                index === arr.findIndex((j) => i.symbol === j.symbol)
+            );
+          },
+          read(existing = [], { args }) {
+            return existing;
+          },
+        },
+        // Current unused local fields since we're using useReactiveVar hook
         favorites: {
           read() {
             return favoritesVar();

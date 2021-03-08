@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import Skeleton from "@material-ui/lab/Skeleton";
 import numeral from "numeral";
 import React from "react";
 import {
@@ -42,19 +43,6 @@ export default function SymbolTableRow(props: SymbolTableRow) {
     },
   });
 
-  if (loading)
-    return (
-      <TableRow>
-        <TableCell>Loading</TableCell>
-      </TableRow>
-    );
-  if (error)
-    return (
-      <TableRow>
-        <TableCell>Error</TableCell>
-      </TableRow>
-    );
-
   return (
     <TableRow key={props.symbol.name}>
       <TableCell component="th" scope="row">
@@ -75,10 +63,22 @@ export default function SymbolTableRow(props: SymbolTableRow) {
         </Box>
       </TableCell>
       <TableCell align="right">
-        {numeral(data.symbol.quote.latestPrice).format("$0,0.00")}
+        {loading || error ? (
+          <Box display="flex" justifyContent="flex-end">
+            <Skeleton variant="text" width={50} height={30} />
+          </Box>
+        ) : (
+          numeral(data.symbol.quote.latestPrice).format("$0,0.00")
+        )}
       </TableCell>
       <TableCell align="right">
-        {numeral(data.symbol.quote.changePercent).format("0.00%")}
+        {loading || error ? (
+          <Box display="flex" justifyContent="flex-end">
+            <Skeleton variant="text" width={50} height={30} />
+          </Box>
+        ) : (
+          numeral(data.symbol.quote.changePercent).format("0.00%")
+        )}
       </TableCell>
       {props.indicators.map((indicator) => (
         <TableCell key={indicator.key} align="right">

@@ -10,10 +10,15 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import React, { useEffect, useRef, useState } from "react";
 import "./tab-button-bar.css";
 
+export interface TabButtonBarOption {
+  name: string;
+  value: any;
+}
+
 export interface TabButtonBarProps {
   selected: number;
   onSelect: (index: number) => void;
-  options: string[];
+  options: TabButtonBarOption[];
 }
 
 const useStyles = makeStyles({
@@ -27,7 +32,6 @@ const useStyles = makeStyles({
 
 export default function TabButtonBar(props: TabButtonBarProps) {
   const [scrollPos, setScrollPos] = useState(0);
-
   const classes = useStyles();
   const scrollWrapperRef = useRef<HTMLDivElement>(null);
   let maxScrollPos = 0;
@@ -56,17 +60,18 @@ export default function TabButtonBar(props: TabButtonBarProps) {
             <Box key={index} display="flex" flex="0 0 auto" marginRight={1}>
               <Button
                 color="primary"
-                variant={props.selected === index ? "contained" : "outlined"}
+                variant={
+                  props.selected === option.value ? "contained" : "outlined"
+                }
                 size="small"
-                onClick={() => props.onSelect(index)}
+                onClick={() => props.onSelect(option.value)}
               >
-                <Typography noWrap>{option}</Typography>
+                <Typography noWrap>{option.name}</Typography>
               </Button>
             </Box>
           );
         })}
       </div>
-
       {scrollPos > 0 && (
         <Box
           display="flex"
