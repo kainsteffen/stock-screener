@@ -26,9 +26,9 @@ import { cache, localTypeDefs } from "./gql/cache";
 import Discover from "./pages/discover/discover";
 import Favorites from "./pages/favorites/favorites";
 import Home from "./pages/home/home";
-import StockDetail from "./pages/stock-detail/stock-detail";
 import Strategies from "./pages/strategies/strategies";
 import StrategyDetail from "./pages/strategy-detail/strategy-detail";
+import SymbolDetail from "./pages/symbol-detail/symbol-detail";
 
 const drawerWidth = 240;
 
@@ -189,7 +189,7 @@ function App() {
                   />
                   <Route exact path="/discover" component={Discover} />
                   <Route exact path="/favorites" component={Favorites} />
-                  <Route exact path="/stock" component={StockDetail} />
+                  <Route exact path="/stocks/:id" component={SymbolDetail} />
                 </Switch>
               </main>
             </Box>
