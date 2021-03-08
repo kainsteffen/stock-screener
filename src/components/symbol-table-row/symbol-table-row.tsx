@@ -82,7 +82,10 @@ export default function SymbolTableRow(props: SymbolTableRow) {
       </TableCell>
       {props.indicators.map((indicator) => (
         <TableCell key={indicator.key} align="right">
-          {parseIndicatorValue(indicator, props.symbol[indicator.key])}
+          {parseIndicatorValue(
+            props.symbol[indicator.key],
+            indicator.valueType
+          )}
         </TableCell>
       ))}
     </TableRow>
