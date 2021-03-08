@@ -75,7 +75,7 @@ export default function SidebarFavorites() {
       <Box width="100%">
         <ButtonBase
           className={classes.fullWidth}
-          onClick={() => history.replace("favorites")}
+          onClick={() => history.replace("/favorites")}
         >
           <Box
             display="flex"
