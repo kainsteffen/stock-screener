@@ -6,6 +6,6 @@ export const parseIndicatorValue = (indicator: IndicatorValue, value: any) => {
     case "number":
       return parseFloat(value);
     case "bigNumber":
-      return numeral(value).format("0.0a");
+      return numeral(value).format("0.0a").toUpperCase();
   }
 };
