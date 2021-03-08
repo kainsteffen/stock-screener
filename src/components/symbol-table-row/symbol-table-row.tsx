@@ -18,6 +18,7 @@ import {
 } from "../../gql/local-state";
 import { QUOTE } from "../../gql/queries/shared";
 import { parseIndicatorValue } from "../../helpers/numbers";
+import PercentageChangeLabel from "../percentage-change-label/percentage-change-label";
 
 const useStyles = makeStyles({
   table: {
@@ -77,7 +78,9 @@ export default function SymbolTableRow(props: SymbolTableRow) {
             <Skeleton variant="text" width={50} height={30} />
           </Box>
         ) : (
-          numeral(data.symbol.quote.changePercent).format("0.00%")
+          <PercentageChangeLabel
+            percentChange={data.symbol.quote.changePercent}
+          />
         )}
       </TableCell>
       {props.indicators.map((indicator) => (
