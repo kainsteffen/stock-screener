@@ -7,9 +7,9 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import numeral from "numeral";
 import React from "react";
 import { QUOTE } from "../../gql/queries/shared";
+import PercentageChangeLabel from "../percentage-change-label/percentage-change-label";
 
 const useStyles = makeStyles({
   title: {
@@ -58,7 +58,9 @@ export default function TrendingStockCard(props: TrendingStockCardProps) {
                   : classes.dailyChangeNeg
               }
             >
-              {numeral(data.symbol.quote.changePercent).format("0.00%")}
+              <PercentageChangeLabel
+                percentChange={data.symbol.quote.changePercent}
+              />
             </Typography>
           </Box>
           <Box marginY={1.5}>

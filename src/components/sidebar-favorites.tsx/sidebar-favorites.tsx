@@ -7,10 +7,10 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import numeral from "numeral";
 import React from "react";
 import { favoritesVar } from "../../gql/local-state";
 import { QUOTE } from "../../gql/queries/shared";
+import PercentageChangeLabel from "../percentage-change-label/percentage-change-label";
 
 const useStyles = makeStyles({
   logo: {
@@ -51,13 +51,7 @@ function SidebarFavoriteEntry(props: SidebarFavoriteEntryProps) {
         alt="logo"
       />
       <ListItemText primary={props.symbol} />
-      <Typography
-        className={
-          data.symbol.quote.changePercent >= 0 ? classes.green : classes.red
-        }
-      >
-        {numeral(data.symbol.quote.changePercent).format("0.00%")}
-      </Typography>
+      <PercentageChangeLabel percentChange={data.symbol.quote.changePercent} />
     </ListItem>
   );
 }
