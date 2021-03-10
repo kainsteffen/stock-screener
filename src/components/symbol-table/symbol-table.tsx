@@ -32,7 +32,7 @@ const STRATEGY_RESULTS = gql`
       symbol
       name
       marketCap
-      trailingPe
+      trailingPE
     }
   }
 `;

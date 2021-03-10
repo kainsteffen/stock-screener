@@ -26,7 +26,7 @@ const indicatorToMdbOperator = (indicator: IndicatorValue) => {
         key: "quote_table.marketCap",
         value: value,
       };
-    case "trailingPe":
+    case "trailingPE":
       return {
         key: "stats.trailingPE",
         value: value,
