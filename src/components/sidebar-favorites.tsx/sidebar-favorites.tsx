@@ -9,18 +9,18 @@ import {
   Typography,
 } from "@material-ui/core";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import { Skeleton } from "@material-ui/lab";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { favoritesVar } from "../../gql/local-state";
-import { QUOTE } from "../../gql/queries/shared";
+import { LOGO, QUOTE } from "../../gql/queries/shared";
 import PercentageChangeLabel from "../percentage-change-label/percentage-change-label";
 
 const useStyles = makeStyles({
   logo: {
-    width: 25,
-    height: 25,
+    width: 30,
+    height: 30,
     borderRadius: 100,
-    marginRight: 10,
   },
   placeHolder: {
     backgroundColor: "grey",
@@ -41,6 +41,15 @@ function SidebarFavoriteEntry(props: SidebarFavoriteEntryProps) {
     variables: { symbol: props.symbol },
   });
 
+  const { data: logoData, loading: logoLoading, error: logoError } = useQuery(
+    LOGO,
+    {
+      variables: {
+        symbol: props.symbol,
+      },
+    }
+  );
+
   const navigateTo = (path: string) => {
     history.replace(`/stocks/${path}`);
   };
@@ -54,11 +63,13 @@ function SidebarFavoriteEntry(props: SidebarFavoriteEntryProps) {
       key={props.symbol}
       onClick={() => navigateTo(props.symbol)}
     >
-      <img
-        src="//logo.clearbit.com/apple.com?size=100"
-        className={classes.logo}
-        alt="logo"
-      />
+      <Box display="flex" marginRight={1}>
+        {logoLoading || logoError ? (
+          <Skeleton variant="circle" width={30} height={30} />
+        ) : (
+          <img src={logoData.logo.url} className={classes.logo} alt="logo" />
+        )}
+      </Box>
       <ListItemText primary={props.symbol} />
       <PercentageChangeLabel percentChange={data.symbol.quote.changePercent} />
     </ListItem>
