@@ -75,7 +75,7 @@ export function TimeSeriesPreviewChart(props: TimeSeriesPreviewChartProps) {
             ],
             yAxes: [
               {
-                display: false,
+                display: true,
                 gridLines: {
                   color: "rgba(0, 0, 0, 0)",
                 },
