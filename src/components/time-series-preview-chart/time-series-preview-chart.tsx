@@ -1,6 +1,5 @@
 import Chart from "chart.js";
 import React, { useEffect, useRef } from "react";
-import "./time-series-preview-chart.css";
 
 export interface TimeSeriesPreviewChartProps {
   data: any[];
@@ -13,6 +12,13 @@ export function TimeSeriesPreviewChart(props: TimeSeriesPreviewChartProps) {
   useEffect(() => {
     const canvas = (canvasRef.current as unknown) as HTMLCanvasElement;
     const ctx = canvas?.getContext("2d");
+    const isGain = props.data[0] < props.data[props.data.length - 1];
+    const strokeRgb = isGain ? "65,206,62" : "255, 98, 98";
+    const gradient = ctx?.createLinearGradient(0, 0, 0, 400);
+    gradient?.addColorStop(0, `rgba(${strokeRgb}, 0.8)`);
+    gradient?.addColorStop(0.1, `rgba(${strokeRgb}, 0.3)`);
+    gradient?.addColorStop(0.2, `rgba(${strokeRgb}, 0.2)`);
+    gradient?.addColorStop(0.7, `rgba(${strokeRgb}, 0.0)`);
 
     // Destroy chart instance before redraw
     Chart.helpers.each(Chart.instances, (instance: any) => {
@@ -29,36 +35,25 @@ export function TimeSeriesPreviewChart(props: TimeSeriesPreviewChartProps) {
           datasets: [
             {
               data: props.data,
-              backgroundColor: [
-                "rgba(255, 99, 132, 0.2)",
-                "rgba(54, 162, 235, 0.2)",
-                "rgba(255, 206, 86, 0.2)",
-                "rgba(75, 192, 192, 0.2)",
-                "rgba(153, 102, 255, 0.2)",
-                "rgba(255, 159, 64, 0.2)",
-              ],
-              borderColor: [
-                "rgba(255, 99, 132, 1)",
-                "rgba(54, 162, 235, 1)",
-                "rgba(255, 206, 86, 1)",
-                "rgba(75, 192, 192, 1)",
-                "rgba(153, 102, 255, 1)",
-                "rgba(255, 159, 64, 1)",
-              ],
-              borderWidth: 1,
+              backgroundColor: gradient,
+              borderColor: `rgba(${strokeRgb})`,
+              borderWidth: 2,
+              pointHoverRadius: 7,
             },
           ],
         },
         options: {
+          responsive: true,
+          maintainAspectRatio: false,
           legend: {
             display: false,
           },
           tooltips: {
-            mode: "index",
+            mode: "nearest",
             intersect: false,
           },
           hover: {
-            mode: "index",
+            mode: "nearest",
             intersect: false,
           },
           elements: {
@@ -66,7 +61,7 @@ export function TimeSeriesPreviewChart(props: TimeSeriesPreviewChartProps) {
               radius: 0,
             },
             line: {
-              tension: 0,
+              tension: 0.125,
             },
           },
           scales: {
@@ -80,7 +75,7 @@ export function TimeSeriesPreviewChart(props: TimeSeriesPreviewChartProps) {
             ],
             yAxes: [
               {
-                display: true,
+                display: false,
                 gridLines: {
                   color: "rgba(0, 0, 0, 0)",
                 },

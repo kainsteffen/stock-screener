@@ -45,3 +45,24 @@ export const COMPANY = gql`
     }
   }
 `;
+
+export const LOGO = gql`
+  query getLogo($symbol: String!) {
+    logo(symbol: $symbol) {
+      url
+    }
+  }
+`;
+
+export const FUNDAMENTALS = gql`
+  query getCompany($symbol: String!) {
+    fundamentals(symbol: $symbol) {
+      name
+      symbol
+      fiftyTwoWeekRange
+      forwardDividendYield
+      marketCap
+      trailingPE
+    }
+  }
+`;

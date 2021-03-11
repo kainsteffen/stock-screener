@@ -39,7 +39,7 @@ export default function TrendingStockCard(props: TrendingStockCardProps) {
 
   return (
     <Card>
-      <CardActionArea href="stock">
+      <CardActionArea href={`stocks/${props.symbol}`}>
         <CardContent>
           <Box
             display="flex"
