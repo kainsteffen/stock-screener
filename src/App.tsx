@@ -205,7 +205,11 @@ function App() {
                 paddingY="10px"
               >
                 <div className={classes.searchInputContainer}>
-                  <SearchInput />
+                  <SearchInput
+                    placeholder="Search stocks, indicators or strategies"
+                    searchTerm=""
+                    onSetSearchTerm={(searchTerm) => {}}
+                  />
                 </div>
                 <Box flexGrow={1}></Box>
                 <IconButton color="inherit">

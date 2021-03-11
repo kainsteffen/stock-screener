@@ -27,6 +27,9 @@ const useStyles = makeStyles({
     maxHeight: "100%",
     overflow: "auto",
   },
+  dialogContent: {
+    padding: 0,
+  },
 });
 
 const INDICATORS = gql`
@@ -49,6 +52,8 @@ export interface IndicatorDialogProps {
 
 export default function IndicatorDialog(props: IndicatorDialogProps) {
   const classes = useStyles();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showSelectionOnly, setShowSelectionOnly] = useState(false);
   const { data, loading, error } = useQuery(INDICATORS, {
     variables: { filter: "{}" },
   });
@@ -56,7 +61,6 @@ export default function IndicatorDialog(props: IndicatorDialogProps) {
   const [selection, setSelection] = useState<IndicatorValue[]>(
     props.initIndicators
   );
-  const [searchFilter, setSearchFilter] = useState("");
 
   if (loading) return <React.Fragment />;
   if (error) return <p>Error</p>;
@@ -111,45 +115,83 @@ export default function IndicatorDialog(props: IndicatorDialogProps) {
               <CloseIcon />
             </IconButton>
           </Box>
-          <SearchInput />
+          <SearchInput
+            placeholder="Search"
+            searchTerm={searchTerm}
+            onSetSearchTerm={(searchTerm) => setSearchTerm(searchTerm)}
+          />
         </DialogTitle>
-        <DialogContent dividers>
-          <List className={classes.indicatorList}>
-            {data.indicators.map((indicator: any) => (
-              <ListItem
-                key={indicator.key}
-                onClick={() => onSelect(indicator)}
-                button
-              >
-                <ListItemIcon>
-                  <Checkbox
-                    checked={selection
-                      .map((s) => s.key)
-                      .includes(indicator.key)}
-                    disableRipple
-                  />
-                </ListItemIcon>
-                <ListItemText primary={indicator.name} />
-                <InfoButton
-                  title={indicator.name}
-                  description={indicator.description}
-                  url={indicator.investopediaUrl}
-                />
-              </ListItem>
-            ))}
-          </List>
+        <DialogContent className={classes.dialogContent} dividers>
+          {/* TODO: Make box height responsive */}
+          <Box height="73vh">
+            <List className={classes.indicatorList}>
+              {data.indicators
+                .filter((indicator: any) => {
+                  if (searchTerm) {
+                    return (
+                      indicator.name
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase()) ||
+                      indicator.key
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase())
+                    );
+                  } else {
+                    return true;
+                  }
+                })
+                .filter((indicator: any) => {
+                  if (showSelectionOnly) {
+                    return selection.map((s) => s.key).includes(indicator.key);
+                  } else {
+                    return true;
+                  }
+                })
+                .map((indicator: any) => (
+                  <ListItem
+                    key={indicator.key}
+                    onClick={() => onSelect(indicator)}
+                    button
+                  >
+                    <ListItemIcon>
+                      <Checkbox
+                        checked={selection
+                          .map((s) => s.key)
+                          .includes(indicator.key)}
+                        disableRipple
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary={indicator.name} />
+                    <InfoButton
+                      title={indicator.name}
+                      description={indicator.description}
+                      url={indicator.investopediaUrl}
+                    />
+                  </ListItem>
+                ))}
+            </List>
+          </Box>
         </DialogContent>
         <DialogActions>
-          <Button
-            autoFocus
-            onClick={() => {
-              props.onSelectIndicators(selection);
-              onClose();
-            }}
-            color="primary"
-          >
-            Save Selection
-          </Button>
+          <Box width="100%" display="flex" justifyContent="space-between">
+            <Box display="flex" alignItems="center">
+              <Checkbox
+                checked={showSelectionOnly}
+                onClick={() => setShowSelectionOnly(!showSelectionOnly)}
+              />
+              <Typography>Only show selection</Typography>
+            </Box>
+            <Button
+              autoFocus
+              onClick={() => {
+                props.onSelectIndicators(selection);
+                onClose();
+              }}
+              color="primary"
+            >
+              Save Selection
+            </Button>
+          </Box>
         </DialogActions>
       </Dialog>
     </div>
