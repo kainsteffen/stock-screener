@@ -1,4 +1,4 @@
-import { gql, useQuery, useReactiveVar } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import {
   Box,
   Button,
@@ -14,10 +14,10 @@ import { Skeleton } from "@material-ui/lab";
 import numeral from "numeral";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import FollowButton from "../../components/follow-button/follow-button";
 import Logo from "../../components/logo/logo";
 import PercentageChangeLabel from "../../components/percentage-change-label/percentage-change-label";
 import { TimeSeriesPreviewChart } from "../../components/time-series-preview-chart/time-series-preview-chart";
-import { favoritesVar, toggleFavoritedSymbol } from "../../gql/local-state";
 import { COMPANY, FUNDAMENTALS, QUOTE } from "../../gql/queries/shared";
 import { parseIndicatorValue } from "../../helpers/numbers";
 
@@ -46,8 +46,6 @@ enum TimeRange {
 export default function SymbolDetail() {
   const classes = useStyles();
   const { id: symbol } = useParams<{ id: string }>();
-  const favorites = useReactiveVar(favoritesVar);
-  const isFavorited = favorites.includes(symbol);
   const [selectedRange, setSelectedRange] = useState("1d");
 
   const {
@@ -123,16 +121,7 @@ export default function SymbolDetail() {
                 </Box>
                 <Box width="20px" />
               </Box>
-              <Box display="flex" alignItems="center">
-                <Button
-                  onClick={() => toggleFavoritedSymbol(symbol)}
-                  variant={isFavorited ? "contained" : "outlined"}
-                  size="large"
-                  color="primary"
-                >
-                  {isFavorited ? "Followed" : "Follow"}
-                </Button>
-              </Box>
+              <FollowButton symbol={symbol} />
             </Box>
             <Box
               display="flex"
@@ -226,24 +215,26 @@ export default function SymbolDetail() {
                   {[
                     {
                       name: "52 week range",
-                      value: fundamentalsData.fundamentals.fiftyTwoWeekRange,
+                      value:
+                        fundamentalsData.fundamentals.fiftyTwoWeekRange ?? "-",
                     },
                     {
                       name: "Market Cap",
                       value: `$${parseIndicatorValue(
-                        fundamentalsData.fundamentals.marketCap,
+                        fundamentalsData.fundamentals.marketCap ?? "-",
                         "bigNumber"
                       )}`,
                     },
                     {
                       name: "P/E",
-                      value: fundamentalsData.fundamentals.trailingPe,
+                      value: fundamentalsData.fundamentals.trailingPe ?? "-",
                     },
                     {
                       name: "Dividend Yield",
-                      value: numeral(
-                        fundamentalsData.fundamentals.forwardDividendYield
-                      ).format("0.00%"),
+                      value:
+                        numeral(
+                          fundamentalsData.fundamentals.forwardDividendYield
+                        ).format("0.00%") ?? "-",
                     },
                   ].map((item) => (
                     <Grid item xs={6} md={4} lg={2}>
@@ -260,19 +251,19 @@ export default function SymbolDetail() {
                   {[
                     {
                       name: "CEO",
-                      value: companyData.company.CEO,
+                      value: companyData.company.CEO ?? "-",
                     },
                     {
                       name: "Country",
-                      value: companyData.company.country,
+                      value: companyData.company.country ?? "-",
                     },
                     {
                       name: "Sector",
-                      value: companyData.company.sector,
+                      value: companyData.company.sector ?? "-",
                     },
                     {
                       name: "Employees",
-                      value: companyData.company.employees,
+                      value: companyData.company.employees ?? "-",
                     },
                   ].map((item) => (
                     <Grid item xs={6} md={4} lg={2}>
