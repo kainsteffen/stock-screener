@@ -94,8 +94,8 @@ export default function SymbolTable(props: SymbolTableProps) {
     }).then((results) => {
       if (results.data.strategyResults.length > 0) {
         props.onSetCursor(limit);
-        setFetching(false);
       }
+      setFetching(false);
     });
   };
 

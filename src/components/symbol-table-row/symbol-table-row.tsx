@@ -11,6 +11,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import Skeleton from "@material-ui/lab/Skeleton";
 import numeral from "numeral";
 import React from "react";
+import { useHistory } from "react-router-dom";
 import {
   favoritesVar,
   IndicatorValue,
@@ -36,6 +37,7 @@ export interface SymbolTableRow {
 
 export default function SymbolTableRow(props: SymbolTableRow) {
   const classes = useStyles();
+  const history = useHistory();
   const favorites = useReactiveVar(favoritesVar);
 
   const { data, loading, error } = useQuery(QUOTE, {
@@ -45,9 +47,18 @@ export default function SymbolTableRow(props: SymbolTableRow) {
   });
 
   return (
-    <TableRow key={props.symbol.name}>
+    <TableRow
+      key={props.symbol.name}
+      onClick={() => history.replace(`/stocks/${props.symbol.symbol}`)}
+      hover
+    >
       <TableCell component="th" scope="row">
-        <IconButton onClick={() => toggleFavoritedSymbol(props.symbol.symbol)}>
+        <IconButton
+          onClick={(event: any) => {
+            event.stopPropagation();
+            toggleFavoritedSymbol(props.symbol.symbol);
+          }}
+        >
           <FavoriteIcon
             className={
               favorites.includes(props.symbol.symbol) ? classes.likeButton : ""
