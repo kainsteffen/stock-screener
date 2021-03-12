@@ -2,7 +2,6 @@ import { gql, useQuery } from "@apollo/client";
 import {
   Box,
   CircularProgress,
-  Container,
   makeStyles,
   Paper,
   Table,
@@ -100,7 +99,7 @@ export default function SymbolTable(props: SymbolTableProps) {
   };
 
   return (
-    <Container>
+    <React.Fragment>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <colgroup>
@@ -172,6 +171,6 @@ export default function SymbolTable(props: SymbolTableProps) {
           </div>
         </Box>
       </div>
-    </Container>
+    </React.Fragment>
   );
 }
