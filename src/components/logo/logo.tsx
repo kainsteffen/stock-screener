@@ -1,15 +1,16 @@
 import { useQuery } from "@apollo/client";
 import { Box, makeStyles } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { LOGO } from "../../gql/queries/shared";
 
 const useStyles = makeStyles({
   logo: {
     objectFit: "contain",
-    width: "40px",
-    height: "40px",
+    width: "100%",
+    height: "100%",
+    // width: "40px",
+    // height: "40px",
     borderRadius: "100%",
     backgroundColor: "white",
   },
@@ -32,17 +33,11 @@ export default function Logo(props: LogoPros) {
   });
 
   useEffect(() => {
-    const checkUrl = async () => {
-      try {
-        await Axios.get(data.logo.url);
-        setImageValid(true);
-      } catch (e) {
-        setImageValid(false);
-      }
-    };
-
     if (data?.logo?.url) {
-      checkUrl();
+      const img = new Image();
+      img.onload = () => setImageValid(true);
+      img.onerror = () => setImageValid(false);
+      img.src = data.logo.url;
     }
   });
 
