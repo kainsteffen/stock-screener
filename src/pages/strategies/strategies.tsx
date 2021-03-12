@@ -27,6 +27,10 @@ const useStyles = makeStyles((theme) =>
       color: "grey",
       border: "1px dashed",
       borderRadius: "8px",
+      transition: "all 0.3s ease-in-out",
+      "&:hover": {
+        color: "white",
+      },
     },
   })
 );
@@ -44,17 +48,19 @@ export default function Strategies() {
     <Container>
       <Grid container spacing={3}>
         <Grid item xs={12} md={8} lg={3}>
-          <ButtonBase className={classes.addNewStrategy} onClick={onAdd}>
-            <Box
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              padding={2}
-            >
-              <AddIcon color="disabled" />
-              <Typography>Add new Strategy</Typography>
-            </Box>
-          </ButtonBase>
+          <Box height="100%">
+            <ButtonBase className={classes.addNewStrategy} onClick={onAdd}>
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                padding={2}
+              >
+                <AddIcon />
+                <Typography>Add new Strategy</Typography>
+              </Box>
+            </ButtonBase>
+          </Box>
         </Grid>
         {strategies.ids.sort().map((id) => {
           return (
