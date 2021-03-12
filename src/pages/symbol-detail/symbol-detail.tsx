@@ -14,20 +14,14 @@ import { Skeleton } from "@material-ui/lab";
 import numeral from "numeral";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import Logo from "../../components/logo/logo";
 import PercentageChangeLabel from "../../components/percentage-change-label/percentage-change-label";
 import { TimeSeriesPreviewChart } from "../../components/time-series-preview-chart/time-series-preview-chart";
 import { favoritesVar, toggleFavoritedSymbol } from "../../gql/local-state";
-import { COMPANY, FUNDAMENTALS, LOGO, QUOTE } from "../../gql/queries/shared";
+import { COMPANY, FUNDAMENTALS, QUOTE } from "../../gql/queries/shared";
 import { parseIndicatorValue } from "../../helpers/numbers";
 
 const useStyles = makeStyles({
-  logo: {
-    objectFit: "contain",
-    width: 75,
-    height: 75,
-    borderRadius: "50%",
-    backgroundColor: "white",
-  },
   liked: {
     color: "#F50057",
   },
@@ -77,15 +71,6 @@ export default function SymbolDetail() {
     },
   });
 
-  const { data: logoData, loading: logoLoading, error: logoError } = useQuery(
-    LOGO,
-    {
-      variables: {
-        symbol: symbol,
-      },
-    }
-  );
-
   const {
     data: companyData,
     loading: companyLoading,
@@ -118,16 +103,8 @@ export default function SymbolDetail() {
               paddingBottom={4}
             >
               <Box display="flex" alignItems="center">
-                <Box width={75} height={75} marginRight={2}>
-                  {logoLoading || logoError ? (
-                    <Skeleton variant="circle" height="100%"></Skeleton>
-                  ) : (
-                    <img
-                      src={logoData.logo.url}
-                      className={classes.logo}
-                      alt="logo"
-                    />
-                  )}
+                <Box marginRight={2}>
+                  <Logo symbol={symbol} width={75} height={75} />
                 </Box>
                 <Box display="flex" flexDirection="column">
                   {quoteLoading || quoteError ? (

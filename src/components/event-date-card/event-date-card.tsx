@@ -10,6 +10,7 @@ import {
 import { Skeleton } from "@material-ui/lab";
 import React from "react";
 import { KEY_STATS, LOGO } from "../../gql/queries/shared";
+import Logo from "../logo/logo";
 
 const useStyles = makeStyles({
   logoImg: {
@@ -62,11 +63,7 @@ export default function EventCard(props: EventDateCardProps) {
             <CardContent>
               <Box display="flex" alignItems="center">
                 <Box marginRight="10px">
-                  <img
-                    src={logoData.logo.url}
-                    className={classes.logoImg}
-                    alt="logo"
-                  />
+                  <Logo symbol={props.symbol} width={40} height={40} />
                 </Box>
                 <Box display="flex" flexDirection="column">
                   <Typography variant="caption" color="textSecondary">
@@ -96,11 +93,7 @@ export default function EventCard(props: EventDateCardProps) {
             <CardContent>
               <Box display="flex" alignItems="center">
                 <Box marginRight="10px">
-                  <img
-                    src={logoData.logo.url}
-                    className={classes.logoImg}
-                    alt="logo"
-                  />
+                  <Logo symbol={props.symbol} width={40} height={40} />
                 </Box>
                 <Box display="flex" flexDirection="column">
                   <Typography variant="caption" color="textSecondary">
