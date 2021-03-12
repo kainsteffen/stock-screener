@@ -22,9 +22,11 @@ import { parseIndicatorValue } from "../../helpers/numbers";
 
 const useStyles = makeStyles({
   logo: {
+    objectFit: "contain",
     width: 75,
     height: 75,
     borderRadius: "50%",
+    backgroundColor: "white",
   },
   liked: {
     color: "#F50057",

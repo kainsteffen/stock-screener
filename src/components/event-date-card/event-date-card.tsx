@@ -13,9 +13,11 @@ import { KEY_STATS, LOGO } from "../../gql/queries/shared";
 
 const useStyles = makeStyles({
   logoImg: {
+    objectFit: "contain",
     width: "40px",
     height: "40px",
     borderRadius: "100%",
+    backgroundColor: "white",
   },
 });
 

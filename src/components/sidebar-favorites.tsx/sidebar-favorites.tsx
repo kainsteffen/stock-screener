@@ -18,9 +18,11 @@ import PercentageChangeLabel from "../percentage-change-label/percentage-change-
 
 const useStyles = makeStyles({
   logo: {
+    objectFit: "contain",
     width: 30,
     height: 30,
     borderRadius: 100,
+    backgroundColor: "white",
   },
   placeHolder: {
     backgroundColor: "grey",
