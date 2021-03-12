@@ -237,7 +237,7 @@ function App() {
                   />
                   <Route exact path="/discover" component={Discover} />
                   <Route exact path="/favorites" component={Favorites} />
-                  <Route exact path="/stocks/:id" component={SymbolDetail} />
+                  <Route exact path="/symbols/:id" component={SymbolDetail} />
                 </Switch>
               </main>
             </Box>

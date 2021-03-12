@@ -37,7 +37,7 @@ function SidebarFavoriteEntry(props: SidebarFavoriteEntryProps) {
   });
 
   const navigateTo = (path: string) => {
-    history.replace(`/stocks/${path}`);
+    history.replace(`/symbols/${path}`);
   };
 
   if (loading) return <React.Fragment />;

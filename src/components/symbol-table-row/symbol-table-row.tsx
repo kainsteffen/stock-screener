@@ -49,7 +49,7 @@ export default function SymbolTableRow(props: SymbolTableRow) {
   return (
     <TableRow
       key={props.symbol.name}
-      onClick={() => history.replace(`/stocks/${props.symbol.symbol}`)}
+      onClick={() => history.replace(`/symbols/${props.symbol.symbol}`)}
       hover
     >
       <TableCell component="th" scope="row">
