@@ -54,6 +54,45 @@ export const LOGO = gql`
   }
 `;
 
+export const KEY_STATS = gql`
+  query getKeyStats($symbol: String!) {
+    keyStats(symbol: $symbol) {
+      companyName
+      marketcap
+      week52high
+      week52low
+      week52highSplitAdjustOnly
+      week52lowSplitAdjustOnly
+      week52change
+      sharesOutstanding
+      float
+      avg10Volume
+      avg30Volume
+      day200MovingAvg
+      day50MovingAvg
+      employees
+      ttmEPS
+      ttmDividendRate
+      dividendYield
+      nextDividendDate
+      exDividendDate
+      nextEarningsDate
+      peRatio
+      beta
+      maxChangePercent
+      year5ChangePercent
+      year2ChangePercent
+      year1ChangePercent
+      ytdChangePercent
+      month6ChangePercent
+      month3ChangePercent
+      month1ChangePercent
+      day30ChangePercent
+      day5ChangePercent
+    }
+  }
+`;
+
 export const FUNDAMENTALS = gql`
   query getCompany($symbol: String!) {
     fundamentals(symbol: $symbol) {
