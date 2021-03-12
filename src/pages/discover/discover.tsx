@@ -5,14 +5,7 @@ import SymbolTable from "../../components/symbol-table/symbol-table";
 import TabButtonBar from "../../components/tab-button-bar/tab-button-bar";
 import { strategiesVar } from "../../gql/local-state";
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-  likeButton: {
-    color: "#F50057",
-  },
-});
+const useStyles = makeStyles({});
 
 export default function Discover() {
   const classes = useStyles();
