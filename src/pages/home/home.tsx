@@ -26,8 +26,6 @@ export default function Home() {
   //       });
   //   }
   // );
-  console.log(favorites);
-  const symbols = ["AAPL", "MSFT", "AMZN", "FB", "GOOG", "TSLA"];
 
   return (
     <Container>
@@ -37,7 +35,7 @@ export default function Home() {
         </Typography>
         <Grid container spacing={3} direction="row">
           {favorites.map((symbol) => (
-            <Grid key={symbol} item xs={6} md={8} lg={1}>
+            <Grid key={symbol} item xs={12} sm={6} md={4} lg={3} xl={2}>
               <TrendingStockCard symbol={symbol} />
             </Grid>
           ))}
@@ -59,7 +57,7 @@ export default function Home() {
         </Typography>
         <Grid container spacing={3} direction="row">
           {favorites.map((symbol) => (
-            <Grid key={symbol} item xs={6} md={8} lg={3}>
+            <Grid key={symbol} item xs={12} sm={6} md={4} lg={3} xl={3}>
               <MarketNewsCard symbol={symbol} />
             </Grid>
           ))}
