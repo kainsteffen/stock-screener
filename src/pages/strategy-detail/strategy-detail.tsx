@@ -309,7 +309,12 @@ export default function StrategyDetail(props: StrategyDetailProps) {
               })}
             {strategy.indicators.length === 0 && (
               <ListItem>
-                <Box display="flex" justifyContent="center" width="100%">
+                <Box
+                  display="flex"
+                  justifyContent="center"
+                  width="100%"
+                  paddingY={10}
+                >
                   <Typography variant="h6" color="textSecondary">
                     No indicators selected
                   </Typography>
