@@ -6,7 +6,6 @@ import {
   CardActionArea,
   CardActions,
   CardContent,
-  IconButton,
   makeStyles,
   Typography,
 } from "@material-ui/core";
@@ -18,11 +17,7 @@ const useStyles = makeStyles({
   dailyChange: {
     color: "#41CE3E",
   },
-  description: {
-    WebkitLineClamp: 3,
-    maxLines: 3,
-    lineClamp: 3,
-    // whiteSpace: "nowrap",
+  title: {
     overflow: "hidden",
     textOverflow: "ellipsis",
   },
@@ -44,10 +39,11 @@ export default function StrategyCard(props: StrategyCardProps) {
       <CardActionArea href={`/strategies/${props.strategyId}`}>
         <CardContent className={classes.fillParent}>
           <Box display="flex" justifyContent="space-between">
-            <Typography variant="h6">{strategy.name}</Typography>
-            <IconButton size="small" onClick={() => {}}>
-              <EditIcon />
-            </IconButton>
+            <Typography className={classes.title} variant="h6">
+              {strategy.name}
+            </Typography>
+
+            <EditIcon />
           </Box>
           {/* TODO Make line count limit responsive */}
           <Box
