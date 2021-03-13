@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import {
   Box,
   Card,
+  CardActionArea,
   CardContent,
   Grid,
   makeStyles,
@@ -60,25 +61,27 @@ export default function EventCard(props: EventDateCardProps) {
       return (
         <Grid item xs={6} md={4} lg={3}>
           <Card>
-            <CardContent>
-              <Box display="flex" alignItems="center" marginBottom={2}>
-                <Box marginRight="10px">
-                  <Logo symbol={props.symbol} width={40} height={40} />
+            <CardActionArea href={`symbols/${props.symbol}`}>
+              <CardContent>
+                <Box display="flex" alignItems="center" marginBottom={2}>
+                  <Box marginRight="10px">
+                    <Logo symbol={props.symbol} width={40} height={40} />
+                  </Box>
+                  <Box display="flex" flexDirection="column">
+                    <Typography variant="caption" color="textSecondary">
+                      {props.symbol}
+                    </Typography>
+                    <Typography>{"Dividends"}</Typography>
+                  </Box>
                 </Box>
-                <Box display="flex" flexDirection="column">
-                  <Typography variant="caption" color="textSecondary">
-                    {props.symbol}
-                  </Typography>
-                  <Typography>{"Dividends"}</Typography>
-                </Box>
-              </Box>
-              <Typography variant="h5">
-                {format(
-                  new Date(keyStatsData.keyStats.nextDividendDate),
-                  "MMM do"
-                )}
-              </Typography>
-            </CardContent>
+                <Typography variant="h5">
+                  {format(
+                    new Date(keyStatsData.keyStats.nextDividendDate),
+                    "MMM do"
+                  )}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
           </Card>
         </Grid>
       );
@@ -97,32 +100,34 @@ export default function EventCard(props: EventDateCardProps) {
         <Grid item xs={6} md={4} lg={3}>
           <Skeleton
             style={{ borderRadius: "10px" }}
-            height={130}
+            height={125}
             variant="rect"
           />
         </Grid>
       ) : (
         <Grid item xs={6} md={4} lg={3}>
           <Card>
-            <CardContent>
-              <Box display="flex" alignItems="center" marginBottom={2}>
-                <Box marginRight="10px">
-                  <Logo symbol={props.symbol} width={40} height={40} />
+            <CardActionArea href={`symbols/${props.symbol}`}>
+              <CardContent>
+                <Box display="flex" alignItems="center" marginBottom={2}>
+                  <Box marginRight="10px">
+                    <Logo symbol={props.symbol} width={40} height={40} />
+                  </Box>
+                  <Box display="flex" flexDirection="column">
+                    <Typography variant="caption" color="textSecondary">
+                      {props.symbol}
+                    </Typography>
+                    <Typography>{"Earnings Call"}</Typography>
+                  </Box>
                 </Box>
-                <Box display="flex" flexDirection="column">
-                  <Typography variant="caption" color="textSecondary">
-                    {props.symbol}
-                  </Typography>
-                  <Typography>{"Earnings Call"}</Typography>
-                </Box>
-              </Box>
-              <Typography variant="h5">
-                {format(
-                  new Date(keyStatsData.keyStats.nextEarningsDate),
-                  "MMM do"
-                )}
-              </Typography>
-            </CardContent>
+                <Typography variant="h5">
+                  {format(
+                    new Date(keyStatsData.keyStats.nextEarningsDate),
+                    "MMM do"
+                  )}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
           </Card>
         </Grid>
       )}
@@ -130,7 +135,7 @@ export default function EventCard(props: EventDateCardProps) {
         <Grid item xs={6} md={4} lg={3}>
           <Skeleton
             style={{ borderRadius: "10px" }}
-            height={130}
+            height={125}
             variant="rect"
           />
         </Grid>

@@ -71,7 +71,7 @@ export default function MarketNewsCard(props: MarketNewsCardProps) {
         />
       ) : (
         <Card>
-          <CardActionArea href="stock">
+          <CardActionArea href={`/symbols/${props.symbol}`}>
             <CardMedia
               className={classes.media}
               image={data.news[0].image}
@@ -109,16 +109,15 @@ export default function MarketNewsCard(props: MarketNewsCardProps) {
             </CardContent>
           </CardActionArea>
           <CardActions>
-            <Button
-              onClick={() => openLink(data.news[0].url)}
-              size="small"
-              color="primary"
-            >
-              Read
-            </Button>
-            <Button size="small" color="primary">
-              Dismiss
-            </Button>
+            <Box width="100%" display="flex" justifyContent="flex-end">
+              <Button
+                onClick={() => openLink(data.news[0].url)}
+                size="small"
+                color="primary"
+              >
+                Read
+              </Button>
+            </Box>
           </CardActions>
         </Card>
       )}
