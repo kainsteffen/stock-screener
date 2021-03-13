@@ -6,24 +6,19 @@ import {
   createMuiTheme,
   createStyles,
   CssBaseline,
-  Divider,
-  Drawer,
   fade,
   IconButton,
   makeStyles,
   Theme,
   ThemeProvider,
-  Typography,
 } from "@material-ui/core";
-import AppleIcon from "@material-ui/icons/Apple";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import SettingsIcon from "@material-ui/icons/Settings";
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
+import CustomDrawer from "./components/custom-drawer/custom-drawer";
 import SearchInput from "./components/search-input/search-input";
-import SidebarFavorites from "./components/sidebar-favorites.tsx/sidebar-favorites";
-import SidebarNav from "./components/sidebar-nav/sidebar-nav";
 import { cache, localTypeDefs } from "./gql/cache";
 import Discover from "./pages/discover/discover";
 import Favorites from "./pages/favorites/favorites";
@@ -31,8 +26,6 @@ import Home from "./pages/home/home";
 import Strategies from "./pages/strategies/strategies";
 import StrategyDetail from "./pages/strategy-detail/strategy-detail";
 import SymbolDetail from "./pages/symbol-detail/symbol-detail";
-
-const drawerWidth = 240;
 
 declare module "@material-ui/core/styles/createMuiTheme" {
   interface Theme {
@@ -117,14 +110,6 @@ const useStyles = makeStyles((theme: Theme) =>
     searchInputContainer: {
       width: "60%",
     },
-    drawer: {
-      width: drawerWidth,
-    },
-    drawerPaper: {
-      whiteSpace: "nowrap",
-      width: drawerWidth,
-    },
-    drawerContainer: {},
     content: {
       width: "100%",
       paddingTop: theme.spacing(4),
@@ -164,40 +149,7 @@ function App() {
         <Router>
           <div className={classes.root}>
             <CssBaseline />
-            <Drawer
-              className={classes.drawer}
-              variant="permanent"
-              open={true}
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-            >
-              {/* <Toolbar /> */}
-              <div className={classes.drawerContainer}>
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  marginLeft={2}
-                  paddingY={1}
-                >
-                  <IconButton
-                    edge="start"
-                    color="inherit"
-                    aria-label="open drawer"
-                  >
-                    <AppleIcon />
-                  </IconButton>
-                  <Typography variant="h6" noWrap className={classes.title}>
-                    <a href="/" className={classes.link}>
-                      StockBook
-                    </a>
-                  </Typography>
-                </Box>
-                <SidebarNav />
-                <Divider />
-                <SidebarFavorites />
-              </div>
-            </Drawer>
+            <CustomDrawer />
             <Box width="100%">
               <Container>
                 <Box display="flex" alignItems="center" paddingY="10px">
