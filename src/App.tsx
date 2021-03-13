@@ -2,6 +2,7 @@ import { ApolloClient, ApolloProvider } from "@apollo/client";
 import {
   Badge,
   Box,
+  Container,
   createMuiTheme,
   createStyles,
   CssBaseline,
@@ -197,30 +198,27 @@ function App() {
                 <SidebarFavorites />
               </div>
             </Drawer>
-            <Box display="flex" flexDirection="column" width="100%">
-              <Box
-                display="flex"
-                alignItems="center"
-                paddingX="20px"
-                paddingY="10px"
-              >
-                <div className={classes.searchInputContainer}>
-                  <SearchInput
-                    placeholder="Search stocks, indicators or strategies"
-                    searchTerm=""
-                    onSetSearchTerm={(searchTerm) => {}}
-                  />
-                </div>
-                <Box flexGrow={1}></Box>
-                <IconButton color="inherit">
-                  <Badge badgeContent={4} color="secondary">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-                <IconButton color="inherit">
-                  <SettingsIcon />
-                </IconButton>
-              </Box>
+            <Box width="100%">
+              <Container>
+                <Box display="flex" alignItems="center" paddingY="10px">
+                  <div className={classes.searchInputContainer}>
+                    <SearchInput
+                      placeholder="Search stocks, indicators or strategies"
+                      searchTerm=""
+                      onSetSearchTerm={(searchTerm) => {}}
+                    />
+                  </div>
+                  <Box flexGrow={1}></Box>
+                  <IconButton color="inherit">
+                    <Badge badgeContent={4} color="secondary">
+                      <NotificationsIcon />
+                    </Badge>
+                  </IconButton>
+                  <IconButton color="inherit">
+                    <SettingsIcon />
+                  </IconButton>
+                </Box>
+              </Container>
               <main className={classes.content}>
                 <Switch>
                   <Route exact path="/" component={Home} />
