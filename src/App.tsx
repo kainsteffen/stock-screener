@@ -8,7 +8,7 @@ import {
   IconButton,
   makeStyles,
   Theme,
-  ThemeProvider,
+  ThemeProvider
 } from "@material-ui/core";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -16,6 +16,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import CustomDrawer from "./components/custom-drawer/custom-drawer";
+import CustomTabBar from "./components/custom-tab-bar/custom-tab-bar";
 import SearchInput from "./components/search-input/search-input";
 import { cache, localTypeDefs } from "./gql/cache";
 import Discover from "./pages/discover/discover";
@@ -123,6 +124,7 @@ function App() {
                 </Switch>
               </main>
             </Box>
+            <CustomTabBar />
           </div>
         </Router>
       </ThemeProvider>
