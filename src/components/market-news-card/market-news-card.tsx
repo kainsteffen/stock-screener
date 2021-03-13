@@ -10,6 +10,7 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import { format } from "date-fns";
 import React from "react";
 
@@ -60,52 +61,67 @@ export default function MarketNewsCard(props: MarketNewsCardProps) {
     if (newWindow) newWindow.opener = null;
   };
 
-  if (loading) return <p>Loading</p>;
-  if (error) return <p>Error</p>;
-
   return (
-    <Card>
-      <CardActionArea href="stock">
-        <CardMedia
-          className={classes.media}
-          image={data.news[0].image}
-          title="Contemplative Reptile"
+    <React.Fragment>
+      {loading || error ? (
+        <Skeleton
+          style={{ borderRadius: "10px" }}
+          height={342}
+          variant="rect"
         />
-        <CardContent>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            marginBottom={1}
-          >
-            <Typography variant="body2" color="textSecondary" display="inline">
-              {props.symbol}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" display="inline">
-              {format(new Date(data.news[0].datetime), "MM/dd/yyyy")}
-            </Typography>
-          </Box>
-          <Typography
-            variant="body1"
-            color="textSecondary"
-            className={classes.maxLine}
-          >
-            {data.news[0].summary}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button
-          onClick={() => openLink(data.news[0].url)}
-          size="small"
-          color="primary"
-        >
-          Read
-        </Button>
-        <Button size="small" color="primary">
-          Dismiss
-        </Button>
-      </CardActions>
-    </Card>
+      ) : (
+        <Card>
+          <CardActionArea href="stock">
+            <CardMedia
+              className={classes.media}
+              image={data.news[0].image}
+              title="Contemplative Reptile"
+            />
+            <CardContent>
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+                marginBottom={1}
+              >
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  display="inline"
+                >
+                  {props.symbol}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  display="inline"
+                >
+                  {format(new Date(data.news[0].datetime), "MM/dd/yyyy")}
+                </Typography>
+              </Box>
+              <Typography
+                variant="body1"
+                color="textSecondary"
+                className={classes.maxLine}
+              >
+                {data.news[0].summary}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <Button
+              onClick={() => openLink(data.news[0].url)}
+              size="small"
+              color="primary"
+            >
+              Read
+            </Button>
+            <Button size="small" color="primary">
+              Dismiss
+            </Button>
+          </CardActions>
+        </Card>
+      )}
+    </React.Fragment>
   );
 }

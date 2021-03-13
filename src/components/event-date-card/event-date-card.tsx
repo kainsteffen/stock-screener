@@ -49,6 +49,42 @@ export default function EventCard(props: EventDateCardProps) {
       },
     }
   );
+
+  const renderDividendDate = () => {
+    if (
+      keyStatsData.keyStats.nextDividendDate == null ||
+      keyStatsData.keyStats.nextDividendDate == 0
+    ) {
+      return <div />;
+    } else {
+      return (
+        <Grid item xs={6} md={4} lg={3}>
+          <Card>
+            <CardContent>
+              <Box display="flex" alignItems="center" marginBottom={2}>
+                <Box marginRight="10px">
+                  <Logo symbol={props.symbol} width={40} height={40} />
+                </Box>
+                <Box display="flex" flexDirection="column">
+                  <Typography variant="caption" color="textSecondary">
+                    {props.symbol}
+                  </Typography>
+                  <Typography>{"Dividends"}</Typography>
+                </Box>
+              </Box>
+              <Typography variant="h5">
+                {format(
+                  new Date(keyStatsData.keyStats.nextDividendDate),
+                  "MMM do"
+                )}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      );
+    }
+  };
+
   // TODO: Make this more scalable
   return (
     <React.Fragment>
@@ -58,7 +94,13 @@ export default function EventCard(props: EventDateCardProps) {
       logoError ||
       keyStatsData.keyStats.nextEarningsDate == null ||
       keyStatsData.keyStats.nextEarningsDate == 0 ? (
-        <Skeleton height={200} variant="rect" />
+        <Grid item xs={6} md={4} lg={3}>
+          <Skeleton
+            style={{ borderRadius: "10px" }}
+            height={130}
+            variant="rect"
+          />
+        </Grid>
       ) : (
         <Grid item xs={6} md={4} lg={3}>
           <Card>
@@ -84,37 +126,16 @@ export default function EventCard(props: EventDateCardProps) {
           </Card>
         </Grid>
       )}
-      {keyStatsLoading ||
-      keyStatsError ||
-      logoLoading ||
-      logoError ||
-      keyStatsData.keyStats.nextDividendDate == null ||
-      keyStatsData.keyStats.nextDividendDate == 0 ? (
-        <Skeleton height={200} variant="rect" />
-      ) : (
+      {keyStatsLoading || keyStatsError || logoLoading || logoError ? (
         <Grid item xs={6} md={4} lg={3}>
-          <Card>
-            <CardContent>
-              <Box display="flex" alignItems="center" marginBottom={2}>
-                <Box marginRight="10px">
-                  <Logo symbol={props.symbol} width={40} height={40} />
-                </Box>
-                <Box display="flex" flexDirection="column">
-                  <Typography variant="caption" color="textSecondary">
-                    {props.symbol}
-                  </Typography>
-                  <Typography>{"Dividends"}</Typography>
-                </Box>
-              </Box>
-              <Typography variant="h5">
-                {format(
-                  new Date(keyStatsData.keyStats.nextDividendDate),
-                  "MMM do"
-                )}
-              </Typography>
-            </CardContent>
-          </Card>
+          <Skeleton
+            style={{ borderRadius: "10px" }}
+            height={130}
+            variant="rect"
+          />
         </Grid>
+      ) : (
+        renderDividendDate()
       )}
     </React.Fragment>
   );

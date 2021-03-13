@@ -36,12 +36,11 @@ export default function Home() {
           Trending
         </Typography>
         <Grid container spacing={3} direction="row">
-          {symbols &&
-            symbols.map((symbol) => (
-              <Grid key={symbol} item xs={6} md={8} lg={2}>
-                <TrendingStockCard symbol={symbol} />
-              </Grid>
-            ))}
+          {favorites.map((symbol) => (
+            <Grid key={symbol} item xs={6} md={8} lg={1}>
+              <TrendingStockCard symbol={symbol} />
+            </Grid>
+          ))}
         </Grid>
       </Box>
       <Box marginBottom={3}>
@@ -50,9 +49,7 @@ export default function Home() {
         </Typography>
         <Grid container spacing={3} direction="row">
           {favorites.map((favorite) => (
-            <React.Fragment>
-              <EventCard symbol={favorite} eventType="earnings" />
-            </React.Fragment>
+            <EventCard key={favorite} symbol={favorite} eventType="earnings" />
           ))}
         </Grid>
       </Box>
@@ -61,12 +58,11 @@ export default function Home() {
           Market News
         </Typography>
         <Grid container spacing={3} direction="row">
-          {symbols &&
-            symbols.map((symbol) => (
-              <Grid key={symbol} item xs={6} md={8} lg={3}>
-                <MarketNewsCard symbol={symbol} />
-              </Grid>
-            ))}
+          {favorites.map((symbol) => (
+            <Grid key={symbol} item xs={6} md={8} lg={3}>
+              <MarketNewsCard symbol={symbol} />
+            </Grid>
+          ))}
         </Grid>
       </Box>
     </Container>
