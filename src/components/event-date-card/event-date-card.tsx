@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
+import { format } from "date-fns/esm";
 import React from "react";
 import { KEY_STATS, LOGO } from "../../gql/queries/shared";
 import Logo from "../logo/logo";
@@ -55,13 +56,14 @@ export default function EventCard(props: EventDateCardProps) {
       keyStatsError ||
       logoLoading ||
       logoError ||
-      !keyStatsData.keyStats.nextEarningsDate ? (
+      keyStatsData.keyStats.nextEarningsDate == null ||
+      keyStatsData.keyStats.nextEarningsDate == 0 ? (
         <Skeleton height={200} variant="rect" />
       ) : (
         <Grid item xs={6} md={4} lg={3}>
           <Card>
             <CardContent>
-              <Box display="flex" alignItems="center">
+              <Box display="flex" alignItems="center" marginBottom={2}>
                 <Box marginRight="10px">
                   <Logo symbol={props.symbol} width={40} height={40} />
                 </Box>
@@ -69,14 +71,15 @@ export default function EventCard(props: EventDateCardProps) {
                   <Typography variant="caption" color="textSecondary">
                     {props.symbol}
                   </Typography>
-                  <Typography>{`${keyStatsData.keyStats.companyName} Earnings`}</Typography>
+                  <Typography>{"Earnings Call"}</Typography>
                 </Box>
               </Box>
-
-              <Typography variant="caption" color="textSecondary">
-                Date
+              <Typography variant="h5">
+                {format(
+                  new Date(keyStatsData.keyStats.nextEarningsDate),
+                  "MMM do"
+                )}
               </Typography>
-              <Typography>{keyStatsData.keyStats.nextEarningsDate}</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -85,13 +88,14 @@ export default function EventCard(props: EventDateCardProps) {
       keyStatsError ||
       logoLoading ||
       logoError ||
-      !keyStatsData.keyStats.nextDividendDate ? (
+      keyStatsData.keyStats.nextDividendDate == null ||
+      keyStatsData.keyStats.nextDividendDate == 0 ? (
         <Skeleton height={200} variant="rect" />
       ) : (
         <Grid item xs={6} md={4} lg={3}>
           <Card>
             <CardContent>
-              <Box display="flex" alignItems="center">
+              <Box display="flex" alignItems="center" marginBottom={2}>
                 <Box marginRight="10px">
                   <Logo symbol={props.symbol} width={40} height={40} />
                 </Box>
@@ -99,14 +103,15 @@ export default function EventCard(props: EventDateCardProps) {
                   <Typography variant="caption" color="textSecondary">
                     {props.symbol}
                   </Typography>
-                  <Typography>{`${keyStatsData.keyStats.companyName} Earnings`}</Typography>
+                  <Typography>{"Dividends"}</Typography>
                 </Box>
               </Box>
-
-              <Typography variant="caption" color="textSecondary">
-                Date
+              <Typography variant="h5">
+                {format(
+                  new Date(keyStatsData.keyStats.nextDividendDate),
+                  "MMM do"
+                )}
               </Typography>
-              <Typography>{keyStatsData.keyStats.nextDividendDate}</Typography>
             </CardContent>
           </Card>
         </Grid>
