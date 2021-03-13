@@ -6,5 +6,7 @@ export const parseIndicatorValue = (value: any, valueType: string) => {
       return parseFloat(value);
     case "bigNumber":
       return numeral(value).format("0.0a").toUpperCase();
+    case "percentage":
+      return numeral(value).format("0.00%");
   }
 };

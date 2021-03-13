@@ -99,9 +99,55 @@ export const FUNDAMENTALS = gql`
       name
       symbol
       fiftyTwoWeekRange
-      forwardDividendYield
+      # ---------------------------
       marketCap
       trailingPE
+      forwardPE
+      pegRatio
+      priceToSales
+      priceToBook
+      eps
+      enterpriseValue
+      beta5YMonthly
+      enterPriseValueToRevenue
+      enterPriseValueToEbitda
+      avgVol3Month
+      avgVol10Day
+      avgVolume
+      sharesOutstanding
+      float
+      percentageHeldbyInsiders
+      percentageHeldByInstitutions
+      sharesShort
+      shortRatio
+      shortPercentageOfFloat
+      shortPercentageOfSharesOutstanding
+      forwardAnnualDividendRate
+      forwardAnnualDividendYield
+      trailingAnnualDividendRate
+      trailingAnnualDividendYield
+      fiveYearAverageDividendYield
+      payOutRatio
+      profitMargin
+      operatingMargin
+      returnOnAssets
+      returnOnEquity
+      revenue
+      revenuePerShare
+      quarterlyRevenueGrowth
+      grossProfit
+      ebitda
+      netIncomeAviToCommon
+      dilutedEps
+      quarterlyEarningsGrowth
+      totalCash
+      totalCashPerShare
+      totalDebt
+      totalDebtPerEquity
+      currentRatio
+      bookValuePerShare
+      operatingCashFlow
+      leveredFreeCashFlow
     }
   }
 `;

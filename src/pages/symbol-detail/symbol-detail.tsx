@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, useReactiveVar } from "@apollo/client";
 import {
   Box,
   Button,
@@ -15,17 +15,16 @@ import numeral from "numeral";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import FollowButton from "../../components/follow-button/follow-button";
+import { InfoButton } from "../../components/info-button/info-button";
 import Logo from "../../components/logo/logo";
 import PercentageChangeLabel from "../../components/percentage-change-label/percentage-change-label";
+import TabButtonBar from "../../components/tab-button-bar/tab-button-bar";
 import { TimeSeriesPreviewChart } from "../../components/time-series-preview-chart/time-series-preview-chart";
+import { strategiesVar } from "../../gql/local-state";
 import { COMPANY, FUNDAMENTALS, QUOTE } from "../../gql/queries/shared";
 import { parseIndicatorValue } from "../../helpers/numbers";
 
-const useStyles = makeStyles({
-  liked: {
-    color: "#F50057",
-  },
-});
+const useStyles = makeStyles({});
 
 const HISTORICAL_PRICES = gql`
   query getHistoricalPrices($symbol: String!, $range: String!) {
@@ -47,6 +46,9 @@ export default function SymbolDetail() {
   const classes = useStyles();
   const { id: symbol } = useParams<{ id: string }>();
   const [selectedRange, setSelectedRange] = useState("1d");
+  const strategies = useReactiveVar(strategiesVar);
+  const [selectedStrategy, setSelectedStrategy] = useState(strategies.ids[0]);
+  const indicators = strategies.entities[selectedStrategy].indicators;
 
   const {
     data: pricesData,
@@ -187,7 +189,7 @@ export default function SymbolDetail() {
                 )}
               </Box>
             </Box>
-            <Typography variant="h5">General</Typography>
+            <Typography variant="h5">About</Typography>
             <Box marginBottom={2} />
             {fundamentalsLoading ||
             fundamentalsError ||
@@ -196,14 +198,14 @@ export default function SymbolDetail() {
               <Box>
                 <Grid container spacing={5} direction="row">
                   {[1, 2, 3, 4].map((item) => (
-                    <Grid item xs={6} md={4} lg={2}>
+                    <Grid key={item} item xs={6} md={4} lg={2}>
                       <Skeleton height={50} />
                     </Grid>
                   ))}
                 </Grid>
                 <Grid container spacing={5} direction="row">
                   {[1, 2, 3, 4].map((item) => (
-                    <Grid item xs={6} md={4} lg={2}>
+                    <Grid key={item} item xs={6} md={4} lg={2}>
                       <Skeleton height={50} />
                     </Grid>
                   ))}
@@ -237,7 +239,7 @@ export default function SymbolDetail() {
                         ).format("0.00%") ?? "-",
                     },
                   ].map((item) => (
-                    <Grid item xs={6} md={4} lg={2}>
+                    <Grid key={item.name} item xs={6} md={4} lg={2}>
                       <Box>
                         <Typography variant="caption" color="textSecondary">
                           {item.name}
@@ -266,7 +268,7 @@ export default function SymbolDetail() {
                       value: companyData.company.employees ?? "-",
                     },
                   ].map((item) => (
-                    <Grid item xs={6} md={4} lg={2}>
+                    <Grid key={item.name} item xs={6} md={4} lg={2}>
                       <Box>
                         <Typography variant="caption" color="textSecondary">
                           {item.name}
@@ -280,77 +282,94 @@ export default function SymbolDetail() {
             )}
             <Box height="30px" />
             {companyLoading || companyError ? (
-              <div>busy</div>
+              <Skeleton variant="rect" height={240} />
             ) : (
               <Box>
                 <Typography>{companyData.company.description}</Typography>
               </Box>
             )}
-
-            <Box height="20px" />
-            <Typography variant="h5">Indicators</Typography>
+            <Box height="30px" />
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              flexWrap="wrap"
+            >
+              <Typography variant="h5">Indicators</Typography>
+              <Box
+                display="flex"
+                width="70%"
+                justifyContent="flex-end"
+                alignItems="center"
+              >
+                <TabButtonBar
+                  selected={selectedStrategy}
+                  onSelect={(value: any) => setSelectedStrategy(value)}
+                  options={strategies.ids.map((id: number) => ({
+                    name: strategies.entities[id].name,
+                    value: id,
+                  }))}
+                />
+              </Box>
+            </Box>
             <Box marginBottom={2} />
             <Grid container spacing={3}>
-              {[
-                {
-                  parameter: "Market Cap",
-                  value: "221.50 B",
-                  valuation: "buy",
-                },
-                { parameter: "P/E Ratio", value: "34,58", valuation: "sell" },
-                {
-                  parameter: "52-Week-High",
-                  value: "221.50 B",
-                  valuation: "buy",
-                },
-                { parameter: "EPS", value: "6,20", valuation: "buy" },
-                {
-                  parameter: "Volume",
-                  value: "24.666.039",
-                  valuation: "sell",
-                },
-                {
-                  parameter: "Beta",
-                  value: "0,82",
-                  valuation: "sell",
-                },
-                {
-                  parameter: "Dividends",
-                  value: "2,24 (1,05%)",
-                  valuation: "buy",
-                },
-                {
-                  parameter: "Ex-Dividend Date",
-                  value: "16. Feb. 2021",
-                  valuation: "sell",
-                },
-              ].map((item) => (
-                <Grid
-                  key={item.parameter}
-                  item
-                  xs={3}
-                  sm={3}
-                  md={3}
-                  lg={3}
-                  xl={3}
-                >
-                  <Box display="flex" alignItems="center">
-                    <Box
-                      width="5px"
-                      height="50px"
-                      bgcolor={item.valuation === "buy" ? "#41CE3E" : "red"}
-                      marginRight="10px"
-                      borderRadius="10px"
-                    />
-                    <Box>
-                      <Typography variant="caption" color="textSecondary">
-                        {item.parameter}
-                      </Typography>
-                      <Typography variant="h6">{item.value}</Typography>
-                    </Box>
-                  </Box>
-                </Grid>
-              ))}
+              {fundamentalsLoading || fundamentalsError ? (
+                <Skeleton />
+              ) : (
+                indicators.map((indicator) => {
+                  const indicatorValue = parseIndicatorValue(
+                    fundamentalsData.fundamentals[indicator.key],
+                    indicator.valueType
+                  );
+                  return (
+                    <Grid
+                      key={indicator.key}
+                      item
+                      xs={3}
+                      sm={3}
+                      md={3}
+                      lg={3}
+                      xl={3}
+                    >
+                      <Box
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="flex-start"
+                      >
+                        <Box display="flex" alignItems="center">
+                          <Box
+                            width="7px"
+                            height="50px"
+                            bgcolor={true ? "#41CE3E" : "red"}
+                            marginRight="10px"
+                            borderRadius="100px"
+                          />
+                          {/* <Box marginRight={2}>
+                            <CircularProgress
+                              variant="determinate"
+                              value={Math.random() * 100}
+                            />
+                          </Box> */}
+                          <Box>
+                            <Typography variant="caption" color="textSecondary">
+                              {indicator.name}
+                            </Typography>
+                            <Typography variant="h6">
+                              {indicatorValue ?? "-"}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <InfoButton
+                          title={indicator.name}
+                          description={indicator.description}
+                          url={indicator.investopediaUrl}
+                        />
+                      </Box>
+                    </Grid>
+                  );
+                })
+              )}
             </Grid>
           </Box>
         </CardContent>
