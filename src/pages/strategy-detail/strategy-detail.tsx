@@ -39,20 +39,14 @@ const useStyles = makeStyles((theme: Theme) =>
       border: "1px solid lightgrey",
       borderRadius: 10,
     },
-    table: {
-      minWidth: 650,
-    },
     textField: {
       "&:hover": { cursor: "pointer" },
       "& input": {
         fontSize: theme.typography.h5.fontSize,
       },
-      "& input:disabled": {
-        color: theme.typography.h5.color,
+      "& input.Mui-disabled": {
+        color: "white",
       },
-    },
-    textFieldDisabled: {
-      color: "red",
     },
   })
 );
