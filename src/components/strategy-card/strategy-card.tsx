@@ -1,18 +1,30 @@
 import { useReactiveVar } from "@apollo/client";
 import {
   Box,
+  Button,
   Card,
   CardActionArea,
+  CardActions,
   CardContent,
+  IconButton,
   makeStyles,
   Typography,
 } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
 import React from "react";
 import { strategiesVar } from "../../gql/local-state";
 
 const useStyles = makeStyles({
   dailyChange: {
     color: "#41CE3E",
+  },
+  description: {
+    WebkitLineClamp: 3,
+    maxLines: 3,
+    lineClamp: 3,
+    // whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
   fillParent: {
     width: "100%",
@@ -31,8 +43,19 @@ export default function StrategyCard(props: StrategyCardProps) {
     <Card>
       <CardActionArea href={`/strategies/${props.strategyId}`}>
         <CardContent className={classes.fillParent}>
-          <Typography variant="h6">{strategy.name}</Typography>
-          <Box paddingY={1}>
+          <Box display="flex" justifyContent="space-between">
+            <Typography variant="h6">{strategy.name}</Typography>
+            <IconButton size="small" onClick={() => {}}>
+              <EditIcon />
+            </IconButton>
+          </Box>
+          {/* TODO Make line count limit responsive */}
+          <Box
+            height={75}
+            marginY={1}
+            overflow="hidden"
+            textOverflow="ellipsis"
+          >
             <Typography color="textSecondary">
               {strategy.description || "No description"}
             </Typography>
@@ -41,6 +64,13 @@ export default function StrategyCard(props: StrategyCardProps) {
           <Typography>{`${strategy.indicators.length} Indicators`}</Typography>
         </CardContent>
       </CardActionArea>
+      <CardActions>
+        <Box display="flex" justifyContent="flex-end" width="100%">
+          <Button onClick={() => {}} size="small" color="primary">
+            See Results
+          </Button>
+        </Box>
+      </CardActions>
     </Card>
   );
 }
