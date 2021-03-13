@@ -12,7 +12,7 @@ export const cache: InMemoryCache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
-        strategyResults: {
+        manyFundamentals: {
           keyArgs: ["filter"],
           merge(existing = [], incoming: any[], { args }) {
             // Deduplicate by symbol

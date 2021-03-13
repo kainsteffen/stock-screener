@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 
 const STRATEGY_RESULTS = gql`
   query getStrategyResults($filter: String!, $cursor: Int!, $limit: Int!) {
-    strategyResults(filter: $filter, cursor: $cursor, limit: $limit) {
+    manyFundamentals(filter: $filter, cursor: $cursor, limit: $limit) {
       symbol
       name
       marketCap
@@ -91,7 +91,7 @@ export default function SymbolTable(props: SymbolTableProps) {
         limit: limit,
       },
     }).then((results) => {
-      if (results.data.strategyResults.length > 0) {
+      if (results.data.manyFundamentals.length > 0) {
         props.onSetCursor(limit);
       }
       setFetching(false);
@@ -132,7 +132,7 @@ export default function SymbolTable(props: SymbolTableProps) {
           {!data && <p>Not found</p>}
           {data && (
             <TableBody>
-              {data.strategyResults.map(
+              {data.manyFundamentals.map(
                 (symbol: any, index: number, array: any) => {
                   if (index + 1 === array.length) {
                     return (
