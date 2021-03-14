@@ -8,7 +8,7 @@ import {
   IconButton,
   makeStyles,
   Theme,
-  ThemeProvider
+  ThemeProvider,
 } from "@material-ui/core";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -17,7 +17,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import CustomDrawer from "./components/custom-drawer/custom-drawer";
 import CustomTabBar from "./components/custom-tab-bar/custom-tab-bar";
-import SearchInput from "./components/search-input/search-input";
+import SymbolSearchHoc from "./components/symbol-search-hoc/symbol-search-hoc";
 import { cache, localTypeDefs } from "./gql/cache";
 import Discover from "./pages/discover/discover";
 import Favorites from "./pages/favorites/favorites";
@@ -87,11 +87,7 @@ function App() {
               <Container>
                 <Box display="flex" alignItems="center" paddingY="10px">
                   <div className={classes.searchInputContainer}>
-                    <SearchInput
-                      placeholder="Search stocks, indicators or strategies"
-                      searchTerm=""
-                      onSetSearchTerm={(searchTerm) => {}}
-                    />
+                    <SymbolSearchHoc />
                   </div>
                   <Box flexGrow={1}></Box>
                   <IconButton color="inherit">

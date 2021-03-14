@@ -32,6 +32,7 @@ export interface SearchInputProps {
   placeholder: string;
   searchTerm: string;
   onSetSearchTerm: (searchTerm: string) => void;
+  onBlur?: Function;
 }
 
 export default function SearchInput(props: SearchInputProps) {
@@ -49,6 +50,7 @@ export default function SearchInput(props: SearchInputProps) {
       <Divider className={classes.divider} orientation="vertical" />
       <InputBase
         onChange={onChange}
+        onBlur={() => props.onBlur && props.onBlur()}
         className={classes.input}
         placeholder={props.placeholder}
         inputProps={{ "aria-label": "search google maps" }}
