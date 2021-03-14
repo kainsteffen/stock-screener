@@ -1,10 +1,15 @@
 import { gql, InMemoryCache } from "@apollo/client";
-import { favoritesVar, strategiesVar } from "./local-state";
+import {
+  dashboardElementsVar,
+  favoritesVar,
+  strategiesVar,
+} from "./local-state";
 
 export const localTypeDefs = gql`
   extend type Query {
     favorites: [String!]!
     strategies: [Strategy!]!
+    dashboardElements: [DashboardElement!]!
   }
 `;
 
@@ -34,6 +39,11 @@ export const cache: InMemoryCache = new InMemoryCache({
         strategies: {
           read() {
             return strategiesVar();
+          },
+        },
+        dashboardElements: {
+          read() {
+            return dashboardElementsVar();
           },
         },
       },

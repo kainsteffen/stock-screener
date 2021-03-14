@@ -1,22 +1,20 @@
 import { ApolloClient, ApolloProvider } from "@apollo/client";
 import {
-  Badge,
   Box,
   Container,
   createStyles,
   CssBaseline,
-  IconButton,
   makeStyles,
   Theme,
   ThemeProvider,
 } from "@material-ui/core";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import SettingsIcon from "@material-ui/icons/Settings";
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import CustomDrawer from "./components/custom-drawer/custom-drawer";
 import CustomTabBar from "./components/custom-tab-bar/custom-tab-bar";
+import CustomizeDashboardDialog from "./components/dialogs/customize-dashboard-dialog/customize-dashboard-dialog";
+import SettingsMenuButton from "./components/settings-menu-button/settings-popup-button";
 import SymbolSearchHoc from "./components/symbol-search-hoc/symbol-search-hoc";
 import { cache, localTypeDefs } from "./gql/cache";
 import Discover from "./pages/discover/discover";
@@ -70,6 +68,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function App() {
   const classes = useStyles();
+  const [openCustomizeDashboard, setOpenCustomizeDashboard] = useState(false);
   let client = new ApolloClient({
     uri: "http://localhost:8080/graphql",
     cache: cache,
@@ -90,14 +89,22 @@ function App() {
                     <SymbolSearchHoc />
                   </div>
                   <Box flexGrow={1}></Box>
-                  <IconButton color="inherit">
+                  {/* <IconButton color="inherit">
                     <Badge badgeContent={4} color="secondary">
                       <NotificationsIcon />
                     </Badge>
-                  </IconButton>
-                  <IconButton color="inherit">
-                    <SettingsIcon />
-                  </IconButton>
+                  </IconButton> */}
+                  <SettingsMenuButton
+                    onOpenCustomizeDashboard={() =>
+                      setOpenCustomizeDashboard(true)
+                    }
+                  />
+                  <CustomizeDashboardDialog
+                    open={openCustomizeDashboard}
+                    onSetOpen={(open: boolean) =>
+                      setOpenCustomizeDashboard(open)
+                    }
+                  />
                 </Box>
               </Container>
               <main className={classes.content}>

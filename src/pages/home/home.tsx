@@ -4,65 +4,66 @@ import React from "react";
 import EventCard from "../../components/event-date-card/event-date-card";
 import MarketNewsCard from "../../components/market-news-card/market-news-card";
 import TrendingStockCard from "../../components/trending-stock-card/trending-stock-card";
-import { favoritesVar } from "../../gql/local-state";
+import { dashboardElementsVar, favoritesVar } from "../../gql/local-state";
 
 export default function Home() {
   const favorites = useReactiveVar(favoritesVar);
-  // useEffect(
-  //   //NGGEXSKHJXYR1H3R
-  //   () => {
-  //     Axios.get("https://www.alphavantage.co/query", {
-  //       params: {
-  //         function: "OVERVIEW",
-  //         symbol: "IBM",
-  //         apikey: "demo",
-  //       },
-  //     })
-  //       .then((response) => {
-  //         console.log(response);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   }
-  // );
+  const dashboardElements = useReactiveVar(dashboardElementsVar);
 
-  return (
-    <Container>
-      <Box marginBottom={3}>
-        <Typography variant="h6" gutterBottom>
-          Trending
-        </Typography>
-        <Grid container spacing={3} direction="row">
-          {favorites.map((symbol) => (
-            <Grid key={symbol} item xs={12} sm={6} md={4} lg={3} xl={2}>
-              <TrendingStockCard symbol={symbol} />
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-      <Box marginBottom={3}>
-        <Typography variant="h6" gutterBottom>
-          Upcoming Events
-        </Typography>
-        <Grid container spacing={3} direction="row">
-          {favorites.map((favorite) => (
-            <EventCard key={favorite} symbol={favorite} eventType="earnings" />
-          ))}
-        </Grid>
-      </Box>
-      <Box marginBottom={3}>
-        <Typography variant="h6" gutterBottom>
-          Market News
-        </Typography>
-        <Grid container spacing={3} direction="row">
-          {favorites.map((symbol) => (
-            <Grid key={symbol} item xs={12} sm={6} md={4} lg={3} xl={3}>
-              <MarketNewsCard symbol={symbol} />
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-    </Container>
-  );
+  const renderDashboardElements = () => {
+    return dashboardElements.map((dashboardElement) => {
+      if (dashboardElement.selected) {
+        switch (dashboardElement.key) {
+          case "trending":
+            return (
+              <Box marginBottom={3}>
+                <Typography variant="h6" gutterBottom>
+                  Trending
+                </Typography>
+                <Grid container spacing={3} direction="row">
+                  {favorites.map((symbol) => (
+                    <Grid key={symbol} item xs={12} sm={6} md={4} lg={3} xl={2}>
+                      <TrendingStockCard symbol={symbol} />
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            );
+          case "upcomingEvents":
+            return (
+              <Box marginBottom={3}>
+                <Typography variant="h6" gutterBottom>
+                  Upcoming Events
+                </Typography>
+                <Grid container spacing={3} direction="row">
+                  {favorites.map((favorite) => (
+                    <EventCard
+                      key={favorite}
+                      symbol={favorite}
+                      eventType="earnings"
+                    />
+                  ))}
+                </Grid>
+              </Box>
+            );
+          case "marketNews":
+            return (
+              <Box marginBottom={3}>
+                <Typography variant="h6" gutterBottom>
+                  Market News
+                </Typography>
+                <Grid container spacing={3} direction="row">
+                  {favorites.map((symbol) => (
+                    <Grid key={symbol} item xs={12} sm={6} md={4} lg={3} xl={3}>
+                      <MarketNewsCard symbol={symbol} />
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            );
+        }
+      }
+    });
+  };
+  return <Container>{renderDashboardElements()}</Container>;
 }
