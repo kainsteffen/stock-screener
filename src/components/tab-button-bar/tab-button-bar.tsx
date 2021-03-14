@@ -59,7 +59,7 @@ export default function TabButtonBar(props: TabButtonBarProps) {
           return (
             <Box key={index} display="flex" flex="0 0 auto" marginRight={1}>
               <Button
-                color="primary"
+                // color="primary"
                 variant={
                   props.selected === option.value ? "contained" : "outlined"
                 }
