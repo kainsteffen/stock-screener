@@ -7,6 +7,7 @@ import {
   makeStyles,
   Theme,
   ThemeProvider,
+  useMediaQuery,
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -68,6 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function App() {
   const classes = useStyles();
+  const isTabNav = useMediaQuery(theme.breakpoints.down("sm"));
   const [openCustomizeDashboard, setOpenCustomizeDashboard] = useState(false);
   let client = new ApolloClient({
     uri: "http://localhost:8080/graphql",
@@ -82,7 +84,7 @@ function App() {
           <div className={classes.root}>
             <CssBaseline />
             <CustomDrawer />
-            <Box width="100%">
+            <Box width="100%" paddingBottom={isTabNav ? 10 : 0}>
               <Container>
                 <Box display="flex" alignItems="center" paddingY="10px">
                   <div className={classes.searchInputContainer}>
