@@ -33,6 +33,15 @@ export default function ThresholdController(props: ThresholdControllerProps) {
     }
   };
 
+  const getInitValue = (value: string) => {
+    const parsed = parseFloat(value);
+    if (props.valueType === "percentage") {
+      return (parsed * 100).toString();
+    } else {
+      return value;
+    }
+  };
+
   return (
     <Box display="flex" alignItems="center">
       <Box width={150}>
@@ -46,7 +55,7 @@ export default function ThresholdController(props: ThresholdControllerProps) {
       </Box>
       <Box width="10px" />
       <TextFieldWrapper
-        initValue={props.min}
+        initValue={getInitValue(props.min)}
         emitChange={(change: string) => {
           onSetMin(change);
         }}
@@ -60,7 +69,7 @@ export default function ThresholdController(props: ThresholdControllerProps) {
             <Typography>-</Typography>
           </Box>
           <TextFieldWrapper
-            initValue={props.max}
+            initValue={getInitValue(props.max)}
             emitChange={(change: string) => {
               onSetMax(change);
             }}
