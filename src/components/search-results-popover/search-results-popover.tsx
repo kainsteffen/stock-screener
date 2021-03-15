@@ -46,36 +46,39 @@ export default function SearchResultsPopover(props: SearchResultsPopoverProps) {
         }}
         style={{ position: "absolute", top: "65px" }}
       />
-      <Popover
-        open={props.open && data.searchSymbols.length > 0}
-        anchorEl={anchor.current}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
-        disableAutoFocus
-        disableEnforceFocus
-      >
-        <List>
-          {data.searchSymbols.map((item: any) => (
-            <ListItem
-              button
-              onClick={() => history.replace(`/symbols/${item.symbol}`)}
-            >
-              <Box>
-                <Typography variant="caption" color="textSecondary">
-                  {item.symbol}
-                </Typography>
-                <Typography>{item.name}</Typography>
-              </Box>
-            </ListItem>
-          ))}
-        </List>
-      </Popover>
+      {anchor.current && (
+        <Popover
+          open={props.open && data.searchSymbols.length > 0}
+          anchorEl={anchor.current}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+          disableAutoFocus
+          disableEnforceFocus
+        >
+          <List>
+            {data.searchSymbols.map((item: any) => (
+              <ListItem
+                key={item.symbol}
+                button
+                onClick={() => history.replace(`/symbols/${item.symbol}`)}
+              >
+                <Box>
+                  <Typography variant="caption" color="textSecondary">
+                    {item.symbol}
+                  </Typography>
+                  <Typography>{item.name}</Typography>
+                </Box>
+              </ListItem>
+            ))}
+          </List>
+        </Popover>
+      )}
     </React.Fragment>
   );
 }
