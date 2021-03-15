@@ -229,7 +229,7 @@ export default function SymbolDetail() {
                     },
                     {
                       name: "P/E",
-                      value: fundamentalsData.fundamentals.trailingPe ?? "-",
+                      value: fundamentalsData.fundamentals.trailingPE ?? "-",
                     },
                     {
                       name: "Dividend Yield",
