@@ -37,11 +37,14 @@ export default function Discover() {
           value: id,
         }))}
       />
-      <SymbolTable
-        cursor={cursors[selectedStrategy]}
-        onSetCursor={onSetCursor}
-        strategy={strategy}
-      />
+
+      {strategy && (
+        <SymbolTable
+          cursor={cursors[selectedStrategy]}
+          onSetCursor={onSetCursor}
+          strategy={strategy}
+        />
+      )}
     </Container>
   );
 }
