@@ -32,6 +32,52 @@ const STRATEGY_RESULTS = gql`
       name
       marketCap
       trailingPE
+      forwardPE
+      pegRatio
+      priceToSales
+      priceToBook
+      eps
+      enterpriseValue
+      beta5YMonthly
+      enterPriseValueToRevenue
+      enterPriseValueToEbitda
+      avgVol3Month
+      avgVol10Day
+      avgVolume
+      sharesOutstanding
+      float
+      percentageHeldbyInsiders
+      percentageHeldByInstitutions
+      sharesShort
+      shortRatio
+      shortPercentageOfFloat
+      shortPercentageOfSharesOutstanding
+      forwardAnnualDividendRate
+      forwardAnnualDividendYield
+      trailingAnnualDividendRate
+      trailingAnnualDividendYield
+      fiveYearAverageDividendYield
+      payOutRatio
+      profitMargin
+      operatingMargin
+      returnOnAssets
+      returnOnEquity
+      revenue
+      revenuePerShare
+      quarterlyRevenueGrowth
+      grossProfit
+      ebitda
+      netIncomeAviToCommon
+      dilutedEps
+      quarterlyEarningsGrowth
+      totalCash
+      totalCashPerShare
+      totalDebt
+      totalDebtPerEquity
+      currentRatio
+      bookValuePerShare
+      operatingCashFlow
+      leveredFreeCashFlow
     }
   }
 `;
@@ -84,18 +130,22 @@ export default function SymbolTable(props: SymbolTableProps) {
   const onFetch = (limit: number) => {
     setFetching(true);
     if (fetchMore == null) return;
-    fetchMore({
-      variables: {
-        filter: strategyToMdbQuery(props.strategy),
-        cursor: props.cursor,
-        limit: limit,
-      },
-    }).then((results) => {
-      if (results.data.manyFundamentals.length > 0) {
-        props.onSetCursor(limit);
-      }
-      setFetching(false);
-    });
+    try {
+      fetchMore({
+        variables: {
+          filter: strategyToMdbQuery(props.strategy),
+          cursor: props.cursor,
+          limit: limit,
+        },
+      }).then((results) => {
+        if (results.data.manyFundamentals.length > 0) {
+          props.onSetCursor(limit);
+        }
+        setFetching(false);
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
