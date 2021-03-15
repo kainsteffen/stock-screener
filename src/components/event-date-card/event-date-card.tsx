@@ -4,7 +4,6 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  Grid,
   makeStyles,
   Typography,
 } from "@material-ui/core";
@@ -59,31 +58,29 @@ export default function EventCard(props: EventDateCardProps) {
       return <div />;
     } else {
       return (
-        <Grid item xs={6} md={4} lg={3}>
-          <Card>
-            <CardActionArea href={`symbols/${props.symbol}`}>
-              <CardContent>
-                <Box display="flex" alignItems="center" marginBottom={2}>
-                  <Box marginRight="10px">
-                    <Logo symbol={props.symbol} width={40} height={40} />
-                  </Box>
-                  <Box display="flex" flexDirection="column">
-                    <Typography variant="caption" color="textSecondary">
-                      {props.symbol}
-                    </Typography>
-                    <Typography>{"Dividends"}</Typography>
-                  </Box>
+        <Card>
+          <CardActionArea href={`symbols/${props.symbol}`}>
+            <CardContent>
+              <Box display="flex" alignItems="center" marginBottom={2}>
+                <Box marginRight="10px">
+                  <Logo symbol={props.symbol} width={40} height={40} />
                 </Box>
-                <Typography variant="h5">
-                  {format(
-                    new Date(keyStatsData.keyStats.nextDividendDate),
-                    "MMM do"
-                  )}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Grid>
+                <Box display="flex" flexDirection="column">
+                  <Typography variant="caption" color="textSecondary">
+                    {props.symbol}
+                  </Typography>
+                  <Typography>{"Dividends"}</Typography>
+                </Box>
+              </Box>
+              <Typography variant="h5">
+                {format(
+                  new Date(keyStatsData.keyStats.nextDividendDate),
+                  "MMM do"
+                )}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
       );
     }
   };
@@ -97,48 +94,42 @@ export default function EventCard(props: EventDateCardProps) {
       logoError ||
       keyStatsData.keyStats.nextEarningsDate == null ||
       keyStatsData.keyStats.nextEarningsDate == 0 ? (
-        <Grid item xs={6} md={4} lg={3}>
-          <Skeleton
-            style={{ borderRadius: "10px" }}
-            height={125}
-            variant="rect"
-          />
-        </Grid>
+        <Skeleton
+          style={{ borderRadius: "10px" }}
+          height={125}
+          variant="rect"
+        />
       ) : (
-        <Grid item xs={6} md={4} lg={3}>
-          <Card>
-            <CardActionArea href={`symbols/${props.symbol}`}>
-              <CardContent>
-                <Box display="flex" alignItems="center" marginBottom={2}>
-                  <Box marginRight="10px">
-                    <Logo symbol={props.symbol} width={40} height={40} />
-                  </Box>
-                  <Box display="flex" flexDirection="column">
-                    <Typography variant="caption" color="textSecondary">
-                      {props.symbol}
-                    </Typography>
-                    <Typography>{"Earnings Call"}</Typography>
-                  </Box>
+        <Card>
+          <CardActionArea href={`symbols/${props.symbol}`}>
+            <CardContent>
+              <Box display="flex" alignItems="center" marginBottom={2}>
+                <Box marginRight="10px">
+                  <Logo symbol={props.symbol} width={40} height={40} />
                 </Box>
-                <Typography variant="h5">
-                  {format(
-                    new Date(keyStatsData.keyStats.nextEarningsDate),
-                    "MMM do"
-                  )}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Grid>
+                <Box display="flex" flexDirection="column">
+                  <Typography variant="caption" color="textSecondary">
+                    {props.symbol}
+                  </Typography>
+                  <Typography>{"Earnings Call"}</Typography>
+                </Box>
+              </Box>
+              <Typography variant="h5">
+                {format(
+                  new Date(keyStatsData.keyStats.nextEarningsDate),
+                  "MMM do"
+                )}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
       )}
       {keyStatsLoading || keyStatsError || logoLoading || logoError ? (
-        <Grid item xs={6} md={4} lg={3}>
-          <Skeleton
-            style={{ borderRadius: "10px" }}
-            height={125}
-            variant="rect"
-          />
-        </Grid>
+        <Skeleton
+          style={{ borderRadius: "10px" }}
+          height={125}
+          variant="rect"
+        />
       ) : (
         renderDividendDate()
       )}
