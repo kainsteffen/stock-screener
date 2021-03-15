@@ -68,7 +68,14 @@ export default function DashboardElement(props: DashboardElementProps) {
           {props.name}
         </Typography>
         <Box display="flex" alignItems="center">
-          {!expanded && <Chip label={itemLeft + " more"} variant="outlined" />}
+          {!expanded && (
+            <Chip
+              onClick={() => setExpanded((prev) => !prev)}
+              label={itemLeft + " more"}
+              variant="outlined"
+              clickable
+            />
+          )}
           <IconButton onClick={() => setExpanded((prev) => !prev)}>
             {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </IconButton>
