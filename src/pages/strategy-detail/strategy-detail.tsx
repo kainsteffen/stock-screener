@@ -133,10 +133,14 @@ export default function StrategyDetail(props: StrategyDetailProps) {
     key: string,
     min: string,
     max: string,
-    thresholdType: string
+    thresholdType: string,
+    valueType: string
   ) => {
-    const newMin = parseFloat(min);
-    const newMax = parseFloat(max);
+    // TODO: Make parse calculation based on type more scalable
+    const parsedMin =
+      valueType === "percentage" ? parseFloat(min) / 100 : parseFloat(min);
+    const parsedMax =
+      valueType === "percentage" ? parseFloat(max) / 100 : parseFloat(max);
     setStrategy((prev) => ({
       ...prev,
       indicators: prev.indicators.map((i) => {
@@ -144,8 +148,8 @@ export default function StrategyDetail(props: StrategyDetailProps) {
           return {
             ...i,
             values: {
-              min: !isNaN(newMin) ? newMin : 0,
-              max: !isNaN(newMax) ? newMax : 0,
+              min: parsedMin,
+              max: parsedMax,
               thresholdType: thresholdType,
             },
           };
@@ -165,8 +169,19 @@ export default function StrategyDetail(props: StrategyDetailProps) {
             min={indicator.values.min.toString()}
             max={indicator.values.max.toString()}
             thresholdTypeId={indicator.values.thresholdType}
-            onSetValue={(min: string, max: string, thresholdType: string) => {
-              onSetIndicatorThreshold(indicator.key, min, max, thresholdType);
+            valueType={indicator.valueType}
+            onSetIndicator={(
+              min: string,
+              max: string,
+              thresholdType: string
+            ) => {
+              onSetIndicatorThreshold(
+                indicator.key,
+                min,
+                max,
+                thresholdType,
+                indicator.valueType
+              );
             }}
           />
         );
