@@ -16,7 +16,7 @@ export default function Home() {
         switch (dashboardElement.key) {
           case "trending":
             return (
-              <Box marginBottom={3}>
+              <Box key={dashboardElement.key} marginBottom={3}>
                 <Typography variant="h6" gutterBottom>
                   Trending
                 </Typography>
@@ -31,7 +31,7 @@ export default function Home() {
             );
           case "upcomingEvents":
             return (
-              <Box marginBottom={3}>
+              <Box key={dashboardElement.key} marginBottom={3}>
                 <Typography variant="h6" gutterBottom>
                   Upcoming Events
                 </Typography>
@@ -48,7 +48,7 @@ export default function Home() {
             );
           case "marketNews":
             return (
-              <Box marginBottom={3}>
+              <Box key={dashboardElement.key} marginBottom={3}>
                 <Typography variant="h6" gutterBottom>
                   Market News
                 </Typography>
