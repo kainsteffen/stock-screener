@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import React from "react";
-import { QUOTE } from "../../gql/queries/shared";
+import { KEY_STATS, QUOTE } from "../../gql/queries/shared";
 import PercentageChangeLabel from "../percentage-change-label/percentage-change-label";
 
 const useStyles = makeStyles({
@@ -31,13 +31,24 @@ export interface TrendingStockCardProps {
 
 export default function TrendingStockCard(props: TrendingStockCardProps) {
   const classes = useStyles();
+
   const { data, loading, error } = useQuery(QUOTE, {
     variables: { symbol: props.symbol },
   });
 
+  const {
+    data: keyStatsData,
+    loading: keyStatsLoading,
+    error: keyStatsError,
+  } = useQuery(KEY_STATS, {
+    variables: {
+      symbol: props.symbol,
+    },
+  });
+
   return (
     <React.Fragment>
-      {loading || error ? (
+      {loading || error || keyStatsLoading || keyStatsError ? (
         <Skeleton
           style={{ borderRadius: "10px" }}
           height={207}
@@ -81,7 +92,7 @@ export default function TrendingStockCard(props: TrendingStockCardProps) {
               <Typography variant="subtitle1" color="textSecondary">
                 52 week range
               </Typography>
-              <Typography variant="subtitle1">{`$${data.symbol.quote.week52Low} - $${data.symbol.quote.week52High}`}</Typography>
+              <Typography variant="subtitle1">{`$${keyStatsData.keyStats.week52low} - $${keyStatsData.keyStats.week52high}`}</Typography>
             </CardContent>
           </CardActionArea>
         </Card>
