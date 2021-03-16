@@ -56,8 +56,12 @@ export default function StrategyCard(props: StrategyCardProps) {
               {strategy.description || "No description"}
             </Typography>
           </Box>
-          <Typography>1101 Stocks found</Typography>
-          <Typography>{`${strategy.indicators.length} Indicators`}</Typography>
+          {/* <Typography>1101 Stocks found</Typography> */}
+          <Typography>
+            {strategy.indicators.length === 1
+              ? `${strategy.indicators.length} Indicator`
+              : `${strategy.indicators.length} Indicators`}
+          </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>

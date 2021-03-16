@@ -26,6 +26,22 @@ export default function Home() {
     return dashboardElements.map((dashboardElement) => {
       if (dashboardElement.selected) {
         switch (dashboardElement.key) {
+          case "followed":
+            return (
+              <Box key={dashboardElement.key} marginBottom={4}>
+                <DashboardElement
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={2}
+                  name={dashboardElement.name}
+                  renderChild={(symbol: string) => (
+                    <TrendingStockCard symbol={symbol} />
+                  )}
+                />
+              </Box>
+            );
           case "trending":
             return (
               <Box key={dashboardElement.key} marginBottom={4}>
@@ -40,48 +56,6 @@ export default function Home() {
                     <TrendingStockCard symbol={symbol} />
                   )}
                 />
-
-                {/* <Typography variant="h6" gutterBottom>
-                  Trending
-                </Typography> */}
-                {/* <Grid container spacing={3} direction="row">
-                  {favorites.length > 0 ? (
-                    favorites.map((symbol, index) => {
-                      if (index < 6) {
-                        return (
-                          <Grid
-                            key={symbol}
-                            item
-                            xs={12}
-                            sm={6}
-                            md={4}
-                            lg={3}
-                            xl={2}
-                          >
-                            <TrendingStockCard symbol={symbol} />
-                          </Grid>
-                        );
-                      } else {
-                        return null;
-                      }
-                    })
-                  ) : (
-                    <Grid item xs={12} md={8} lg={3}>
-                      <Box className={classes.emptyPrompt}>
-                        <Box
-                          display="flex"
-                          flexDirection="column"
-                          alignItems="center"
-                          padding={5}
-                        >
-                          <Typography>
-                            Follow some stocks to see information here
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </Grid>
-                  )}
-                </Grid> */}
               </Box>
             );
           case "upcomingEvents":
@@ -98,19 +72,6 @@ export default function Home() {
                     <EventCard symbol={symbol} eventType="earnings" />
                   )}
                 />
-
-                {/* <Typography variant="h6" gutterBottom>
-                  Upcoming Events
-                </Typography>
-                <Grid container spacing={3} direction="row">
-                  {favorites.map((favorite) => (
-                    <EventCard
-                      key={favorite}
-                      symbol={favorite}
-                      eventType="earnings"
-                    />
-                  ))}
-                </Grid> */}
               </Box>
             );
           case "marketNews":
@@ -127,17 +88,6 @@ export default function Home() {
                     <MarketNewsCard symbol={symbol} />
                   )}
                 />
-
-                {/* <Typography variant="h6" gutterBottom>
-                  Market News
-                </Typography>
-                <Grid container spacing={3} direction="row">
-                  {favorites.map((symbol) => (
-                    <Grid key={symbol} item xs={12} sm={6} md={4} lg={3} xl={3}>
-                      <MarketNewsCard symbol={symbol} />
-                    </Grid>
-                  ))}
-                </Grid> */}
               </Box>
             );
         }

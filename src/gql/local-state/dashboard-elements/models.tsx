@@ -2,10 +2,17 @@ import { makeVar } from "@apollo/client";
 
 export const defaultDashboardElements: DashboardElement[] = [
   {
+    key: "followed",
+    name: "Followed",
+    description:
+      "Shows your currently followed stocks with their daily change and 52-week-range",
+    selected: true,
+  },
+  {
     key: "trending",
     name: "Trending",
     description:
-      "Shows the most popular stocks being traded for the day with their daily changes and 52-week-ranges",
+      "Shows the most popular stocks being traded for the day with their daily change and 52-week-range",
     selected: true,
   },
   {

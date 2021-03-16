@@ -136,11 +136,15 @@ export default function StrategyDetail(props: StrategyDetailProps) {
     thresholdType: string,
     valueType: string
   ) => {
-    // TODO: Make parse calculation based on type more scalable
+    // TODO: Make parse calculation based on type more scalable and remove > 1 workaround
     const parsedMin =
-      valueType === "percentage" ? parseFloat(min) / 100 : parseFloat(min);
+      valueType === "percentage" && parseFloat(min) > 1
+        ? parseFloat(min) / 100
+        : parseFloat(min);
     const parsedMax =
-      valueType === "percentage" ? parseFloat(max) / 100 : parseFloat(max);
+      valueType === "percentage" && parseFloat(max) > 1
+        ? parseFloat(max) / 100
+        : parseFloat(max);
     setStrategy((prev) => ({
       ...prev,
       indicators: prev.indicators.map((i) => {

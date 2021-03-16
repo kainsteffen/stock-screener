@@ -235,7 +235,8 @@ export default function SymbolDetail() {
                       name: "Dividend Yield",
                       value:
                         numeral(
-                          fundamentalsData.fundamentals.forwardDividendYield
+                          fundamentalsData.fundamentals
+                            .forwardAnnualDividendYield
                         ).format("0.00%") ?? "-",
                     },
                   ].map((item) => (

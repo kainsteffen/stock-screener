@@ -67,19 +67,21 @@ export default function DashboardElement(props: DashboardElementProps) {
         <Typography variant="h6" gutterBottom>
           {props.name}
         </Typography>
-        <Box display="flex" alignItems="center">
-          {
-            <Chip
-              onClick={() => setExpanded((prev) => !prev)}
-              label={!expanded ? itemLeft + " more" : "Hide"}
-              variant="outlined"
-              clickable
-            />
-          }
-          <IconButton onClick={() => setExpanded((prev) => !prev)}>
-            {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </IconButton>
-        </Box>
+        {favorites.length > 0 && (
+          <Box display="flex" alignItems="center">
+            {
+              <Chip
+                onClick={() => setExpanded((prev) => !prev)}
+                label={!expanded ? itemLeft + " more" : "Hide"}
+                variant="outlined"
+                clickable
+              />
+            }
+            <IconButton onClick={() => setExpanded((prev) => !prev)}>
+              {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            </IconButton>
+          </Box>
+        )}
       </Box>
       <Grid container spacing={3} direction="row">
         {favorites.length > 0 ? (

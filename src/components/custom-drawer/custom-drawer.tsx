@@ -3,14 +3,12 @@ import {
   createStyles,
   Divider,
   Drawer,
-  IconButton,
   makeStyles,
   Theme,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import AppleIcon from "@material-ui/icons/Apple";
 import React from "react";
 import SidebarFavorites from "../sidebar-favorites.tsx/sidebar-favorites";
 import SidebarNav from "../sidebar-nav/sidebar-nav";
@@ -84,12 +82,9 @@ export default function CustomDrawer() {
         >
           <div className={classes.drawerContainer}>
             <Box display="flex" alignItems="center" marginLeft={2} paddingY={1}>
-              <IconButton edge="start" color="inherit" aria-label="open drawer">
-                <AppleIcon />
-              </IconButton>
               <Typography variant="h6" noWrap className={classes.title}>
                 <a href="/" className={classes.link}>
-                  StockBook
+                  Stockify
                 </a>
               </Typography>
             </Box>
