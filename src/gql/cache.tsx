@@ -4,12 +4,14 @@ import {
   favoritesVar,
   strategiesVar,
 } from "./local-state";
+import { sessionVar } from "./local-state/session/models";
 
 export const localTypeDefs = gql`
   extend type Query {
     favorites: [String!]!
     strategies: [Strategy!]!
     dashboardElements: [DashboardElement!]!
+    session: Session
   }
 `;
 
@@ -44,6 +46,11 @@ export const cache: InMemoryCache = new InMemoryCache({
         dashboardElements: {
           read() {
             return dashboardElementsVar();
+          },
+        },
+        session: {
+          read() {
+            return sessionVar();
           },
         },
       },

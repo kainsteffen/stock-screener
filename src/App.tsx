@@ -1,4 +1,4 @@
-import { ApolloClient, ApolloProvider } from "@apollo/client";
+import { ApolloClient, ApolloProvider, useReactiveVar } from "@apollo/client";
 import {
   Box,
   Container,
@@ -15,9 +15,11 @@ import "./App.css";
 import CustomDrawer from "./components/custom-drawer/custom-drawer";
 import CustomTabBar from "./components/custom-tab-bar/custom-tab-bar";
 import CustomizeDashboardDialog from "./components/dialogs/customize-dashboard-dialog/customize-dashboard-dialog";
+import OnboardingDialog from "./components/onboarding-dialog/onboarding-dialog";
 import SettingsMenuButton from "./components/settings-menu-button/settings-popup-button";
 import SymbolSearchHoc from "./components/symbol-search-hoc/symbol-search-hoc";
 import { cache, localTypeDefs } from "./gql/cache";
+import { sessionVar, setFirstTime } from "./gql/local-state";
 import Discover from "./pages/discover/discover";
 import Favorites from "./pages/favorites/favorites";
 import Home from "./pages/home/home";
@@ -71,6 +73,7 @@ function App() {
   const classes = useStyles();
   const isTabNav = useMediaQuery(theme.breakpoints.down("sm"));
   const [openCustomizeDashboard, setOpenCustomizeDashboard] = useState(false);
+  const session = useReactiveVar(sessionVar);
   let client = new ApolloClient({
     uri: "http://localhost:8080/graphql",
     cache: cache,
@@ -106,6 +109,10 @@ function App() {
                     onSetOpen={(open: boolean) =>
                       setOpenCustomizeDashboard(open)
                     }
+                  />
+                  <OnboardingDialog
+                    open={session.firstTime}
+                    onDone={() => setFirstTime(false)}
                   />
                 </Box>
               </Container>
