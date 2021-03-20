@@ -342,7 +342,7 @@ export default function SymbolDetail() {
                           <Box
                             width="7px"
                             height="50px"
-                            bgcolor={true ? "#41CE3E" : "red"}
+                            bgcolor="#41CE3E"
                             marginRight="10px"
                             borderRadius="100px"
                           />

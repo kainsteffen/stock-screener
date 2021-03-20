@@ -28,7 +28,10 @@ export default function CustomTabBar() {
   const shouldRender = useMediaQuery(theme.breakpoints.down("sm"));
   const [selected, setSelected] = useState(history.location.pathname);
 
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: string) => {
+  const handleChange = (
+    event: React.ChangeEvent<unknown>,
+    newValue: string
+  ) => {
     setSelected(newValue);
     history.replace(newValue);
   };

@@ -104,7 +104,7 @@ export default function SymbolTable(props: SymbolTableProps) {
   const indicators = props.strategy.indicators;
 
   useEffect(() => {
-    var options = {
+    const options = {
       root: null,
       rootMargin: "20px",
       threshold: 1.0,

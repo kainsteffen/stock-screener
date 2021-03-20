@@ -74,7 +74,7 @@ function App() {
   const isTabNav = useMediaQuery(theme.breakpoints.down("sm"));
   const [openCustomizeDashboard, setOpenCustomizeDashboard] = useState(false);
   const session = useReactiveVar(sessionVar);
-  let client = new ApolloClient({
+  const client = new ApolloClient({
     uri: "http://localhost:8080/graphql",
     cache: cache,
     typeDefs: localTypeDefs,

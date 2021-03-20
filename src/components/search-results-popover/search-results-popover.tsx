@@ -34,8 +34,6 @@ export default function SearchResultsPopover(props: SearchResultsPopoverProps) {
     },
   });
 
-  useEffect(() => {}, []);
-
   if (loading || error) return null;
   return (
     <React.Fragment>

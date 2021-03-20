@@ -32,7 +32,7 @@ export interface SearchInputProps {
   placeholder: string;
   searchTerm: string;
   onSetSearchTerm: (searchTerm: string) => void;
-  onBlur?: Function;
+  onBlur?: () => void;
 }
 
 export default function SearchInput(props: SearchInputProps) {

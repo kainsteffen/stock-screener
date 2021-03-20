@@ -605,5 +605,5 @@ export const thresholdTypes: ThresholdType[] = [
 export interface ThresholdType {
   key: string;
   name: string;
-  mdbSelector: (values: Values) => Object;
+  mdbSelector: (values: Values) => Record<string, unknown>;
 }

@@ -1,5 +1,5 @@
 export interface MarketNewsGroupProps {
-  symbol: String;
+  symbol: string;
 }
 
 export default function MarketNewsGroup(props: MarketNewsGroupProps) {

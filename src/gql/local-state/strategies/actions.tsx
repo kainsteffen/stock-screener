@@ -21,7 +21,7 @@ export const saveStrategy = (newStrategy: Strategy) => {
   localStorage.setItem("strategies", JSON.stringify(strategiesVar()));
 };
 
-export const deleteStrategy = (id: Number) => {
+export const deleteStrategy = (id: number) => {
   const newStrategies: Strategies = {
     ids: strategiesVar().ids.filter((i) => i !== id),
     entities: Object.fromEntries(
