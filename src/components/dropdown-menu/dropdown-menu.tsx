@@ -5,7 +5,7 @@ import React, { useState } from "react";
 export interface DropdownMenuProps {
   initSelect: number;
   options: string[];
-  onSelect: Function;
+  onSelect: (index: number) => void;
 }
 
 export function DropdownMenu(props: DropdownMenuProps) {

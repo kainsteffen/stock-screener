@@ -66,7 +66,7 @@ export default function StrategyCard(props: StrategyCardProps) {
       </CardActionArea>
       <CardActions>
         <Box display="flex" justifyContent="flex-end" width="100%">
-          <Button onClick={() => {}} size="small" color="primary">
+          <Button size="small" color="primary">
             See Results
           </Button>
         </Box>

@@ -11,7 +11,7 @@ import React from "react";
 export interface DeleteDialogProps {
   title: string;
   description: string;
-  onConfirm: Function;
+  onConfirm: () => void;
 }
 
 export default function DeleteDialog(props: DeleteDialogProps) {

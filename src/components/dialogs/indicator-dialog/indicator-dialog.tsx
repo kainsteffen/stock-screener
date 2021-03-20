@@ -47,7 +47,7 @@ const INDICATORS = gql`
 
 export interface IndicatorDialogProps {
   initIndicators: IndicatorValue[];
-  onSelectIndicators: Function;
+  onSelectIndicators: (indicators: IndicatorValue[]) => void;
 }
 
 export default function IndicatorDialog(props: IndicatorDialogProps) {
