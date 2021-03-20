@@ -28,8 +28,19 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function SearchInput() {
+export interface SearchInputProps {
+  placeholder: string;
+  searchTerm: string;
+  onSetSearchTerm: (searchTerm: string) => void;
+  onBlur?: Function;
+}
+
+export default function SearchInput(props: SearchInputProps) {
   const classes = useStyles();
+
+  const onChange = (event: any) => {
+    props.onSetSearchTerm(event.target.value);
+  };
 
   return (
     <Paper component="form" className={classes.root}>
@@ -38,8 +49,10 @@ export default function SearchInput() {
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />
       <InputBase
+        onChange={onChange}
+        onBlur={() => props.onBlur && props.onBlur()}
         className={classes.input}
-        placeholder="Search stocks, indicators, strategies ..."
+        placeholder={props.placeholder}
         inputProps={{ "aria-label": "search google maps" }}
       />
     </Paper>

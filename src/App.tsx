@@ -1,36 +1,32 @@
+import { ApolloClient, ApolloProvider, useReactiveVar } from "@apollo/client";
 import {
-  AppBar,
-  Badge,
   Box,
+  Container,
   createStyles,
   CssBaseline,
-  Divider,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
   makeStyles,
   Theme,
-  Toolbar,
-  Typography,
+  ThemeProvider,
+  useMediaQuery,
 } from "@material-ui/core";
-import AppleIcon from "@material-ui/icons/Apple";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import SettingsIcon from "@material-ui/icons/Settings";
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import SearchInput from "./components/search-input/search-input";
-import SidebarFavorites from "./components/sidebar-watchlist/sidebar-favorites";
-import CreateStrategy from "./pages/create-strategy/create-strategy";
+import CustomDrawer from "./components/custom-drawer/custom-drawer";
+import CustomTabBar from "./components/custom-tab-bar/custom-tab-bar";
+import CustomizeDashboardDialog from "./components/dialogs/customize-dashboard-dialog/customize-dashboard-dialog";
+import OnboardingDialog from "./components/onboarding-dialog/onboarding-dialog";
+import SettingsMenuButton from "./components/settings-menu-button/settings-popup-button";
+import SymbolSearchHoc from "./components/symbol-search-hoc/symbol-search-hoc";
+import { cache, localTypeDefs } from "./gql/cache";
+import { sessionVar, setFirstTime } from "./gql/local-state";
 import Discover from "./pages/discover/discover";
 import Favorites from "./pages/favorites/favorites";
 import Home from "./pages/home/home";
-import StockDetail from "./pages/stock-detail/stock-detail";
 import Strategies from "./pages/strategies/strategies";
-
-const drawerWidth = 240;
+import StrategyDetail from "./pages/strategy-detail/strategy-detail";
+import SymbolDetail from "./pages/symbol-detail/symbol-detail";
+import { theme } from "./theme";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -48,14 +44,6 @@ const useStyles = makeStyles((theme: Theme) =>
     searchInputContainer: {
       width: "60%",
     },
-    drawer: {
-      width: drawerWidth,
-    },
-    drawerPaper: {
-      whiteSpace: "nowrap",
-      width: drawerWidth,
-    },
-    drawerContainer: {},
     content: {
       width: "100%",
       paddingTop: theme.spacing(4),
@@ -83,87 +71,76 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function App() {
   const classes = useStyles();
+  const isTabNav = useMediaQuery(theme.breakpoints.down("sm"));
+  const [openCustomizeDashboard, setOpenCustomizeDashboard] = useState(false);
+  const session = useReactiveVar(sessionVar);
+  let client = new ApolloClient({
+    uri: "http://localhost:8080/graphql",
+    cache: cache,
+    typeDefs: localTypeDefs,
+  });
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="open drawer">
-            <AppleIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap className={classes.title}>
-            <a href="/" className={classes.link}>
-              StockBook
-            </a>
-          </Typography>
-          <div className={classes.searchInputContainer}>
-            <SearchInput />
-          </div>
-          <Box flexGrow={1}></Box>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <IconButton color="inherit">
-            <SettingsIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        open={true}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <Toolbar />
-        <div className={classes.drawerContainer}>
-          <List>
-            {[
-              {
-                route: "/",
-                name: "Home",
-              },
-              {
-                route: "strategies",
-                name: "Strategies",
-              },
-              {
-                route: "discover",
-                name: "Discover",
-              },
-              {
-                route: "favorites",
-                name: "Favorites",
-              },
-            ].map((item) => (
-              <ListItem button component="a" href={item.route} key={item.route}>
-                {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-                <ListItemText primary={item.name} />
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <SidebarFavorites />
-        </div>
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
+    <ApolloProvider client={client}>
+      <ThemeProvider theme={theme}>
         <Router>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/strategies" component={Strategies} />
-            <Route exact path="/strategies/create" component={CreateStrategy} />
-            <Route exact path="/discover" component={Discover} />
-            <Route exact path="/favorites" component={Favorites} />
-            <Route exact path="/stock" component={StockDetail} />
-          </Switch>
+          <div className={classes.root}>
+            <CssBaseline />
+            <CustomDrawer />
+            <Box width="100%" paddingBottom={isTabNav ? 10 : 0}>
+              <Container>
+                <Box display="flex" alignItems="center" paddingY="10px">
+                  <div className={classes.searchInputContainer}>
+                    <SymbolSearchHoc />
+                  </div>
+                  <Box flexGrow={1}></Box>
+                  {/* <IconButton color="inherit">
+                    <Badge badgeContent={4} color="secondary">
+                      <NotificationsIcon />
+                    </Badge>
+                  </IconButton> */}
+                  <SettingsMenuButton
+                    onOpenCustomizeDashboard={() =>
+                      setOpenCustomizeDashboard(true)
+                    }
+                  />
+                  <CustomizeDashboardDialog
+                    open={openCustomizeDashboard}
+                    onSetOpen={(open: boolean) =>
+                      setOpenCustomizeDashboard(open)
+                    }
+                  />
+                  <OnboardingDialog
+                    open={session.firstTime}
+                    onDone={() => setFirstTime(false)}
+                  />
+                </Box>
+              </Container>
+              <main className={classes.content}>
+                <Switch>
+                  <Route exact path="/" component={Home} />
+                  <Route exact path="/strategies" component={Strategies} />
+                  <Route
+                    exact
+                    path="/strategies/:id"
+                    component={StrategyDetail}
+                  />
+                  <Route
+                    exact
+                    path="/strategies/create"
+                    component={StrategyDetail}
+                  />
+                  <Route exact path="/discover" component={Discover} />
+                  <Route exact path="/favorites" component={Favorites} />
+                  <Route exact path="/symbols/:id" component={SymbolDetail} />
+                </Switch>
+              </main>
+            </Box>
+            <CustomTabBar />
+          </div>
         </Router>
-      </main>
-    </div>
+      </ThemeProvider>
+    </ApolloProvider>
   );
 }
 

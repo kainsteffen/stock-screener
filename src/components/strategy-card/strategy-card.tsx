@@ -1,16 +1,25 @@
+import { useReactiveVar } from "@apollo/client";
 import {
   Box,
+  Button,
   Card,
   CardActionArea,
+  CardActions,
   CardContent,
   makeStyles,
   Typography,
 } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
 import React from "react";
+import { strategiesVar } from "../../gql/local-state";
 
 const useStyles = makeStyles({
   dailyChange: {
     color: "#41CE3E",
+  },
+  title: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
   fillParent: {
     width: "100%",
@@ -18,24 +27,50 @@ const useStyles = makeStyles({
   },
 });
 
-export default function StrategyCard() {
-  const classes = useStyles();
+export interface StrategyCardProps {
+  strategyId: number;
+}
 
+export default function StrategyCard(props: StrategyCardProps) {
+  const classes = useStyles();
+  const strategy = useReactiveVar(strategiesVar).entities[props.strategyId];
   return (
     <Card>
-      <CardActionArea href="/strategies/create">
+      <CardActionArea href={`/strategies/${props.strategyId}`}>
         <CardContent className={classes.fillParent}>
-          <Typography variant="h6">Dividend Growth Investing</Typography>
-          <Box paddingY={1}>
+          <Box display="flex" justifyContent="space-between">
+            <Typography className={classes.title} variant="h6">
+              {strategy.name}
+            </Typography>
+
+            <EditIcon />
+          </Box>
+          {/* TODO Make line count limit responsive */}
+          <Box
+            height={75}
+            marginY={1}
+            overflow="hidden"
+            textOverflow="ellipsis"
+          >
             <Typography color="textSecondary">
-              Lizards are a widespread group of squamate reptiles, with over
-              6,000 species, ranging across all continents except Antarctica
+              {strategy.description || "No description"}
             </Typography>
           </Box>
-          <Typography>1101 Stocks found</Typography>
-          <Typography>21 Indicators</Typography>
+          {/* <Typography>1101 Stocks found</Typography> */}
+          <Typography>
+            {strategy.indicators.length === 1
+              ? `${strategy.indicators.length} Indicator`
+              : `${strategy.indicators.length} Indicators`}
+          </Typography>
         </CardContent>
       </CardActionArea>
+      <CardActions>
+        <Box display="flex" justifyContent="flex-end" width="100%">
+          <Button onClick={() => {}} size="small" color="primary">
+            See Results
+          </Button>
+        </Box>
+      </CardActions>
     </Card>
   );
 }

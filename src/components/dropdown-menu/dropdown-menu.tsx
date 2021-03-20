@@ -2,11 +2,15 @@ import { Box, ButtonBase, Menu, MenuItem, Typography } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import React, { useState } from "react";
 
-const options = ["Above", "Below", "Between", "Outside"];
+export interface DropdownMenuProps {
+  initSelect: number;
+  options: string[];
+  onSelect: Function;
+}
 
-export function DropdownMenu() {
+export function DropdownMenu(props: DropdownMenuProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selectedIndex, setSelectedIndex] = useState(1);
+  const [selectedIndex, setSelectedIndex] = useState(props.initSelect);
 
   const handleClickListItem = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -17,6 +21,7 @@ export function DropdownMenu() {
     index: number
   ) => {
     setSelectedIndex(index);
+    props.onSelect(index);
     setAnchorEl(null);
   };
 
@@ -32,7 +37,7 @@ export function DropdownMenu() {
         onClick={handleClickListItem}
       >
         <Box display="flex" borderRadius="10px">
-          <Typography>{options[selectedIndex]}</Typography>
+          <Typography>{props.options[selectedIndex]}</Typography>
           <ExpandMoreIcon />
         </Box>
       </ButtonBase>
@@ -43,7 +48,7 @@ export function DropdownMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {options.map((option, index) => (
+        {props.options.map((option, index) => (
           <MenuItem
             key={option}
             selected={index === selectedIndex}

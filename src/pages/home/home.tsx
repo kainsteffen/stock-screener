@@ -1,115 +1,98 @@
-import { Box, Container, Grid, Typography } from "@material-ui/core";
-import Axios from "axios";
-import React, { useEffect } from "react";
-import EarningsDateCard from "../../components/earnings-date-card/earnings-date-card";
+import { useReactiveVar } from "@apollo/client";
+import { Box, Container, makeStyles } from "@material-ui/core";
+import React from "react";
+import DashboardElement from "../../components/dashboard-element/dashboard-element";
+import EventCard from "../../components/event-date-card/event-date-card";
 import MarketNewsCard from "../../components/market-news-card/market-news-card";
 import TrendingStockCard from "../../components/trending-stock-card/trending-stock-card";
+import { dashboardElementsVar, favoritesVar } from "../../gql/local-state";
+
+const useStyles = makeStyles({
+  emptyPrompt: {
+    width: "100%",
+    height: "100%",
+    color: "grey",
+    border: "1px dashed",
+    borderRadius: "8px",
+  },
+});
 
 export default function Home() {
-  useEffect(
-    //NGGEXSKHJXYR1H3R
-    () => {
-      Axios.get("https://www.alphavantage.co/query", {
-        params: {
-          function: "OVERVIEW",
-          symbol: "IBM",
-          apikey: "demo",
-        },
-      })
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  );
+  const classes = useStyles();
+  const favorites = useReactiveVar(favoritesVar);
+  const dashboardElements = useReactiveVar(dashboardElementsVar);
 
-  return (
-    <Container>
-      <Box marginBottom={3}>
-        <Typography variant="h6" gutterBottom>
-          Upcoming Events
-        </Typography>
-        <Grid container spacing={3} direction="row">
-          <Grid item xs={6} md={4} lg={3}>
-            <EarningsDateCard
-              imgSrc="//logo.clearbit.com/apple.com?size=100"
-              ticker="AAPL"
-              name="Apple Earnings Call"
-              date="Dec 16 2020"
-              expectedEPS={2.51}
-              currentEPS={3.2}
-            />
-          </Grid>
-          <Grid item xs={6} md={4} lg={3}>
-            <EarningsDateCard
-              imgSrc="//logo.clearbit.com/microsoft.com?size=100"
-              ticker="MSFT"
-              name="Microsoft Earnings Call"
-              date="Dec 05 2020"
-              expectedEPS={3.31}
-              currentEPS={4.31}
-            />
-          </Grid>
-          <Grid item xs={6} md={4} lg={3}>
-            <EarningsDateCard
-              imgSrc="//logo.clearbit.com/amazon.com?size=100"
-              ticker="AMZN"
-              name="Amazon General Assembly"
-              date="Dec 05 2020"
-              expectedEPS={1.11}
-              currentEPS={2.76}
-            />
-          </Grid>
-        </Grid>
-      </Box>
-
-      <Box marginBottom={3}>
-        <Typography variant="h6" gutterBottom>
-          Trending
-        </Typography>
-        <Grid container spacing={3} direction="row">
-          <Grid item xs={6} md={8} lg={2}>
-            <TrendingStockCard />
-          </Grid>
-          <Grid item xs={6} md={8} lg={2}>
-            <TrendingStockCard />
-          </Grid>
-          <Grid item xs={6} md={8} lg={2}>
-            <TrendingStockCard />
-          </Grid>
-          <Grid item xs={6} md={8} lg={2}>
-            <TrendingStockCard />
-          </Grid>
-          <Grid item xs={6} md={8} lg={2}>
-            <TrendingStockCard />
-          </Grid>
-          <Grid item xs={6} md={8} lg={2}>
-            <TrendingStockCard />
-          </Grid>
-        </Grid>
-      </Box>
-
-      <Box marginBottom={3}>
-        <Typography variant="h6" gutterBottom>
-          Market News
-        </Typography>
-        <Grid container spacing={3} direction="row">
-          <Grid item xs={6} md={8} lg={3}>
-            <MarketNewsCard />
-          </Grid>
-          <Grid item xs={6} md={8} lg={3}>
-            <MarketNewsCard />
-          </Grid>
-          <Grid item xs={6} md={8} lg={3}>
-            <MarketNewsCard />
-          </Grid>
-          <Grid item xs={6} md={8} lg={3}>
-            <MarketNewsCard />
-          </Grid>
-        </Grid>
-      </Box>
-    </Container>
-  );
+  const renderDashboardElements = () => {
+    return dashboardElements.map((dashboardElement) => {
+      if (dashboardElement.selected) {
+        switch (dashboardElement.key) {
+          case "followed":
+            return (
+              <Box key={dashboardElement.key} marginBottom={4}>
+                <DashboardElement
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={2}
+                  name={dashboardElement.name}
+                  renderChild={(symbol: string) => (
+                    <TrendingStockCard symbol={symbol} />
+                  )}
+                />
+              </Box>
+            );
+          case "trending":
+            return (
+              <Box key={dashboardElement.key} marginBottom={4}>
+                <DashboardElement
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={2}
+                  name={dashboardElement.name}
+                  renderChild={(symbol: string) => (
+                    <TrendingStockCard symbol={symbol} />
+                  )}
+                />
+              </Box>
+            );
+          case "upcomingEvents":
+            return (
+              <Box key={dashboardElement.key} marginBottom={4}>
+                <DashboardElement
+                  xs={6}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={2}
+                  name={dashboardElement.name}
+                  renderChild={(symbol: string) => (
+                    <EventCard symbol={symbol} eventType="earnings" />
+                  )}
+                />
+              </Box>
+            );
+          case "marketNews":
+            return (
+              <Box key={dashboardElement.key} marginBottom={4}>
+                <DashboardElement
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={3}
+                  name={dashboardElement.name}
+                  renderChild={(symbol: string) => (
+                    <MarketNewsCard symbol={symbol} />
+                  )}
+                />
+              </Box>
+            );
+        }
+      }
+    });
+  };
+  return <Container>{renderDashboardElements()}</Container>;
 }

@@ -1,3 +1,4 @@
+import { useQuery } from "@apollo/client";
 import {
   Box,
   Card,
@@ -6,44 +7,96 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 import React from "react";
+import { KEY_STATS, QUOTE } from "../../gql/queries/shared";
+import PercentageChangeLabel from "../percentage-change-label/percentage-change-label";
 
 const useStyles = makeStyles({
-  dailyChange: {
+  title: {
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+  },
+  dailyChangePos: {
     color: "#41CE3E",
+  },
+  dailyChangeNeg: {
+    color: "red",
   },
 });
 
-export default function TrendingStockCard() {
+export interface TrendingStockCardProps {
+  symbol: string;
+}
+
+export default function TrendingStockCard(props: TrendingStockCardProps) {
   const classes = useStyles();
 
+  const { data, loading, error } = useQuery(QUOTE, {
+    variables: { symbol: props.symbol },
+  });
+
+  const {
+    data: keyStatsData,
+    loading: keyStatsLoading,
+    error: keyStatsError,
+  } = useQuery(KEY_STATS, {
+    variables: {
+      symbol: props.symbol,
+    },
+  });
+
   return (
-    <Card>
-      <CardActionArea href="stock">
-        <CardContent>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Typography variant="h6" display="inline">
-              MSFT
-            </Typography>
-            <Typography
-              variant="body1"
-              display="inline"
-              className={classes.dailyChange}
-            >
-              10.32 %
-            </Typography>
-          </Box>
-          <Typography variant="h5">$ 117.80</Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            52w range
-          </Typography>
-          <Typography variant="subtitle1">90.90 - 169.30</Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+    <React.Fragment>
+      {loading || error || keyStatsLoading || keyStatsError ? (
+        <Skeleton
+          style={{ borderRadius: "10px" }}
+          height={207}
+          variant="rect"
+        />
+      ) : (
+        <Card>
+          <CardActionArea href={`symbols/${props.symbol}`}>
+            <CardContent>
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <Typography
+                  variant="h6"
+                  display="inline"
+                  className={classes.title}
+                >
+                  {data.symbol.quote.symbol}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  display="inline"
+                  className={
+                    data.symbol.quote.changePercent >= 0
+                      ? classes.dailyChangePos
+                      : classes.dailyChangeNeg
+                  }
+                >
+                  <PercentageChangeLabel
+                    percentChange={data.symbol.quote.changePercent}
+                  />
+                </Typography>
+              </Box>
+              <Box marginY={1.5}>
+                <Typography variant="h5">
+                  ${data.symbol.quote.latestPrice.toFixed(2)}
+                </Typography>
+              </Box>
+              <Typography variant="subtitle1" color="textSecondary">
+                52 week range
+              </Typography>
+              <Typography variant="subtitle1">{`$${keyStatsData.keyStats.week52low} - $${keyStatsData.keyStats.week52high}`}</Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      )}
+    </React.Fragment>
   );
 }
