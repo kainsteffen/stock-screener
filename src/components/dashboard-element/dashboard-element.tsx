@@ -67,7 +67,7 @@ export default function DashboardElement(props: DashboardElementProps) {
         <Typography variant="h6" gutterBottom>
           {props.name}
         </Typography>
-        {favorites.length > 0 && (
+        {favorites.length > 0 && itemLeft > 0 && (
           <Box display="flex" alignItems="center">
             {
               <Chip
