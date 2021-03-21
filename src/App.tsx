@@ -75,7 +75,10 @@ function App() {
   const [openCustomizeDashboard, setOpenCustomizeDashboard] = useState(false);
   const session = useReactiveVar(sessionVar);
   const client = new ApolloClient({
-    uri: "http://localhost:8080/graphql",
+    uri:
+      process.env.NODE_ENV === "production"
+        ? process.env.REACT_APP_PRODUCTION_API_URL
+        : process.env.REACT_APP_DEV_API_URL,
     cache: cache,
     typeDefs: localTypeDefs,
   });
