@@ -51,7 +51,7 @@ export default function TrendingStockCard(props: TrendingStockCardProps) {
       {loading || error || keyStatsLoading || keyStatsError ? (
         <Skeleton
           style={{ borderRadius: "10px" }}
-          height={207}
+          height={179}
           variant="rect"
         />
       ) : (
