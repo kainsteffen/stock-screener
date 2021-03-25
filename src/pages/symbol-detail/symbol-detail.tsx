@@ -315,15 +315,8 @@ export default function SymbolDetail() {
             </Box>
             <Box marginBottom={2} />
             <Grid container spacing={3}>
-              {fundamentalsLoading || fundamentalsError ? (
-                <Skeleton />
-              ) : (
-                indicators.map((indicator) => {
-                  const indicatorValue = parseIndicatorValue(
-                    fundamentalsData.fundamentals[indicator.key],
-                    indicator.valueType
-                  );
-                  return (
+              {fundamentalsLoading || fundamentalsError
+                ? indicators.map((indicator) => (
                     <Grid
                       key={indicator.key}
                       item
@@ -333,44 +326,64 @@ export default function SymbolDetail() {
                       lg={3}
                       xl={3}
                     >
-                      <Box
-                        display="flex"
-                        justifyContent="space-between"
-                        alignItems="flex-start"
+                      <Skeleton variant="rect" height={50} />
+                    </Grid>
+                  ))
+                : indicators.map((indicator) => {
+                    const indicatorValue = parseIndicatorValue(
+                      fundamentalsData.fundamentals[indicator.key],
+                      indicator.valueType
+                    );
+                    return (
+                      <Grid
+                        key={indicator.key}
+                        item
+                        xs={3}
+                        sm={3}
+                        md={3}
+                        lg={3}
+                        xl={3}
                       >
-                        <Box display="flex" alignItems="center">
-                          <Box
-                            width="7px"
-                            height="50px"
-                            bgcolor="#41CE3E"
-                            marginRight="10px"
-                            borderRadius="100px"
-                          />
-                          {/* <Box marginRight={2}>
+                        <Box
+                          display="flex"
+                          justifyContent="space-between"
+                          alignItems="flex-start"
+                        >
+                          <Box display="flex" alignItems="center">
+                            <Box
+                              width="7px"
+                              height="50px"
+                              bgcolor="#41CE3E"
+                              marginRight="10px"
+                              borderRadius="100px"
+                            />
+                            {/* <Box marginRight={2}>
                             <CircularProgress
                               variant="determinate"
                               value={Math.random() * 100}
                             />
                           </Box> */}
-                          <Box>
-                            <Typography variant="caption" color="textSecondary">
-                              {indicator.name}
-                            </Typography>
-                            <Typography variant="h6">
-                              {indicatorValue ?? "-"}
-                            </Typography>
+                            <Box>
+                              <Typography
+                                variant="caption"
+                                color="textSecondary"
+                              >
+                                {indicator.name}
+                              </Typography>
+                              <Typography variant="h6">
+                                {indicatorValue ?? "-"}
+                              </Typography>
+                            </Box>
                           </Box>
+                          <InfoButton
+                            title={indicator.name}
+                            description={indicator.description}
+                            url={indicator.investopediaUrl}
+                          />
                         </Box>
-                        <InfoButton
-                          title={indicator.name}
-                          description={indicator.description}
-                          url={indicator.investopediaUrl}
-                        />
-                      </Box>
-                    </Grid>
-                  );
-                })
-              )}
+                      </Grid>
+                    );
+                  })}
             </Grid>
           </Box>
         </CardContent>

@@ -27,9 +27,10 @@ const useStyles = makeStyles({
 
 export interface TrendingStockCardProps {
   symbol: string;
+  name: string;
 }
 
-export default function TrendingStockCard(props: TrendingStockCardProps) {
+export default function IndexCard(props: TrendingStockCardProps) {
   const classes = useStyles();
 
   const { data, loading, error } = useQuery(QUOTE, {
@@ -45,6 +46,8 @@ export default function TrendingStockCard(props: TrendingStockCardProps) {
       symbol: props.symbol,
     },
   });
+
+  console.log(keyStatsData);
 
   return (
     <React.Fragment>
@@ -68,7 +71,7 @@ export default function TrendingStockCard(props: TrendingStockCardProps) {
                   display="inline"
                   className={classes.title}
                 >
-                  {data.symbol.quote.symbol}
+                  {props.name}
                 </Typography>
                 <Typography
                   variant="body1"
@@ -89,10 +92,6 @@ export default function TrendingStockCard(props: TrendingStockCardProps) {
                   ${data.symbol.quote.latestPrice.toFixed(2)}
                 </Typography>
               </Box>
-              <Typography variant="subtitle1" color="textSecondary">
-                52 week range
-              </Typography>
-              <Typography variant="subtitle1">{`$${keyStatsData.keyStats.week52low} - $${keyStatsData.keyStats.week52high}`}</Typography>
             </CardContent>
           </CardActionArea>
         </Card>

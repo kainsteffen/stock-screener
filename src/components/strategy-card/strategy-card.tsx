@@ -7,6 +7,7 @@ import {
   CardActions,
   CardContent,
   makeStyles,
+  Snackbar,
   Typography,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
@@ -34,6 +35,23 @@ export interface StrategyCardProps {
 export default function StrategyCard(props: StrategyCardProps) {
   const classes = useStyles();
   const strategy = useReactiveVar(strategiesVar).entities[props.strategyId];
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (
+    event: React.SyntheticEvent | React.MouseEvent,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   return (
     <Card>
       <CardActionArea href={`/strategies/${props.strategyId}`}>
@@ -66,11 +84,22 @@ export default function StrategyCard(props: StrategyCardProps) {
       </CardActionArea>
       <CardActions>
         <Box display="flex" justifyContent="flex-end" width="100%">
-          <Button size="small" color="primary">
+          <Button onClick={handleClick} size="small" color="primary">
             See Results
           </Button>
         </Box>
       </CardActions>
+      {/* TODO: Remove this placeholder */}
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        message={`See the results of ${strategy.name} on the Discover Page`}
+      />
     </Card>
   );
 }

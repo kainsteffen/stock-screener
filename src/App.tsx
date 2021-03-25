@@ -19,14 +19,13 @@ import OnboardingDialog from "./components/onboarding-dialog/onboarding-dialog";
 import SettingsMenuButton from "./components/settings-menu-button/settings-popup-button";
 import SymbolSearchHoc from "./components/symbol-search-hoc/symbol-search-hoc";
 import { cache, localTypeDefs } from "./gql/cache";
-import { sessionVar, setFirstTime } from "./gql/local-state";
+import { sessionVar, setFirstTime, toggleDarkMode } from "./gql/local-state";
 import Discover from "./pages/discover/discover";
-import Favorites from "./pages/favorites/favorites";
 import Home from "./pages/home/home";
 import Strategies from "./pages/strategies/strategies";
 import StrategyDetail from "./pages/strategy-detail/strategy-detail";
 import SymbolDetail from "./pages/symbol-detail/symbol-detail";
-import { theme } from "./theme";
+import { getTheme } from "./theme";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -71,9 +70,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function App() {
   const classes = useStyles();
+  const session = useReactiveVar(sessionVar);
+  const theme = getTheme({
+    paletteType: session.darkMode ? "dark" : "light",
+  });
   const isTabNav = useMediaQuery(theme.breakpoints.down("sm"));
   const [openCustomizeDashboard, setOpenCustomizeDashboard] = useState(false);
-  const session = useReactiveVar(sessionVar);
   const client = new ApolloClient({
     uri:
       process.env.NODE_ENV === "production"
@@ -106,6 +108,7 @@ function App() {
                     onOpenCustomizeDashboard={() =>
                       setOpenCustomizeDashboard(true)
                     }
+                    onToggleDarkMode={() => toggleDarkMode()}
                   />
                   <CustomizeDashboardDialog
                     open={openCustomizeDashboard}
@@ -134,7 +137,8 @@ function App() {
                     component={StrategyDetail}
                   />
                   <Route exact path="/discover" component={Discover} />
-                  <Route exact path="/favorites" component={Favorites} />
+                  {/* TODO: Implement Favorites Page */}
+                  {/* <Route exact path="/favorites" component={Favorites} /> */}
                   <Route exact path="/symbols/:id" component={SymbolDetail} />
                 </Switch>
               </main>

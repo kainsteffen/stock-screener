@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import { Skeleton } from "@material-ui/lab";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { favoritesVar } from "../../gql/local-state";
@@ -40,21 +41,28 @@ function SidebarFavoriteEntry(props: SidebarFavoriteEntryProps) {
     history.replace(`/symbols/${path}`);
   };
 
-  if (loading) return <React.Fragment />;
-  if (error) return <p>Error</p>;
-
   return (
-    <ListItem
-      button
-      key={props.symbol}
-      onClick={() => navigateTo(props.symbol)}
-    >
-      <Box marginRight={1}>
-        <Logo symbol={props.symbol} width={30} height={30} />
-      </Box>
-      <ListItemText primary={props.symbol} />
-      <PercentageChangeLabel percentChange={data.symbol.quote.changePercent} />
-    </ListItem>
+    <React.Fragment>
+      {loading || error ? (
+        <ListItem>
+          <Skeleton width="100%" height={30} variant="rect" />
+        </ListItem>
+      ) : (
+        <ListItem
+          button
+          key={props.symbol}
+          onClick={() => navigateTo(props.symbol)}
+        >
+          <Box marginRight={1}>
+            <Logo symbol={props.symbol} width={30} height={30} />
+          </Box>
+          <ListItemText primary={props.symbol} />
+          <PercentageChangeLabel
+            percentChange={data.symbol.quote.changePercent}
+          />
+        </ListItem>
+      )}
+    </React.Fragment>
   );
 }
 
@@ -68,7 +76,7 @@ export default function SidebarFavorites() {
       <Box width="100%">
         <ButtonBase
           className={classes.fullWidth}
-          onClick={() => history.replace("/favorites")}
+          // onClick={() => history.replace("/favorites")}
         >
           <Box
             display="flex"
