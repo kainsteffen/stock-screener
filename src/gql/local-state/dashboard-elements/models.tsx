@@ -2,17 +2,22 @@ import { makeVar } from "@apollo/client";
 
 export const defaultDashboardElements: DashboardElement[] = [
   {
+    key: "markets",
+    name: "Markets",
+    description: "Shows you the largest market indices worldwide",
+    selected: true,
+  },
+  {
+    key: "marketNews",
+    name: "Market News",
+    description: "Shows daily market news for your followed stocks",
+    selected: true,
+  },
+  {
     key: "followed",
     name: "Followed",
     description:
       "Shows your currently followed stocks with their daily change and 52-week-range",
-    selected: true,
-  },
-  {
-    key: "trending",
-    name: "Trending",
-    description:
-      "Shows the most popular stocks being traded for the day with their daily change and 52-week-range",
     selected: true,
   },
   {
@@ -24,10 +29,11 @@ export const defaultDashboardElements: DashboardElement[] = [
   },
 
   {
-    key: "marketNews",
-    name: "Market News",
-    description: "Shows daily market news for your followed stocks",
-    selected: true,
+    key: "trending",
+    name: "Trending",
+    description:
+      "Shows the most popular stocks being traded for the day with their daily change and 52-week-range",
+    selected: false,
   },
 ];
 

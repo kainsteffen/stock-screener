@@ -21,7 +21,6 @@ import SymbolSearchHoc from "./components/symbol-search-hoc/symbol-search-hoc";
 import { cache, localTypeDefs } from "./gql/cache";
 import { sessionVar, setFirstTime } from "./gql/local-state";
 import Discover from "./pages/discover/discover";
-import Favorites from "./pages/favorites/favorites";
 import Home from "./pages/home/home";
 import Strategies from "./pages/strategies/strategies";
 import StrategyDetail from "./pages/strategy-detail/strategy-detail";
@@ -134,7 +133,8 @@ function App() {
                     component={StrategyDetail}
                   />
                   <Route exact path="/discover" component={Discover} />
-                  <Route exact path="/favorites" component={Favorites} />
+                  {/* TODO: Implement Favorites Page */}
+                  {/* <Route exact path="/favorites" component={Favorites} /> */}
                   <Route exact path="/symbols/:id" component={SymbolDetail} />
                 </Switch>
               </main>
