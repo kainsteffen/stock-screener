@@ -4,6 +4,7 @@ import React from "react";
 
 export interface SettingsMenuButtonProps {
   onOpenCustomizeDashboard: () => void;
+  onToggleDarkMode: () => void;
 }
 
 export default function SettingsMenuButton(props: SettingsMenuButtonProps) {
@@ -36,6 +37,14 @@ export default function SettingsMenuButton(props: SettingsMenuButtonProps) {
           }}
         >
           Customize Dashboard
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            props.onToggleDarkMode();
+          }}
+        >
+          Toggle Theme
         </MenuItem>
       </Menu>
     </React.Fragment>

@@ -33,38 +33,39 @@ declare module "@material-ui/core/styles/createMuiTheme" {
   }
 }
 
-export const theme = createMuiTheme({
-  overrides: {
-    MuiCssBaseline: {
-      "@global": {
-        ".MuiCard-root": {
-          borderRadius: "8px",
+export const getTheme = (options: any) =>
+  createMuiTheme({
+    overrides: {
+      MuiCssBaseline: {
+        "@global": {
+          ".MuiCard-root": {
+            borderRadius: "8px",
+          },
+          ".MuiButton-root": {
+            borderRadius: "500px",
+          },
         },
-        ".MuiButton-root": {
-          borderRadius: "500px",
+      },
+    },
+    palette: {
+      type: options.paletteType,
+      primary: {
+        light: "#757ce8",
+        main: "#1EB980",
+        dark: "#045D56",
+        contrastText: "#fff",
+      },
+    },
+    customColors: {
+      numberChange: {
+        positive: {
+          color: "#41CE3E",
+          backgroundColor: fade("#41CE3E", 0.15),
+        },
+        negative: {
+          color: "#FF6262",
+          backgroundColor: fade("#FF6262", 0.15),
         },
       },
     },
-  },
-  palette: {
-    type: "dark",
-    primary: {
-      light: "#757ce8",
-      main: "#1EB980",
-      dark: "#045D56",
-      contrastText: "#fff",
-    },
-  },
-  customColors: {
-    numberChange: {
-      positive: {
-        color: "#41CE3E",
-        backgroundColor: fade("#41CE3E", 0.15),
-      },
-      negative: {
-        color: "#FF6262",
-        backgroundColor: fade("#FF6262", 0.15),
-      },
-    },
-  },
-});
+  });

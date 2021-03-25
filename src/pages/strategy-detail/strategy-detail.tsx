@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: theme.typography.h5.fontSize,
       },
       "& input.Mui-disabled": {
-        color: "white",
+        color: theme.typography.body1.color,
       },
     },
   })

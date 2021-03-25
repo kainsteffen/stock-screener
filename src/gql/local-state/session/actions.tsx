@@ -9,3 +9,13 @@ export const setFirstTime = (firstTime: boolean) => {
   sessionVar(newSession);
   localStorage.setItem("session", JSON.stringify(sessionVar()));
 };
+
+export const toggleDarkMode = () => {
+  const session = sessionVar();
+  const newSession = {
+    ...session,
+    darkMode: !session.darkMode,
+  };
+  sessionVar(newSession);
+  localStorage.setItem("session", JSON.stringify(sessionVar()));
+};
