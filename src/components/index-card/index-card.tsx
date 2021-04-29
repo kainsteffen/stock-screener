@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import React from "react";
-import { KEY_STATS, QUOTE } from "../../gql/queries/shared";
+import { QUOTE } from "../../gql/queries/shared";
 import PercentageChangeLabel from "../percentage-change-label/percentage-change-label";
 
 const useStyles = makeStyles({
@@ -37,21 +37,9 @@ export default function IndexCard(props: TrendingStockCardProps) {
     variables: { symbol: props.symbol },
   });
 
-  const {
-    data: keyStatsData,
-    loading: keyStatsLoading,
-    error: keyStatsError,
-  } = useQuery(KEY_STATS, {
-    variables: {
-      symbol: props.symbol,
-    },
-  });
-
-  console.log(keyStatsData);
-
   return (
     <React.Fragment>
-      {loading || error || keyStatsLoading || keyStatsError ? (
+      {loading || error ? (
         <Skeleton
           style={{ borderRadius: "10px" }}
           height={179}
