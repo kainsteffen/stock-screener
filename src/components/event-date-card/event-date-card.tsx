@@ -57,70 +57,64 @@ export default function EventCard(props: EventDateCardProps) {
   // );
 
   const renderDividendDate = () => {
-    if (
-      keyStatsData.keyStats.nextDividendDate == null ||
-      keyStatsData.keyStats.nextDividendDate == 0
-    ) {
-      return <div />;
-    } else {
-      return (
-        <Box marginTop={3}>
-          <Card>
-            <CardActionArea href={`symbols/${props.symbol}`}>
-              <CardContent>
-                <Box display="flex" alignItems="center" marginBottom={2}>
-                  <Box
-                    width={45}
-                    height={45}
-                    borderRadius="10px"
-                    marginRight="10px"
-                    className={classes.dateIcon}
-                    padding={1}
-                  >
-                    <p>
-                      {format(
-                        new Date(keyStatsData.keyStats.nextEarningsDate),
-                        "MMM"
-                      )}
-                    </p>
-                    <p>
-                      {format(
-                        new Date(keyStatsData.keyStats.nextEarningsDate),
-                        "do"
-                      )}
-                    </p>
-                    {/* <Logo symbol={props.symbol} width={40} height={40} /> */}
-                  </Box>
-                  <Box display="flex" flexDirection="column">
-                    <Typography variant="caption" color="textSecondary">
-                      {props.symbol}
-                    </Typography>
-                    <Typography>{"Dividends"}</Typography>
-                  </Box>
+    return (
+      <Box>
+        <Card>
+          <CardActionArea href={`symbols/${props.symbol}`}>
+            <CardContent>
+              <Box display="flex" alignItems="center" marginBottom={2}>
+                <Box
+                  width={45}
+                  height={45}
+                  borderRadius="10px"
+                  marginRight="10px"
+                  className={classes.dateIcon}
+                  padding={1}
+                >
+                  <p>
+                    {format(
+                      new Date(keyStatsData.keyStats.nextDividendDate),
+                      "MMM"
+                    )}
+                  </p>
+                  <p>
+                    {format(
+                      new Date(keyStatsData.keyStats.nextDividendDate),
+                      "do"
+                    )}
+                  </p>
+                  {/* <Logo symbol={props.symbol} width={40} height={40} /> */}
                 </Box>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Box>
-      );
-    }
+                <Box display="flex" flexDirection="column">
+                  <Typography variant="caption" color="textSecondary">
+                    {props.symbol}
+                  </Typography>
+                  <Typography>{"Dividends"}</Typography>
+                </Box>
+              </Box>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Box>
+    );
   };
 
+  if (keyStatsLoading || keyStatsError) {
+    return (
+      <Skeleton style={{ borderRadius: "10px" }} height={125} variant="rect" />
+    );
+  }
+  if (
+    !keyStatsData.keyStats.nextEarningsDate &&
+    !keyStatsData.keyStats.nextDividendDate
+  ) {
+    return null;
+  }
+  console.log(keyStatsData);
   // TODO: Make this more scalable
   return (
     <Box>
-      {keyStatsLoading ||
-      keyStatsError ||
-      // logoLoading ||
-      // logoError ||
-      keyStatsData.keyStats.nextEarningsDate == null ||
-      keyStatsData.keyStats.nextEarningsDate == 0 ? (
-        <Skeleton
-          style={{ borderRadius: "10px" }}
-          height={125}
-          variant="rect"
-        />
-      ) : (
+      {keyStatsData.keyStats.nextEarningsDate && (
         <Card>
           <CardActionArea href={`symbols/${props.symbol}`}>
             <CardContent>
@@ -158,18 +152,7 @@ export default function EventCard(props: EventDateCardProps) {
           </CardActionArea>
         </Card>
       )}
-      {keyStatsLoading || keyStatsError ? (
-        // || logoLoading || logoError
-        <Box marginTop={3}>
-          <Skeleton
-            style={{ borderRadius: "10px" }}
-            height={125}
-            variant="rect"
-          />
-        </Box>
-      ) : (
-        renderDividendDate()
-      )}
+      {keyStatsData.keyStats.nextDividendDate && renderDividendDate()}
     </Box>
   );
 }
