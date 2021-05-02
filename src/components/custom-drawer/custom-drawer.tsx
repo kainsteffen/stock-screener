@@ -12,6 +12,7 @@ import {
 import React from "react";
 import SidebarFavorites from "../sidebar-favorites.tsx/sidebar-favorites";
 import SidebarNav from "../sidebar-nav/sidebar-nav";
+import LogoImage from "./logo.svg";
 
 const drawerWidth = 240;
 
@@ -89,7 +90,7 @@ export default function CustomDrawer() {
                 paddingY={1}
               >
                 <Box display="flex" alignItems="center" marginRight={2}>
-                  <img src="img/logo.svg" height={35} width={35} />
+                  <img src={LogoImage} height={35} width={35} />
                 </Box>
                 <Typography variant="h6" noWrap className={classes.title}>
                   Stockify

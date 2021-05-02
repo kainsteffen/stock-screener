@@ -7,7 +7,7 @@ import {
   makeStyles,
   MobileStepper,
   Typography,
-  useTheme,
+  useTheme
 } from "@material-ui/core";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@material-ui/icons";
 import CheckIcon from "@material-ui/icons/Check";
@@ -16,9 +16,10 @@ import SwipeableViews from "react-swipeable-views";
 import {
   defaultStrategies,
   saveStrategy,
-  toggleFavoritedSymbol,
+  toggleFavoritedSymbol
 } from "../../gql/local-state";
 import Logo from "../logo/logo";
+import InvestImage from "./invest.svg";
 import "./onboarding-dialog.css";
 
 const initStrategySelecton = [
@@ -218,7 +219,7 @@ export default function OnboardingDialog(props: OnboardingDialogProps) {
               alignItems="center"
             >
               <Box width={220} height={220} marginBottom={7}>
-                <img src={process.env.PUBLIC_URL + "/img/invest.svg"} />
+                <img src={InvestImage} />
               </Box>
               <Box
                 display="flex"
